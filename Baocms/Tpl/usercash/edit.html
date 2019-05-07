@@ -1,0 +1,34 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员管理</li>
+        <li class="li2">银行信息</li>
+    </ul>
+</div>
+<form target="baocms_frm" action="<{:U('usercash/edit',array('user_id'=>$detail['user_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">开户人：</td>
+                    <td class="rgTdBt"><input type="text" name="data[user_name]" value="<{$detail.user_name|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr><tr>
+                <td class="lfTdBt">卡号：</td>
+                <td class="rgTdBt"><input type="text" name="data[bank_num]" value="<{$detail.bank_num|default=''}>" class="manageInput" />
+
+                </td>
+            </tr><tr>
+                <td class="lfTdBt">开户银行：</td>
+                <td class="rgTdBt"><input type="text" name="data[bank_info]" value="<{$detail.bank_info|default=''}>" class="manageInput" />
+
+                </td>
+            </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>
+

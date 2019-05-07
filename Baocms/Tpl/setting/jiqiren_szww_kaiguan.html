@@ -1,0 +1,62 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('setting/jiqiren_szww_kaiguan',array('id'=>$id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">发包间隔时间:(秒)</td>
+                            <td class="rgTdBt">
+                                <input name="timecha" type="text" class="scAddTextName w150" /><code>已秒为单位</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">机器人开关:</td>
+                            <td class="rgTdBt">
+                                <input name="open" type="text" class="scAddTextName w150" /><code>机器人开关 0 关 1开</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td class="lfTdBt">红包个数:</td>-->
+                            <!--<td class="rgTdBt">-->
+                                <!--<input name="num" type="text" class="scAddTextName w150" /><code>个数4-100</code>-->
+                                <!--&lt;!&ndash;  <code>减少余额输入负数</code>&ndash;&gt;-->
+                            <!--</td>-->
+                        <!--</tr>-->
+
+                        <tr>
+                            <td class="lfTdBt">发送最小金额:</td>
+                            <td class="rgTdBt">
+                                <input name="smoney" type="text" class="scAddTextName w150" /><code>不能低于20</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">发送最小金额:</td>
+                            <td class="rgTdBt">
+                                <input name="bmoney" type="text" class="scAddTextName w150" /><code>不能大于500</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                       <!-- <tr >
+                            <td class="lfTdBt">原由：</td>
+                            <td class="rgTdBt">
+                                <textarea name="intro" cols="50" rows="6"></textarea>
+                            </td>
+                        </tr>-->
+
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定保存" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

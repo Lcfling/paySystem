@@ -1,0 +1,170 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">商品列表</li>
+        <li class="li2 li3">商品管理</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>用户帐号只允许是手机号码或者邮件，如果开启了UC整合，那么修改密码请在UC里面操作！另外后台注册的用户不会写入到UC的</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+
+                <!--<{:BA('shangpin/add','','添加商品','load','',700,600)}>-->
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('shangpin/fahuo')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <label>
+                            <span>快递单号</span>
+                            <input type="text" name="danhao" value="<{$danhao}>" class="inptText" />
+                        </label>
+
+                        <label>
+                            <span>用户id</span>
+                            <input type="text" name="user_id" value="<{$user_id}>" class="inptText" />
+                        </label>
+
+                        <!--<label>-->
+                            <!--<span>手机号码</span>-->
+                            <!--<input type="text" name="mobile" value="<{$mobile}>" class="inptText" />-->
+                        <!--</label>-->
+                        <!--<label>-->
+                            <!--<span>昵称</span>-->
+                            <!--<input type="text" name="nickname" value="<{$nickname}>" class="inptText" />-->
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        <!--</label>-->
+                    </div>
+                </form>
+                <!--<a href="javascript:void(0);" class="searchG">高级搜索</a>-->
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <form method="post" action="<{:U('user/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>昵称</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>手机号码</span>
+                            <input type="text" name="mobile" value="<{$mobile}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>扩展字段</span>
+                            <input type="text" name="ext0" value="<{$ext0}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>用户等级：</span>
+                            <select name="rank_id" class="select w100">
+                                <option value="0">请选择</option>
+                                <foreach name="ranks" item="item">
+                                    <option <eq name="item.rank_id" value="$rank_id">selected="selected"</eq>  value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                                </foreach>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+
+    <form  target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+                    <td class="w50">订单ID</td>
+                    <td>用户ID</td>
+                    <td>商品详情</td>
+                    <td>商品图</td>
+                    <td>地址信息</td>
+                    <td>快递详情</td>
+
+                    <td>创建时间</td>
+                    <td class="w150">操作</td>
+                </tr>
+
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td><{$var.id}></td>
+                        <td><{$var.user_id}></td>
+
+                        <td>
+                            期数id：<{$var.periods_id}><br/>
+
+                            商品ID： <{$var.goods_id}><br/>
+
+                            商品标题：<{$var.goods_header}><br/>
+
+                            商品名称：<{$var.goods_name}>
+                        </td>
+                        <td>
+                            <img src="https://91mana.shfcds.com/<{$var.goods_img}>" width="200" height="160"   />
+
+                        </td>
+
+                        <td>
+                            <b>
+                                姓名 :  <{$var.name}><br/>
+                                电话 : <{$var.mobile}><br/>
+                                地址 : <{$var.ship_site}><br/>
+                            </b>
+                        </td>
+                        <td>
+                            快递单号 :<{$var.tracking_no}><br/>
+                            发货时间 : <{$var.ship_time}>
+
+
+                        </td>
+
+                        <td>
+                            <{$var.creatime|date='Y-m-d H:i:s',###}>
+                        </td>
+
+
+                        <td class="w150">
+                             <!--<{:BA('shangpin/ceshi',array("user_id"=>$var["user_id"]),'积分','load','remberBtn_small',600,350)}>-->
+                            <!--<{:BA('user/money',array("user_id"=>$var["user_id"]),'余额','load','remberBtn_small',600,350)}>-->
+                            <{:BA('shangpin/danhao',array("user_id"=>$var["user_id"],"id"=>$var["id"]),'编辑快递单号','load','remberBtn_small',700,200)}>
+                            <{:BA('shangpin/save',array("user_id"=>$var["user_id"],"id"=>$var["id"],"name"=>$var["name"],"mobile"=>$var["mobile"],"ship_site"=>$var["ship_site"]),'编辑发货信息','load','remberBtn_small',700,500)}>
+                            <!--<{:BA('user/vipinfo',array("user_id"=>$var["user_id"]),'查看明细','load','remberBtn_small',800,800)}>-->
+                            <!--<{:BA('user/vipshang',array("user_id"=>$var["user_id"]),'查看上级','load','remberBtn_small',700,600)}>-->
+                            <!--<{:BA('user/vipxia',array("user_id"=>$var["user_id"]),'查看下级','load','remberBtn_small',700,600)}>-->
+                            <!-- <{:BA('user/delete',array("user_id"=>$var["user_id"]),'删除','act','remberBtn_small')}>-->
+                            <eq name="var.closed" value="-1">
+                                <!-- <{:BA('user/audit',array("user_id"=>$var["user_id"]),'审核通过','act','remberBtn_small')}>-->
+                            </eq>
+                            <!-- <a target="_blank" href="<{:U('user/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn_small">管理用户</a>-->
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('user/audit','','批量审核','list',' remberBtn')}>
+                <{:BA('user/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

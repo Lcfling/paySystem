@@ -1,0 +1,177 @@
+<include  file='public:header'/>
+
+<div class="listBox clfx">
+
+
+
+    <div class="menuManage">
+
+
+
+        <form target="baocms_frm" action="<{:U('user/edit',array('user_id'=>$detail['user_id']))}>" method="post">
+
+
+
+            <div class="mainScAdd">
+
+
+
+                <div class="tableBox">
+
+
+
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+
+
+                        <tr>
+
+
+
+                            <td class="lfTdBt">账户：</td>
+
+
+
+                            <td class="rgTdBt"><input type="text" name="data[account]" value="<{$detail.account|default=''}>" class="scAddTextName w200" />
+
+
+
+                                <code>账号只允许手机或邮件</code>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+
+
+
+
+                        <tr>
+
+
+
+                            <td class="lfTdBt">昵称：</td>
+
+
+
+                            <td class="rgTdBt"><input type="text" name="data[nickname]" value="<{$detail.nickname|default=''}>" class="scAddTextName w200" />
+
+
+
+
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                        
+
+
+
+                        <tr>
+
+
+
+                            <td class="lfTdBt">用户手机号：</td>
+
+
+
+                            <td class="rgTdBt"><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="scAddTextName w200" />
+
+
+
+							<code>除非特殊情况，一般不要去修改！</code>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+                        <tr>
+
+
+
+                            <td class="lfTdBt">头像更改：</td>
+
+
+
+                            <td class="rgTdBt"><input type="text" name="data[face]" value="<{$detail.face|default=''}>" class="scAddTextName w200" />
+
+
+
+                                <code>请勿修改用户头像，机器人头像修改数字1-24内输入，其他字符保留！机器人头像如为空，复制粘贴avatar/8.jpg后更改数字</code>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                    </table>
+
+
+
+                </div>
+
+
+
+                <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+
+
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+</div>
+
+<include  file='public:footer'/>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+<include  file='public:header'/>
+<div class="mainBt">
+
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">通知编辑</li>
+
+    </ul>
+</div>
+<form target="baocms_frm" action="<{:U('setting/noticeedit',array('article_id'=>$detail['article_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">通知内容：</td>
+                    <td class="rgTdBt"><input type="text" name="data[details]" value="<{$detail.details|default=''}>" class="manageInput" style="width: 80%"/>
+
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>
+

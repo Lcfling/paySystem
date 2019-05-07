@@ -1,0 +1,82 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员明细</li>
+        <li class="li2 li3">我的下家</li>
+    </ul>
+</div>
+<{$pid}>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+
+            <div class="clear"></div>
+            <div class="right">
+
+            </div>
+        </div>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                        <td class="w50">会员ID</td>
+                        <td>下级ID</td>
+                        <td>下级昵称</td>
+                        <td>下级手机号</td>
+                        <td>下级姓名</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+                            <td><{$user_id}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$var.nickname}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.name}></td>
+
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <script src="__PUBLIC__/js/layer/layer.js?v=20150718"></script>
+            <script>
+                $(document).ready(function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js'
+                    });
+                    $(".jujue").click(function () {
+                        var cash_id = $(this).attr('rel');
+                        var url = "<{:U('usercash/jujue')}>";
+
+
+
+                        layer.prompt({formType: 2, value: '', title: '请输入退款理由，并确认'}, function (value) {
+                            //alert(value); //得到value
+                            if (value != "" && value != null) {
+                                $.post(url, {cash_id: cash_id, status: 2,value:value}, function (data) {
+                                    if(data.status == 'success'){
+                                        layer.msg(data.msg, {icon: 1});
+                                        setTimeout(function(){
+                                            window.location.reload(true);
+                                        },1000)
+                                    }else{
+                                        layer.msg(data.msg, {icon: 2});
+                                    }
+                                }, 'json')
+                            } else {
+                                layer.msg('请填写拒绝理由', {icon: 2});
+                            }
+                        });
+                    })
+                })
+            </script>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

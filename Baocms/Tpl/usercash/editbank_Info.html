@@ -1,0 +1,109 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">用户银行信息管理</li>
+
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <div class="selectNr" style="margin: 10px 20px;">
+
+        </div>
+        <!--*******************-->
+
+        <!--*******************-->
+        <form method="post" action="<{:U('usercash/edit')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                    <td class="w50">ID</td>
+                    <!-- <td>会员</td>-->
+                    <td>开户人</td>
+                    <td>卡号</td>
+                    <td>开户银行</td>
+
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+                        <td><{$var.user_id}></td>
+                        <!--<td><{$var.account}></td>-->
+                        <td>
+                            <p><{$var.user_name}></p>
+
+                        </td>
+                        <td><{$var['bank_num']}></td>
+                        <td><{$var['bank_info']}></td>
+
+
+                        <td>
+
+                                <{:BA('usercash/edit',array("user_id"=>$var["user_id"]),'编辑','','remberBtn')}>
+                                 <!--<{:BA('usercash/audit',array("cash_id"=>$var["cash_id"], "status" => 2),'拒绝','load','remberBtn')}> -->
+                                <!--<a class="remberBtn jujue"  href="javascript:void(0);" rel="<{$var.user_id}>" style=" background-color: #de5b23;">拒绝</a>-->
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <script src="__PUBLIC__/js/layer/layer.js?v=20150718"></script>
+        <script>
+            $(document).ready(function () {
+                layer.config({
+                    extend: 'extend/layer.ext.js'
+                });
+                $(".jujue").click(function () {
+                    var cash_id = $(this).attr('rel');
+                    var url = "<{:U('usercash/jujue')}>";
+
+
+
+                    layer.prompt({formType: 2, value: '', title: '请输入退款理由，并确认'}, function (value) {
+                        //alert(value); //得到value
+                        if (value != "" && value != null) {
+                            $.post(url, {cash_id: cash_id, status: 2,value:value}, function (data) {
+                                if(data.status == 'success'){
+                                    layer.msg(data.msg, {icon: 1});
+                                    setTimeout(function(){
+                                        window.location.reload(true);
+                                    },1000)
+                                }else{
+                                    layer.msg(data.msg, {icon: 2});
+                                }
+                            }, 'json')
+                        } else {
+                            layer.msg('请填写拒绝理由', {icon: 2});
+                        }
+                    });
+                })
+            })
+        </script>
+
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

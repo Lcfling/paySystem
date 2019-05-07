@@ -1,0 +1,102 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员提现</li>
+        <li class="li2 li3">会员流水明细</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>1),'充值明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>13),'佣金明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>2),'抢包明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>4),'发包明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>5),'中雷明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>3),'提现明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>7),'中奖明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>41),'接龙冻结','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>42),'接龙解冻','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>51),'转账明细','','remberBtn')}></td>
+            <td><{:BA('usercash/usermoneyinfo',array("user_id"=>$user_id,"val"=>52),'到账明细','','remberBtn')}></td>
+            <td><{:BA('usercash/frommoney',array("user_id"=>$user_id),'转账人来源','','remberBtn')}></td>
+            <div class="clear"></div>
+            <div class="right">
+
+            </div>
+        </div>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                        <td class="w50">会员ID</td>
+                        <!-- <td>会员</td>-->
+                        <td>发包时间</td>
+                        <td>类型</td>
+                        <td>金额</td>
+                        <td>备注</td>
+                        <td>可用不可用</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+                            <td><{$var.user_id}></td>
+                            <!--<td><{$var.account}></td>-->
+                            <td>
+                                <p><{$var['creatime']|date='Y-m-d H:i:s', ###}></p>
+
+                                <!--<p>支行：<{$var.bank_branch}></p>
+                                <p>卡号：<{$var.bank_num}></p>-->
+                            </td>
+                            <td><{$var['type']}></td>
+                            <td><{$var['money'] /100}></td>
+                            <td><{$var['remark']}></td>
+                            <td><{$var['is_afect']}></td>
+
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <script src="__PUBLIC__/js/layer/layer.js?v=20150718"></script>
+            <script>
+                $(document).ready(function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js'
+                    });
+                    $(".jujue").click(function () {
+                        var cash_id = $(this).attr('rel');
+                        var url = "<{:U('usercash/jujue')}>";
+
+
+
+                        layer.prompt({formType: 2, value: '', title: '请输入退款理由，并确认'}, function (value) {
+                            //alert(value); //得到value
+                            if (value != "" && value != null) {
+                                $.post(url, {cash_id: cash_id, status: 2,value:value}, function (data) {
+                                    if(data.status == 'success'){
+                                        layer.msg(data.msg, {icon: 1});
+                                        setTimeout(function(){
+                                            window.location.reload(true);
+                                        },1000)
+                                    }else{
+                                        layer.msg(data.msg, {icon: 2});
+                                    }
+                                }, 'json')
+                            } else {
+                                layer.msg('请填写拒绝理由', {icon: 2});
+                            }
+                        });
+                    })
+                })
+            </script>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

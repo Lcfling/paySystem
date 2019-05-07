@@ -1,0 +1,117 @@
+<include  file='public:header'/>
+<{$v}>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">会员提现</li>
+        <li class="li2 li3">黑名单</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <form method="post" action="<{:U('usercard/index')}>">
+
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text"    name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                        </label>
+                        <div class="right">
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </div>
+
+                    </div>
+
+            </form>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('usercash/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+
+                    </div>
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!--*******************-->
+
+        <!--*******************-->
+        <form method="post" action="<{:U('usercash/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                    <td class="w50">记录ID</td>
+                     <td>账户信息</td>
+                    <!--<td>账户信息</td>-->
+                    <td>提现金额</td>
+                    <td>提现日期</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                    <!--<td>查看用户往来</td>-->
+                    <!--<td>打款/通过时间</td>-->
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+                        <td><{$var.user_id}></td>
+
+                        <td>
+                            <p>姓名：<{$var.user_name}></p>
+                            <p>支付宝：<{$var.zfb_num}></p>
+                            <p>银行卡号：<{$var.bank_num}></p>
+                            <p>开户人：<{$var.bank_userName}></p>
+                            <p>开户行：<{$var.bank_info}></p>
+                        </td>
+                        <td><{$var['money'] / 100}> 元</td>
+                        <td><{$var.time|date='Y-m-d H:i:s', ###}></td>
+                        <td>
+                            <if condition="$var.status eq 0">
+                                未审
+                                <elseif condition="$var.status eq 1" />
+                                <font color="#0099cc">通过</font>
+                                <else />
+                                <font color="#de5b23">拒绝</font>
+                            </if>
+                        </td>
+                        </td>
+                        <td> <{:BA('usercash/inbalcklist_yc',array("cash_id"=>$var["ID"], "status" => 0),'移除黑名单','act','remberBtn')}></td>
+
+                        <!--<td><{$var['pass_time']|date='Y-m-d H:i:s', ###}></td>-->
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <script src="__PUBLIC__/js/layer/layer.js?v=20150718"></script>
+
+
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

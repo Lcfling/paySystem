@@ -1,0 +1,98 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('shangpin/add1')}>" method="post"  enctype="multipart/form-data">
+            <div class="mainScAdd">
+                <div class="tableBox" style="width: 800px ">
+
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%"   border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">商品标题</td>
+                            <td class="rgTdBt">
+                                <input name="goods_header" type="text" width="100%" class="scAddTextName w150" /><code> </code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">商品名称:</td>
+                            <td class="rgTdBt">
+                                <input name="goods_name" type="text" width="100%" class="scAddTextName w150" />  <code></code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">会员回购价：</td>
+                            <td class="rgTdBt">
+                                <input name="buyback_price" type="text" class="scAddTextName w150" /><code>已元为单位</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">非会员回购价：</td>
+                            <td class="rgTdBt">
+                                <input name="buyback_price_no" type="text" class="scAddTextName w150" /><code>已元为单位</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">竞拍价：</td>
+                            <td class="rgTdBt">
+                                <input name="auction_price" type="text" class="scAddTextName w150" /><code>已元为单位</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">成交价：</td>
+                            <td class="rgTdBt">
+                                <input name="strike_price" type="text" class="scAddTextName w150" /><code>已元为单位</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">是否上架：</td>
+                            <td class="rgTdBt">
+                                <input name="sold_out" type="text" class="scAddTextName w150" /><code>0:不上架 1:上架(请勿填写其他数据)</code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <!--<tr>-->
+                            <!--<td class="lfTdBt">商品库存：</td>-->
+                            <!--<td class="rgTdBt">-->
+                                <!--<input name="inventory_num" type="text" class="scAddTextName w150" /><code></code>-->
+                                <!--&lt;!&ndash;  <code>减少余额输入负数</code>&ndash;&gt;-->
+                            <!--</td>-->
+                        <!--</tr>-->
+
+                        <tr>
+                            <td class="lfTdBt">竞拍次数：</td>
+                            <td class="rgTdBt">
+                                <input name="auction_num" type="text" class="scAddTextName w150" /><code></code>
+                                <!--  <code>减少余额输入负数</code>-->
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td class="lfTdBt">商品图片：</td>
+                            <td class="rgTdBt">
+
+                                <input type="file" name="file" />
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定保存" class="smtQrIpt" /></div><code></code>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

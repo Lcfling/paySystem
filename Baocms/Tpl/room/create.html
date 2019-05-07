@@ -1,0 +1,47 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">房间管理</li>
+        <li class="li2">所有房间</li>
+        <li class="li2 li3">新增房间</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('room/create')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+                    <td class="lfTdBt">游戏类型：</td>
+                    <td class="rgTdBt"><input type="text" name="data[game]" value="<{$detail.sms_key|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr><tr>
+                <td class="lfTdBt">房间说明：</td>
+                <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.sms_key|default=''}>" class="manageInput" />
+
+                </td>
+            </tr><tr>
+                <td class="lfTdBt">最小额度：</td>
+                <td class="rgTdBt"><input type="text" name="data[conf_min]" value="<{$detail.sms_key|default=''}>" class="manageInput" />
+
+                </td>
+            </tr>
+                <tr>
+                    <td class="lfTdBt">最大额度：</td>
+                    <td class="rgTdBt"><input type="text" name="data[conf_max]" value="<{$detail.sms_key|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否显示：</td>
+                    <td class="rgTdBt"><input type="text" name="data[is_show]" value="<{$detail.sms_key|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>

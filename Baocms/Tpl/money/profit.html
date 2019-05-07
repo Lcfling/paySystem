@@ -1,0 +1,129 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">盈利统计</li>
+        <li class="li2 li3">今日盈利</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <form method="post" action="<{:U('money/profit')}>">
+
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text"    name="bg_date" value="<{$todaytime|date='Y-m-d', ###}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="text" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$today_end|date='Y-m-d', ###}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="text" />
+                        </label>
+                        <div class="right">
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </div>
+
+                    </div>
+
+            </form>
+
+
+            <div class="clear"></div>
+
+
+
+        </div>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                        <td>游戏名称</td>
+                        <td>今日盈利</td>
+
+                    </tr>
+
+                    <tr>
+                        <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+
+                        <td>扫雷</td>
+                        <td>
+                            <p>抢包：<{$saolei_miansi}>元</p>
+                            <p>返佣：<{$saolei_fenyong}>元</p>
+                            <p>盈利：<{$saolei_yingli}>元</p>
+                        </td>
+
+                        <td>
+
+                            <!--<{:BA('money/profitinfo',array("sta"=>$todaytime,"end"=>$today_end,"game"=>"saolei"),'查看明细','','remberBtn')}>-->
+                            <!--<{:BA('usercash/audit',array("cash_id"=>$var["cash_id"], "status" => 2),'拒绝','load','remberBtn')}> -->
+                            <!--<a class="remberBtn jujue"  href="javascript:void(0);" rel="<{$var.user_id}>" style=" background-color: #de5b23;">拒绝</a>-->
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+
+                        <td>接龙</td>
+                        <td>
+                            <p>抢包：<{$jielong_miansi}>元</p>
+                            <p>返佣：<{$jielong_fenyong}>元</p>
+                            <p>盈利：<{$jielong_yingli}>元</p>
+
+                        </td>
+
+                        <td>
+
+                            <!--<{:BA('money/profitinfo',array("sta"=>$todaytime,"end"=>$today_end,"game"=>"jielong"),'查看明细','','remberBtn')}>-->
+                            <!--<{:BA('usercash/audit',array("cash_id"=>$var["cash_id"], "status" => 2),'拒绝','load','remberBtn')}> -->
+                            <!--<a class="remberBtn jujue"  href="javascript:void(0);" rel="<{$var.user_id}>" style=" background-color: #de5b23;">拒绝</a>-->
+
+
+                        </td>
+                    </tr>
+                </table>
+                <{$page}>
+            </div>
+            <script src="__PUBLIC__/js/layer/layer.js?v=20150718"></script>
+            <script>
+                $(document).ready(function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js'
+                    });
+                    $(".jujue").click(function () {
+                        var cash_id = $(this).attr('rel');
+                        var url = "<{:U('usercash/jujue')}>";
+
+
+
+                        layer.prompt({formType: 2, value: '', title: '请输入退款理由，并确认'}, function (value) {
+                            //alert(value); //得到value
+                            if (value != "" && value != null) {
+                                $.post(url, {cash_id: cash_id, status: 2,value:value}, function (data) {
+                                    if(data.status == 'success'){
+                                        layer.msg(data.msg, {icon: 1});
+                                        setTimeout(function(){
+                                            window.location.reload(true);
+                                        },1000)
+                                    }else{
+                                        layer.msg(data.msg, {icon: 2});
+                                    }
+                                }, 'json')
+                            } else {
+                                layer.msg('请填写拒绝理由', {icon: 2});
+                            }
+                        });
+                    })
+                })
+            </script>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+

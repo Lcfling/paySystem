@@ -1,0 +1,47 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+
+    <ul>
+
+        <li class="li1">设置</li>
+
+        <li class="li2">基本设置</li>
+
+        <li class="li2 li3">机器人管理</li>
+
+    </ul>
+
+</div>
+
+
+<form  target="baocms_frm" action="<{:U('setting/robot')}>" method="post">
+
+    <div class="mainScAdd">
+
+        <div class="tableBox">
+
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+
+                    <td class="lfTdBt">机器人设置：</td>
+
+                    <td class="rgTdBt">抢包时间: <input type="text" name="data[time]" value="<{$CONFIG.robot.time}>" class="scAddTextName " /><code>几秒后开始,填写整数</code><br/><br/>避雷: <input type="text" name="data[lei]" value="<{$CONFIG.robot.lei}>" class="scAddTextName " /><code>1是避雷 0是不避雷</code><br/><br/>抢包个数: <input type="text" name="data[packNum]" value="<{$CONFIG.robot.packNum}>" class="scAddTextName " /><br/><br/>抢包额度: <input type="text" name="data[packMoney]" value="<{$CONFIG.robot.packMoney}>" class="scAddTextName " /><code>填写最大抢包上限,以分为单位</code>
+
+                        </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </div>
+
+</form>
+
+<include  file='public:footer'/>
+
