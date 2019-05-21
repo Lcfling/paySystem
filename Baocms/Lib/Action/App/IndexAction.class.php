@@ -6,10 +6,11 @@ class IndexAction extends Action
 
     public function index()
     {
+
         $data['out_uid']='123';
         $data["payType"] = 1;//支付方式  1微信  2支付宝
         $data["out_order_sn"] = "n1909";//订单号
-        $data["tradeMoney"] = "4";//
+        $data["tradeMoney"] = $_GET['money'];//
         $data["notifyUrl"] = "http://91pai.webziti.com/app/index/notifyUrl";//回调
         $data["sign"] = $this->getSign($data);//签名
         $data["business_code"] = '30001';//商户ID
@@ -19,22 +20,19 @@ class IndexAction extends Action
     }
 
     public function notifyUrl(){
-//        $data=array(
-//            'order_sn'=>$orderinfo['order_sn'],
-//            'out_order_sn'=>$orderinfo['out_order_sn'],
-//            'tradeMoney'=>$orderinfo['tradeMoney'],
-//            'pay_time'=>$pay_time,
-//        );
+
         $retrun_datas =$_POST;
         $retrun_sign=$retrun_datas['sign'];//签名值
         unset($retrun_datas['sign']);
         $sign =$this->getSign($retrun_datas);
         if($retrun_sign==$sign){
-            file_put_contents('./notifyUrl.txt',print_r($retrun_datas,true),FILE_APPEND);
+            echo "success";
+            file_put_contents('./notifyUrl.txt',print_r($retrun_datas,true).PHP_EOL,FILE_APPEND);
         }else{
-            file_put_contents('./notifyUrl.txt',print_r($retrun_datas,true),FILE_APPEND);
-            file_put_contents('./notifyUrl.txt','sign'.PHP_EOL.$sign,FILE_APPEND);
-            file_put_contents('./notifyUrl.txt','retrun_sign'.PHP_EOL.$retrun_sign,FILE_APPEND);
+            echo "fail";
+            file_put_contents('./notifyUrl.txt',print_r($retrun_datas,true).PHP_EOL,FILE_APPEND);
+            file_put_contents('./notifyUrl.txt','sign-'.$sign.PHP_EOL,FILE_APPEND);
+            file_put_contents('./notifyUrl.txt','retrun_sign-'.$retrun_sign.PHP_EOL,FILE_APPEND);
         }
     }
 
