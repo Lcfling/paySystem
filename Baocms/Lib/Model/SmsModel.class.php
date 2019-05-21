@@ -1,7 +1,7 @@
 <?php
-require_once LIB_PATH.'/GatewayClient/Gateway.php';
-
-use GatewayClient\Gateway;
+//require_once LIB_PATH.'/GatewayClient/Gateway.php';
+//
+//use GatewayClient\Gateway;
 class SmsModel extends CommonModel
 {
     protected $pk = 'sms_id';
@@ -47,7 +47,7 @@ class SmsModel extends CommonModel
         //http://api.smsbao.com/sms?u=USERNAME&p=PASSWORD&m=PHONE&c=CONTENT
         //return "0";
         $username='heima991';
-        $password=md5('heima321');
+        $password=md5('Sadb378df73gfya');
 
 
         $content=urlencode('【D马社区】您的验证码为'.$code.'，在5分钟内有效。');
