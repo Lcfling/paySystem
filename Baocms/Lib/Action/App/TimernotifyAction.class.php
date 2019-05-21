@@ -20,7 +20,7 @@ class TimernotifyAction extends Action
                 foreach ($orderinfo as $k=>$v){
                     $url=$v['notifyUrl'];
                     $user_id = $v['user_id'];
-                    $tradeMoney = $v['tradeMoney']/100 ;
+                    $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
@@ -165,13 +165,11 @@ class TimernotifyAction extends Action
     }
 
     public function setstale(){
-
         $bg_time = strtotime(TODAY);
         $bj_time = $bg_time - 300;
         $Order=D('Order');
-        $orderinfo =$Order->where(array('status'=>1,'callback_status'=>0,'callback_num'=>2))->select();
-
-
+        $res =$Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
+        print_r($res);
     }
 
 

@@ -53,9 +53,9 @@ class OrderymAction extends Action
             $this->ajaxReturn('error','签名错误!',0);
         }
         $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100);//二维码信息
-        print_r('money-'.$datas["tradeMoney"]/100);
-        print_r("~~~~~~~~~~二维码信息~~~~~~~~~~~~~~~");
-        echo "<pre>";print_r($erweimainfo);
+//        print_r('money-'.$datas["tradeMoney"]/100);
+//        print_r("~~~~~~~~~~二维码信息~~~~~~~~~~~~~~~");
+//        echo "<pre>";print_r($erweimainfo);
         //保存商户订单记录
         $Order=D('Order');
         $data =array(
@@ -85,11 +85,13 @@ class OrderymAction extends Action
                 'creatime'=>time()
             );
             D('Account_log')->add($logdata);
+            $rate = D('Users')->where(array('user_id'=>$erweimainfo['user_id']))->getField('rate');
+            D('Rebate')->fy($datas["tradeMoney"],$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
             $url=substr($erweimainfo["erweima"],1);
             $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
             $this->ajaxReturn('success',$qrurl.$_SERVER['HTTP_HOST'].$url,1);//输出支付url
         }else{
-            $this->ajaxReturn('fail','',0);//输出支付url
+            $this->ajaxReturn('fail','',0);
         }
 
 
@@ -99,14 +101,12 @@ class OrderymAction extends Action
      * 前端回调及 调 第三方回调
      */
     public function kfnotifyurl(){
-
-
         $Order=D('Order');
         $datas =$_POST;
         $user_id = $datas['user_id'];
         $payType = 1;
         $pay_time = $datas['pay_time'];
-        $payMoney = $datas['tradeMoney'] * 100;
+        $payMoney = $datas['tradeMoney'] *100;
         if($orderinfo =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->find()){
             file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);

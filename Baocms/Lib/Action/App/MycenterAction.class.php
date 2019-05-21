@@ -224,7 +224,7 @@ class MycenterAction extends CommonAction{
     public function qrcode(){
         if($this->isPost()){
             $user_id = $this->uid;
-            $listkey = $_POST['list'] * 100;
+            $listkey = $_POST['list'];
             $type =$_POST['type'];
             $qrcodeinfo = D('Erweima')->where(array('user_id'=>$user_id,'list'=>$listkey,'type'=>$type))->select();
             if($qrcodeinfo){
