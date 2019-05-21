@@ -8,43 +8,12 @@
 
 class OrderymAction extends Action
 {
-    public function cancel(){
-        if($this->isPost()){
-            $user_id =$_POST['user_id'];//用户id
-            $orderid =$_POST['orderid'];//订单id
-            if(D('Order')->where(array('status'=>3,'id'=>$orderid,'user_id'=>$user_id))->find()){
-                $this->ajaxReturn('','请勿频繁操作!',0);
-            }
-            if(D('Order')->where(array('status'=>1,'id'=>$orderid,'user_id'=>$user_id))->find()){
-                $this->ajaxReturn('','您已支付成功!',1);
-            }
-            if($orderlist =D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->find()){
-                $this->ajaxReturn('','此订单不存在!',0);
-            }
-            $savestatus =D('Order')->where(array('status'=>2,'id'=>$orderid,'user_id'=>$user_id))->field('status')->save(array('status'=>3));
-            if($savestatus){
-                if($orderlist['dj_status']==0){
-                    $data =array(
-                        'user_id'=>$user_id,
-                        'score'=>$orderlist['money'],
-                        'erweima_id'=>$orderlist['erweima_id'],
-                        'business_id'=>$orderlist['business_id'],
-                        'out_uid'=>$orderlist['out_uid'],
-                        'status'=>4,
-                        'type'=>1,
-                        'remark'=>'解冻',
-                        'creatime'=>time()
-                    );
-                    D('Account_log')->add($data);
-                }
-                $this->ajaxReturn('','取消成功!',1);
-            }else{
-                $this->ajaxReturn('','取消失败,稍后重试!',0);
-            }
 
-        }else{
-            $this->ajaxReturn('','请求失败!',0);
-        }
+    public function getcache(){
+//        D("Users")->enterlist('111',1,11);
+//        D("Users")->enterlist('111',1,12);
+        $list =Cac()->lRange('erweimas1111',0,-1);
+        print_r($list);
     }
 
     /**
@@ -78,13 +47,15 @@ class OrderymAction extends Action
         $businessinfo=$business->where($where)->find();
         if(empty($businessinfo)){
             $this->ajaxReturn('error40003','商户号不存在!',0);
-
         }
 
         if( $sign!=$this->getSignK($datas,$businessinfo['accessKey'])){
             $this->ajaxReturn('error','签名错误!',0);
         }
-        $erweimainfo = D("Users")->getcode($datas["tradeMoney"]);//二维码信息
+        $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100);//二维码信息
+        print_r('money-'.$datas["tradeMoney"]/100);
+        print_r("~~~~~~~~~~二维码信息~~~~~~~~~~~~~~~");
+        echo "<pre>";print_r($erweimainfo);
         //保存商户订单记录
         $Order=D('Order');
         $data =array(
@@ -93,7 +64,9 @@ class OrderymAction extends Action
             'order_sn'=>$this->getrequestId(),
             'payType'=>$datas["payType"],
             'tradeMoney'=>$datas["tradeMoney"],
+            'payMoney'=>$erweimainfo["edu"],
             'erweima_id'=>$erweimainfo['id'],
+            'business_code'=>$business_code,
             'user_id'=>$erweimainfo['user_id'],
             'creatime'=>time(),
             'notifyUrl'=>$datas['notifyUrl']
@@ -113,7 +86,8 @@ class OrderymAction extends Action
             );
             D('Account_log')->add($logdata);
             $url=substr($erweimainfo["erweima"],1);
-            $this->ajaxReturn('success',$_SERVER['HTTP_HOST'].$url,1);//输出支付url
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
+            $this->ajaxReturn('success',$qrurl.$_SERVER['HTTP_HOST'].$url,1);//输出支付url
         }else{
             $this->ajaxReturn('fail','',0);//输出支付url
         }
@@ -130,15 +104,19 @@ class OrderymAction extends Action
         $Order=D('Order');
         $datas =$_POST;
         $user_id = $datas['user_id'];
-        $tradeMoney = $datas['tradeMoney'] * 100;
         $payType = 1;
         $pay_time = $datas['pay_time'];
-        if($orderinfo =$Order->where(array('user_id'=>$user_id,'tradeMoney'=>$tradeMoney,'payType'=>$payType,'status'=>0))->find()){
-            $res =$Order->where(array('user_id'=>$user_id,'tradeMoney'=>$tradeMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time,'dj_status'=>1));
+        $payMoney = $datas['tradeMoney'] * 100;
+        if($orderinfo =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->find()){
+            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+            file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
+            $money =$orderinfo['tradeMoney'];
+            $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time,dj_status')->save(array('status'=>1,'pay_time'=>$pay_time,'dj_status'=>1));
+            file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
             if($res){
                 $logdata =array(
                     'user_id'=>$user_id,
-                    'score'=>$tradeMoney,
+                    'score'=>$money,
                     'erweima_id'=>$orderinfo['erweima_id'],
                     'business_code'=>$orderinfo['business_code'],
                     'out_uid'=>$orderinfo["out_uid"],
@@ -148,22 +126,18 @@ class OrderymAction extends Action
                     'creatime'=>time()
                 );
                 D('Account_log')->add($logdata);
-                $url=$orderinfo['notifyUrl'];
-                $data=array(
-                    'order_sn'=>$orderinfo['order_sn'],
-                    'out_order_sn'=>$orderinfo['out_order_sn'],
-                    'tradeMoney'=>$orderinfo['tradeMoney'],
-                    'pay_time'=>$pay_time,
+                $paydata =array(
+                    'user_id'=>$user_id,
+                    'score'=>-$money,
+                    'erweima_id'=>$orderinfo['erweima_id'],
+                    'business_code'=>$orderinfo['business_code'],
+                    'out_uid'=>$orderinfo["out_uid"],
+                    'status'=>2,
+                    'payType'=>$payType,
+                    'remark'=>'支付扣除',
+                    'creatime'=>time()
                 );
-
-                $business = D('business');
-                $where['business_code']=$orderinfo['business_code'];
-                $businessinfo=$business->where($where)->find();
-                if(empty($businessinfo)){
-                    $this->ajaxReturn('error40003','商户号不存在!',0);
-                }
-                $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
-                $this->https_post_kfs($url,$data);
+                D('Account_log')->add($paydata);
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);
@@ -171,6 +145,7 @@ class OrderymAction extends Action
         }else{
             $datas['status']=1;
             D('Yc_order')->add($datas);
+            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
             $this->ajaxReturn('fail','',0);
         }
@@ -184,7 +159,7 @@ class OrderymAction extends Action
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
+//        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
         $result = curl_exec($curl);
         if (curl_errno($curl)) {
             return 'Errno'.curl_error($curl);
