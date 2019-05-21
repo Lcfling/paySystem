@@ -1,0 +1,31 @@
+﻿Array
+(
+    [order_sn] => 20190515112534194
+    [out_order_sn] => n1909
+    [paymoney] => 3
+    [pay_time] => 1557971501
+)
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 6
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190515112534194
+    [payType] => 1
+    [payMoney] => 3
+    [tradeMoney] => 100
+    [erweima_id] => 11
+    [user_id] => 111
+    [status] => 1
+    [creatime] => 1557890734
+    [pay_time] => 1557971501
+    [business_code] => 30001
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 0
+    [callback_time] => 0
+)
+~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~
+success
