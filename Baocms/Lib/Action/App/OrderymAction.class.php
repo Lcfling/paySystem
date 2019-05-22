@@ -86,7 +86,7 @@ class OrderymAction extends Action
             );
             D('Account_log')->add($logdata);
             $rate = D('Users')->where(array('user_id'=>$erweimainfo['user_id']))->getField('rate');
-            D('Rebate')->fy($datas["tradeMoney"],$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
+            D('Rebate')->fy($datas["tradeMoney"] * 100 ,$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
             $url=substr($erweimainfo["erweima"],1);
             $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
             $this->ajaxReturn('success',$qrurl.$_SERVER['HTTP_HOST'].$url,1);//输出支付url
