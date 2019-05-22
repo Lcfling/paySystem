@@ -6,12 +6,19 @@
  * Time: 14:52
  */
 class AccountModel extends Model{
-
+    /**码商总分
+     * @param $user_id
+     * @return int
+     */
     public function gettolscore($user_id){
         $score =D('Account_log')->where(array('user_id'=>$user_id))->sum('score');
         return (int)$score;
     }
 
+    /**码商总佣金
+     * @param $user_id
+     * @return int
+     */
     public function gettolbrokerage($user_id){
         $score =D('Account_log')->where(array('user_id'=>$user_id,'status'=>5))->sum('score');
         return (int)$score;
