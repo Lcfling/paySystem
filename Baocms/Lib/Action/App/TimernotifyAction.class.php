@@ -27,6 +27,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -82,6 +83,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -133,6 +135,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -196,6 +199,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -205,16 +209,16 @@ class TimernotifyAction extends Action
                     }
                     $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
                     $res =$this->https_post_kfs($url,$data);
-                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',print_r($v,true),FILE_APPEND);
                     if($res == 'success'){
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>1,'callback_time'=>time()));
                         D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
                     }else{
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>0,'callback_num'=>1,'callback_time'=>time()));
                     }
                 }
@@ -245,6 +249,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -254,16 +259,16 @@ class TimernotifyAction extends Action
                     }
                     $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
                     $res =$this->https_post_kfs($url,$data);
-                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',print_r($v,true),FILE_APPEND);
                     if($res == 'success'){
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
                         D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
                     }else{
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>0,'callback_num'=>2,'callback_time'=>time()));
                     }
                 }
@@ -294,6 +299,7 @@ class TimernotifyAction extends Action
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$v['payMoney'],
                         'pay_time'=>$v['pay_time'],
+                        'status'=>$v['status']
                     );
                     $business = D('business');
                     $where['business_code']=$v['business_code'];
@@ -303,16 +309,16 @@ class TimernotifyAction extends Action
                     }
                     $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
                     $res =$this->https_post_kfs($url,$data);
-                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./gqnotifyUrl.txt',print_r($v,true),FILE_APPEND);
                     if($res == 'success'){
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
                         D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
                     }else{
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>2,'callback_num'=>3,'callback_time'=>time()));
                     }
                 }

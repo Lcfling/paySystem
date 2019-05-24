@@ -59,6 +59,10 @@ class OrderymAction extends Action
         {
             $this->ajaxReturn('error40007','支付类型无效!',0);
         }
+        if ($Order->where(array('out_uid'=>$datas["out_uid"],'business_code'=>$business_code,'status'=>0))->find())
+        {
+            $this->ajaxReturn('error40008','已有订单存在,请您先取消!',0);
+        }
 
         if( $sign!=$this->getSignK($datas,$businessinfo['accessKey'])){
             $this->ajaxReturn('error','签名错误!',0);
@@ -187,31 +191,6 @@ class OrderymAction extends Action
         curl_close($curl);
         return $result;
     }
-
-    private function get_err_msg($code) {
-        $err_msg = array(
-            '1002' => '支付失败',
-            '0000' => '验签失败',
-            '0001' => '商户不存在',
-            '0002' => '商户未启用',
-            '0003' => '必传参数为空',
-            '0004' => '产生订单失败',
-            '0005' => '订单金额有误',
-            '0006' => '订单金额超出支付范围',
-            '0007' => '支付类型无效',
-            '0017' => '系统异常',
-            '0019' => '修改订单支付方式失败',
-            '0020' => '交易金额格式错误',
-            '0040' => '代理不存在',
-            '0041' => '中转手机不存在',
-            '0042' => '生成收款码失败',
-            '0043' => '未找到商户所属中转手机代理',
-            '0044' => '无手机在线',
-            '0045' => '未找到商户的支付通道'
-        );
-        return $err_msg[$code];
-    }
-
     /**签名
      * @param $Obj
      * @param $key
