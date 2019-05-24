@@ -32,7 +32,7 @@ class TimernotifyAction extends Action
                     $where['business_code']=$v['business_code'];
                     $businessinfo=$business->where($where)->find();
                     if(empty($businessinfo)){
-                        $this->ajaxReturn('error40003','商户号不存在!',0);
+                        $this->ajaxReturn('error40003','商户未启用!',0);
                     }
                     $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
                     $res =$this->https_post_kfs($url,$data);
@@ -87,7 +87,7 @@ class TimernotifyAction extends Action
                     $where['business_code']=$v['business_code'];
                     $businessinfo=$business->where($where)->find();
                     if(empty($businessinfo)){
-                        $this->ajaxReturn('error40003','商户号不存在!',0);
+                        $this->ajaxReturn('error40003','商户未启用!',0);
                     }
                     $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
                     $res =$this->https_post_kfs($url,$data);

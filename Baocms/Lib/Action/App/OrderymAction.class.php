@@ -36,9 +36,12 @@ class OrderymAction extends Action
         $datas =$_POST;
         $sign=$datas['sign'];
         $business_code=$datas['business_code']; //商户号 不参与签名
+        $type =$datas['type'];
         unset($datas['sign']);
         unset($datas['business_code']);
         $business = D('business');
+        $Order=D('Order');
+
         $where['business_code']=$business_code;
         if(empty($business_code)){
 
@@ -46,18 +49,29 @@ class OrderymAction extends Action
         }
         $businessinfo=$business->where($where)->find();
         if(empty($businessinfo)){
-            $this->ajaxReturn('error40003','商户号不存在!',0);
+            $this->ajaxReturn('error40003','商户未启用!',0);
+        }
+        if (!is_numeric($datas['tradeMoney']))
+        {
+            $this->ajaxReturn('error40006','订单金额有误!',0);
+        }
+        if ($type != 1 && $type != 2)
+        {
+            $this->ajaxReturn('error40007','支付类型无效!',0);
         }
 
         if( $sign!=$this->getSignK($datas,$businessinfo['accessKey'])){
             $this->ajaxReturn('error','签名错误!',0);
         }
+
         $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100);//二维码信息
+        if(empty($erweimainfo)){
+            $this->ajaxReturn('error40004','暂无支付码!',0);
+        }
 //        print_r('money-'.$datas["tradeMoney"]/100);
 //        print_r("~~~~~~~~~~二维码信息~~~~~~~~~~~~~~~");
 //        echo "<pre>";print_r($erweimainfo);
         //保存商户订单记录
-        $Order=D('Order');
         $data =array(
             'out_uid'=>$datas["out_uid"],
             'out_order_sn'=>$datas["out_order_sn"],
@@ -87,16 +101,22 @@ class OrderymAction extends Action
             D('Account_log')->add($logdata);
             $rate = D('Users')->where(array('user_id'=>$erweimainfo['user_id']))->getField('rate');
             D('Rebate')->fy($datas["tradeMoney"] * 100 ,$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
-            $url=substr($erweimainfo["erweima"],1);
-            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
-            $this->ajaxReturn('success',$qrurl.$_SERVER['HTTP_HOST'].$url,1);//输出支付url
+            $this->geterweimaurl($erweimainfo["erweima"]);
         }else{
-            $this->ajaxReturn('fail','',0);
+            $this->ajaxReturn('error40005','',0);
         }
 
 
     }
 
+    /**获取支付页面
+     * @param $erweimaurl
+     */
+    private function geterweimaurl($erweimaurl){
+        $url=substr($erweimaurl,1);
+        $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
+        $this->ajaxReturn('OK',$qrurl.$_SERVER['HTTP_HOST'].$url,1001);//输出支付url
+    }
     /**
      * 前端回调及 调 第三方回调
      */
