@@ -164,12 +164,165 @@ class TimernotifyAction extends Action
 
     }
 
+    /**
+     * 订单5分钟更改为过期
+     */
     public function setstale(){
         $bg_time = strtotime(TODAY);
         $bj_time = $bg_time - 300;
         $Order=D('Order');
-        $res =$Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
-        print_r($res);
+        if($orderinfo = $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
+            $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
+        }
+
+    }
+
+    /**
+     * 第一次过期订单异步回调
+     */
+    public function qxpushfirst(){
+        $key = $_GET['key'];
+        if($key == 'caeaa34417150c16d3ab950be8ed08d7'){
+            $Order=D('Order');
+            $orderinfo =$Order->where(array('status'=>2,'callback_status'=>0,'callback_num'=>0))->select();
+            if($orderinfo){
+                foreach ($orderinfo as $k=>$v){
+                    $url=$v['notifyUrl'];
+                    $user_id = $v['user_id'];
+                    $tradeMoney = $v['tradeMoney'] ;
+                    $erweima_id =$v['erweima_id'];
+                    $data=array(
+                        'order_sn'=>$v['order_sn'],
+                        'out_order_sn'=>$v['out_order_sn'],
+                        'paymoney'=>$v['payMoney'],
+                        'pay_time'=>$v['pay_time'],
+                    );
+                    $business = D('business');
+                    $where['business_code']=$v['business_code'];
+                    $businessinfo=$business->where($where)->find();
+                    if(empty($businessinfo)){
+                        $this->ajaxReturn('error40003','商户号不存在!',0);
+                    }
+                    $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
+                    $res =$this->https_post_kfs($url,$data);
+                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    if($res == 'success'){
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>1,'callback_time'=>time()));
+                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                    }else{
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>0,'callback_num'=>1,'callback_time'=>time()));
+                    }
+                }
+            }
+        }else{
+            $data['status']= 0;
+            $data['msg']='蛇皮让你蛇皮!';
+            echo json_encode($data);
+        }
+
+    }
+    /**
+     * 第二次过期订单异步回调
+     */
+    public function qxpushsecond(){
+        $key = $_GET['key'];
+        if($key == 'caeaa34417150c16d3ab950be8ed08d7'){
+            $Order=D('Order');
+            $orderinfo =$Order->where(array('status'=>2,'callback_status'=>0,'callback_num'=>1))->select();
+            if($orderinfo){
+                foreach ($orderinfo as $k=>$v){
+                    $url=$v['notifyUrl'];
+                    $user_id = $v['user_id'];
+                    $tradeMoney = $v['tradeMoney'] ;
+                    $erweima_id =$v['erweima_id'];
+                    $data=array(
+                        'order_sn'=>$v['order_sn'],
+                        'out_order_sn'=>$v['out_order_sn'],
+                        'paymoney'=>$v['payMoney'],
+                        'pay_time'=>$v['pay_time'],
+                    );
+                    $business = D('business');
+                    $where['business_code']=$v['business_code'];
+                    $businessinfo=$business->where($where)->find();
+                    if(empty($businessinfo)){
+                        $this->ajaxReturn('error40003','商户号不存在!',0);
+                    }
+                    $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
+                    $res =$this->https_post_kfs($url,$data);
+                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    if($res == 'success'){
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
+                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                    }else{
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>0,'callback_num'=>2,'callback_time'=>time()));
+                    }
+                }
+            }
+        }else{
+            $data['status']= 0;
+            $data['msg']='蛇皮让你蛇皮!';
+            echo json_encode($data);
+        }
+
+    }
+    /**
+     * 第三次过期订单异步回调
+     */
+    public function qxpushthird(){
+        $key = $_GET['key'];
+        if($key == 'caeaa34417150c16d3ab950be8ed08d7'){
+            $Order=D('Order');
+            $orderinfo =$Order->where(array('status'=>2,'callback_status'=>0,'callback_num'=>2))->select();
+            if($orderinfo){
+                foreach ($orderinfo as $k=>$v){
+                    $url=$v['notifyUrl'];
+                    $user_id = $v['user_id'];
+                    $tradeMoney = $v['tradeMoney'] ;
+                    $erweima_id =$v['erweima_id'];
+                    $data=array(
+                        'order_sn'=>$v['order_sn'],
+                        'out_order_sn'=>$v['out_order_sn'],
+                        'paymoney'=>$v['payMoney'],
+                        'pay_time'=>$v['pay_time'],
+                    );
+                    $business = D('business');
+                    $where['business_code']=$v['business_code'];
+                    $businessinfo=$business->where($where)->find();
+                    if(empty($businessinfo)){
+                        $this->ajaxReturn('error40003','商户号不存在!',0);
+                    }
+                    $data['sign']=$this->getSignK($data,$businessinfo['accessKey']);
+                    $res =$this->https_post_kfs($url,$data);
+                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单数据~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./notifyUrl.txt',print_r($v,true),FILE_APPEND);
+                    if($res == 'success'){
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
+                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                    }else{
+                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
+                        $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>2,'callback_num'=>3,'callback_time'=>time()));
+                    }
+                }
+            }
+        }else{
+            $data['status']= 0;
+            $data['msg']='蛇皮让你蛇皮!';
+            echo json_encode($data);
+        }
+
     }
 
 
