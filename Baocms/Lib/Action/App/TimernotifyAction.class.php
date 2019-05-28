@@ -200,13 +200,13 @@ class TimernotifyAction extends Action
     }
 
     /**
-     * 订单3个小时解冻订单并返回跑分
+     * 过期订单3个小时之后解冻并返回跑分 更改订单为订单取消
      */
     public function orderunfreeze(){
         $bj_time = time() - 10800;
         $Order=D('Order');
         if($orderinfo = $Order->where(array('status'=>2,'dj_status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
-            $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
+            $Order->where(array('status'=>2,'dj_status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>3));
             foreach ($orderinfo as $k=>$v){
                 $data=array(
                     'user_id'=>$orderinfo['user_id'],
