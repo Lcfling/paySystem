@@ -259,7 +259,7 @@ class TimernotifyAction extends Action
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>1,'callback_time'=>time()));
-                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
                     }else{
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -309,7 +309,7 @@ class TimernotifyAction extends Action
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
-                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
                     }else{
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -359,7 +359,7 @@ class TimernotifyAction extends Action
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>2,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
-                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
                     }else{
                         file_put_contents('./gqnotifyUrl.txt',"~~~~~~~~~~~~~~~第三方过期订单回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./gqnotifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
