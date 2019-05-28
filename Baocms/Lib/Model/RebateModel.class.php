@@ -43,6 +43,8 @@ class RebateModel extends Model {
             'remark'=>'佣金',
             'creatime'=>time()
         );
+        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调成功佣金发放~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+        file_put_contents('./notifyUrl.txt',print_r($data,true).PHP_EOL,FILE_APPEND);
         D('Account_log')->add($data);
     }
 
