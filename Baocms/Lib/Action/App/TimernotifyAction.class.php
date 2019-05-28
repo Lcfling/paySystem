@@ -43,11 +43,11 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>1,'callback_time'=>time()));
-                        $res =D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
-                        $list =Cac()->lRange('erweimas1111',0,-1);
-                        print_r($res);
-                        print_r($list);
-                        print_r($user_id.'-'.$tradeMoney.'-'.$erweima_id);
+                        //存入缓存
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
+                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        //返佣
+                        D('Rebate')->fy($tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -99,7 +99,10 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
-                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
+                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        //返佣
+                        D('Rebate')->fy($tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -151,7 +154,10 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
-                        D("Users")->enterlist($user_id,$tradeMoney,$erweima_id);
+                        D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
+                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        //返佣
+                        D('Rebate')->fy($tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -175,6 +181,12 @@ class TimernotifyAction extends Action
         $Order=D('Order');
         if($orderinfo = $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
             $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
+            foreach ($orderinfo as $k=>$v){
+                $user_id =$v['user_id'];
+                $money = $v['tradeMoney']/100;
+                $erweima_id =$v['erweima_id'];
+                D("Users")->enterlist($user_id,$money,$erweima_id);
+            }
         }
     }
 
