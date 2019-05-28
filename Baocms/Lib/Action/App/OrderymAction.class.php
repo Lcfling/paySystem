@@ -170,8 +170,6 @@ class OrderymAction extends Action
                     'creatime'=>time()
                 );
                 D('Account_log')->add($paydata);
-                $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
-                D('Rebate')->fy($datas["tradeMoney"] ,$user_id,$rate,$orderinfo['erweima_id'],$orderinfo['business_code'],$orderinfo["out_uid"]);
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);
@@ -279,6 +277,7 @@ class OrderymAction extends Action
                     D('Account_log')->add($data);
                     D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('dj_status')->save(array('dj_status'=>1));
                 }
+                D("Users")->enterlist($user_id,$orderlist['money']/100,$orderlist['erweima_id']);
                 $this->ajaxReturn('','取消成功!',1);
             }else{
                 $this->ajaxReturn('','取消失败,稍后重试!',0);
@@ -320,7 +319,7 @@ class OrderymAction extends Action
         }else{
             $this->ajaxReturn('','请求数据异常!',0);
         }
-    }
+        }
 
 
     private function https_post_kfs($url,$data)
