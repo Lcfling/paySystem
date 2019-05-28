@@ -1,31 +1,530 @@
 ﻿Array
 (
-    [order_sn] => 20190515112534194
+    [order_sn] => 20190527190313459
     [out_order_sn] => n1909
-    [paymoney] => 3
-    [pay_time] => 1557971501
+    [paymoney] => 9993
+    [pay_time] => 1558955045
+    [status] => 1
 )
+
+sign-31C5F2D747F99024638F8A59330F9702
+retrun_sign-29CD200374177C4E96722B7613DF0220
 ~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
 Array
 (
-    [id] => 6
+    [id] => 13
     [out_uid] => 123
     [out_order_sn] => n1909
-    [order_sn] => 20190515112534194
+    [order_sn] => 20190527190313459
     [payType] => 1
-    [payMoney] => 3
-    [tradeMoney] => 100
-    [erweima_id] => 11
-    [user_id] => 111
+    [payMoney] => 9993
+    [tradeMoney] => 10000
+    [erweima_id] => 25
+    [user_id] => 121
     [status] => 1
-    [creatime] => 1557890734
-    [pay_time] => 1557971501
-    [business_code] => 30001
+    [creatime] => 1558954993
+    [pay_time] => 1558955045
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 2
+    [callback_time] => 1558955059
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~
+Array
+(
+    [tradeMoney] => 99.90
+    [user_id] => 121
+    [title] => 微信收款助手
+    [content] => [2条]微信收款助手: 微信支付收款99.90元(朋友到店)
+    [pay_time] => 1558955217
+)
+UPDATE `zf_order` SET `status`=1,`pay_time`=1558955217 WHERE ( `user_id` = 121 ) AND ( `payMoney` = 9990 ) AND ( `payType` = 1 ) AND ( `status` = 0 )Array
+(
+    [order_sn] => 20190527190501407
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558955217
+    [status] => 1
+)
+
+sign-2ABC77CBE8CE7505CF7A59690EFF3AE1
+retrun_sign-8E2E46FB9CF6FF54ED401537CB39141A
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 14
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190501407
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 27
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955101
+    [pay_time] => 1558955217
+    [business_code] => 30007
     [dj_status] => 1
     [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
     [callback_status] => 0
     [callback_num] => 0
     [callback_time] => 0
 )
-~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~
-success
+
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527190501407
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558955217
+    [status] => 1
+)
+
+sign-2ABC77CBE8CE7505CF7A59690EFF3AE1
+retrun_sign-8E2E46FB9CF6FF54ED401537CB39141A
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 14
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190501407
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 27
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955101
+    [pay_time] => 1558955217
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 1
+    [callback_time] => 1558955220
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527190501407
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558955217
+    [status] => 1
+)
+
+sign-2ABC77CBE8CE7505CF7A59690EFF3AE1
+retrun_sign-8E2E46FB9CF6FF54ED401537CB39141A
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 14
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190501407
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 27
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955101
+    [pay_time] => 1558955217
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 2
+    [callback_time] => 1558955239
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~
+Array
+(
+    [tradeMoney] => 199.97
+    [user_id] => 121
+    [title] => 微信收款助手
+    [content] => [4条]微信收款助手: [店员消息]收款到账199.97元
+    [pay_time] => 1558955466
+)
+UPDATE `zf_order` SET `status`=1,`pay_time`=1558955466 WHERE ( `user_id` = 121 ) AND ( `payMoney` = 19997 ) AND ( `payType` = 1 ) AND ( `status` = 0 )Array
+(
+    [order_sn] => 20190527190852006
+    [out_order_sn] => n1909
+    [paymoney] => 19997
+    [pay_time] => 1558955466
+    [status] => 1
+)
+
+sign-BF4554F96D09C2B691CA42F7BF4D0EC1
+retrun_sign-A906178C15C6A13AE3D631324109F623
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 15
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190852006
+    [payType] => 1
+    [payMoney] => 19997
+    [tradeMoney] => 20000
+    [erweima_id] => 47
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955332
+    [pay_time] => 1558955466
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 0
+    [callback_time] => 0
+)
+
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527190852006
+    [out_order_sn] => n1909
+    [paymoney] => 19997
+    [pay_time] => 1558955466
+    [status] => 1
+)
+
+sign-BF4554F96D09C2B691CA42F7BF4D0EC1
+retrun_sign-A906178C15C6A13AE3D631324109F623
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 15
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190852006
+    [payType] => 1
+    [payMoney] => 19997
+    [tradeMoney] => 20000
+    [erweima_id] => 47
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955332
+    [pay_time] => 1558955466
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 1
+    [callback_time] => 1558955470
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527190852006
+    [out_order_sn] => n1909
+    [paymoney] => 19997
+    [pay_time] => 1558955466
+    [status] => 1
+)
+
+sign-BF4554F96D09C2B691CA42F7BF4D0EC1
+retrun_sign-A906178C15C6A13AE3D631324109F623
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 15
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527190852006
+    [payType] => 1
+    [payMoney] => 19997
+    [tradeMoney] => 20000
+    [erweima_id] => 47
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558955332
+    [pay_time] => 1558955466
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 2
+    [callback_time] => 1558955479
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190526153819784
+    [out_order_sn] => n1909
+    [paymoney] => 9998
+    [pay_time] => 0
+)
+
+sign-359911C75AFF734895E57C037F7F64F1
+retrun_sign-F1678CC24D4CEC4A4E4CEBC61F1C9131
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 10
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190526153819784
+    [payType] => 1
+    [payMoney] => 9998
+    [tradeMoney] => 10000
+    [erweima_id] => 33
+    [user_id] => 122
+    [status] => 3
+    [creatime] => 1558856299
+    [pay_time] => 0
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 0
+    [callback_time] => 0
+)
+
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~
+Array
+(
+    [tradeMoney] => 99.90
+    [user_id] => 121
+    [title] => 微信收款助手
+    [content] => 微信支付收款99.90元
+    [pay_time] => 1558959731
+)
+UPDATE `zf_order` SET `status`=1,`pay_time`=1558959731 WHERE ( `user_id` = 121 ) AND ( `payMoney` = 9990 ) AND ( `payType` = 1 ) AND ( `status` = 0 )Array
+(
+    [order_sn] => 20190527202129464
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558959731
+    [status] => 1
+)
+
+sign-18C769AAC5B04EAF3A4B1CE0BE12328F
+retrun_sign-1ACDECD519AD551E1D2D291152A95A38
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 17
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202129464
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 38
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959689
+    [pay_time] => 1558959731
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 0
+    [callback_time] => 0
+)
+
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527202129464
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558959731
+    [status] => 1
+)
+
+sign-18C769AAC5B04EAF3A4B1CE0BE12328F
+retrun_sign-1ACDECD519AD551E1D2D291152A95A38
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 17
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202129464
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 38
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959689
+    [pay_time] => 1558959731
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 1
+    [callback_time] => 1558959743
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527202129464
+    [out_order_sn] => n1909
+    [paymoney] => 9990
+    [pay_time] => 1558959731
+    [status] => 1
+)
+
+sign-18C769AAC5B04EAF3A4B1CE0BE12328F
+retrun_sign-1ACDECD519AD551E1D2D291152A95A38
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 17
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202129464
+    [payType] => 1
+    [payMoney] => 9990
+    [tradeMoney] => 10000
+    [erweima_id] => 38
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959689
+    [pay_time] => 1558959731
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 2
+    [callback_time] => 1558959770
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~
+Array
+(
+    [tradeMoney] => 99.92
+    [user_id] => 121
+    [title] => 微信收款助手
+    [content] => [2条]微信收款助手: 微信支付收款99.92元
+    [pay_time] => 1558959864
+)
+UPDATE `zf_order` SET `status`=1,`pay_time`=1558959864 WHERE ( `user_id` = 121 ) AND ( `payMoney` = 9992 ) AND ( `payType` = 1 ) AND ( `status` = 0 )Array
+(
+    [order_sn] => 20190527202347557
+    [out_order_sn] => n1909
+    [paymoney] => 9992
+    [pay_time] => 1558959864
+    [status] => 1
+)
+
+sign-3D140A2959677D60A3F031A3F3442B92
+retrun_sign-FDE15F811EE469E8E3575443C3F8F239
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 18
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202347557
+    [payType] => 1
+    [payMoney] => 9992
+    [tradeMoney] => 10000
+    [erweima_id] => 40
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959827
+    [pay_time] => 1558959864
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 0
+    [callback_time] => 0
+)
+
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527202347557
+    [out_order_sn] => n1909
+    [paymoney] => 9992
+    [pay_time] => 1558959864
+    [status] => 1
+)
+
+sign-3D140A2959677D60A3F031A3F3442B92
+retrun_sign-FDE15F811EE469E8E3575443C3F8F239
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 18
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202347557
+    [payType] => 1
+    [payMoney] => 9992
+    [tradeMoney] => 10000
+    [erweima_id] => 40
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959827
+    [pay_time] => 1558959864
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 1
+    [callback_time] => 1558959870
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail
+Array
+(
+    [order_sn] => 20190527202347557
+    [out_order_sn] => n1909
+    [paymoney] => 9992
+    [pay_time] => 1558959864
+    [status] => 1
+)
+
+sign-3D140A2959677D60A3F031A3F3442B92
+retrun_sign-FDE15F811EE469E8E3575443C3F8F239
+~~~~~~~~~~~~~~~第三方订单数据~~~~~~~~~~~~~~~
+Array
+(
+    [id] => 18
+    [out_uid] => 123
+    [out_order_sn] => n1909
+    [order_sn] => 20190527202347557
+    [payType] => 1
+    [payMoney] => 9992
+    [tradeMoney] => 10000
+    [erweima_id] => 40
+    [user_id] => 121
+    [status] => 1
+    [creatime] => 1558959827
+    [pay_time] => 1558959864
+    [business_code] => 30007
+    [dj_status] => 1
+    [notifyUrl] => http://91pai.webziti.com/app/index/notifyUrl
+    [callback_status] => 0
+    [callback_num] => 2
+    [callback_time] => 1558959890
+)
+~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~
+fail

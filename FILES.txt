@@ -1,0 +1,73 @@
+array (
+  'uploadfile' => 
+  array (
+    'name' => 
+    array (
+      0 => '1557479187415.jpg',
+    ),
+    'type' => 
+    array (
+      0 => 'image/*',
+    ),
+    'tmp_name' => 
+    array (
+      0 => '/tmp/phpDqQ3aM',
+    ),
+    'error' => 
+    array (
+      0 => 0,
+    ),
+    'size' => 
+    array (
+      0 => 51017,
+    ),
+  ),
+)array (
+  'uploadfile' => 
+  array (
+    'name' => 
+    array (
+      0 => '1557479187415.jpg',
+    ),
+    'type' => 
+    array (
+      0 => 'image/*',
+    ),
+    'tmp_name' => 
+    array (
+      0 => '/tmp/phpKWJVaL',
+    ),
+    'error' => 
+    array (
+      0 => 0,
+    ),
+    'size' => 
+    array (
+      0 => 51017,
+    ),
+  ),
+)array (
+  'uploadfile' => 
+  array (
+    'name' => 
+    array (
+      0 => '1557479187415.jpg',
+    ),
+    'type' => 
+    array (
+      0 => 'image/*',
+    ),
+    'tmp_name' => 
+    array (
+      0 => '/tmp/phpqF0qC3',
+    ),
+    'error' => 
+    array (
+      0 => 0,
+    ),
+    'size' => 
+    array (
+      0 => 51017,
+    ),
+  ),
+)

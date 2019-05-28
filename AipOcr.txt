@@ -1,0 +1,27 @@
+array (
+  'log_id' => 3027250739860737261,
+  'words_result_num' => 5,
+  'words_result' => 
+  array (
+    0 => 
+    array (
+      'words' => '推荐使用微信支付',
+    ),
+    1 => 
+    array (
+      'words' => '￥12999',
+    ),
+    2 => 
+    array (
+      'words' => '口P',
+    ),
+    3 => 
+    array (
+      'words' => '张贱贱。(*飞)',
+    ),
+    4 => 
+    array (
+      'words' => '微信支付',
+    ),
+  ),
+)

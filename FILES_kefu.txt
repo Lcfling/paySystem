@@ -1,0 +1,28 @@
+array (
+  'kefu' => 
+  array (
+    'name' => '微信图片_20190513085006.jpg',
+    'type' => 'image/jpeg',
+    'tmp_name' => '/tmp/phpOXGsTZ',
+    'error' => 0,
+    'size' => 724367,
+  ),
+)array (
+  'kefu' => 
+  array (
+    'name' => '微信图片_20190513085006.jpg',
+    'type' => 'image/jpeg',
+    'tmp_name' => '/tmp/phpJU0iiV',
+    'error' => 0,
+    'size' => 724367,
+  ),
+)array (
+  'kefu' => 
+  array (
+    'name' => '微信图片_20190527195557.png',
+    'type' => 'image/png',
+    'tmp_name' => '/tmp/phpBC4H4U',
+    'error' => 0,
+    'size' => 13930,
+  ),
+)

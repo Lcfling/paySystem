@@ -1,0 +1,520 @@
+array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '123456',
+)array (
+  'user_id' => '',
+)array (
+  'user_id' => '',
+)array (
+  'user_id' => '',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '111111',
+)array (
+  'user_id' => '123',
+)array (
+  'user_id' => '123',
+)array (
+  'user_id' => '123',
+)array (
+  'user_id' => '',
+)array (
+  'user_id' => '111',
+)array (
+  'user_id' => '111',
+)array (
+  'user_id' => '111111',
+)array (
+  'home' => '11',
+  'user_id' => '112',
+  'type' => '1',
+  'name' => '11',
+)array (
+  'home' => '11',
+  'user_id' => '112',
+  'type' => '1',
+  'name' => '11',
+)array (
+  'home' => '11',
+  'user_id' => '112',
+  'type' => '1',
+  'name' => '11',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => 'qq',
+  'type' => '1',
+  'home' => 'qq',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '112',
+  'name' => '',
+  'type' => '1',
+  'home' => '',
+)array (
+  'user_id' => '117',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '122',
+  'name' => '张大大',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '飘',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '121',
+  'name' => '帅',
+  'type' => '1',
+  'home' => '内火',
+)array (
+  'user_id' => '125',
+  'name' => '哈哈',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '131',
+  'name' => '你们',
+  'type' => '1',
+  'home' => '郑州',
+)array (
+  'user_id' => '131',
+  'name' => '哦里',
+  'type' => '1',
+  'home' => '弄',
+)array (
+  'home' => '你以为',
+  'user_id' => '132',
+  'type' => '1',
+  'name' => '顶',
+)array (
+  'home' => '你弟',
+  'user_id' => '132',
+  'type' => '1',
+  'name' => '你一',
+)array (
+  'user_id' => '133',
+  'name' => '迹',
+  'type' => '1',
+  'home' => '弄',
+)array (
+  'user_id' => '133',
+  'name' => '默默',
+  'type' => '1',
+  'home' => '弄',
+)array (
+  'user_id' => '131',
+  'name' => '您',
+  'type' => '1',
+  'home' => '洗洗',
+)array (
+  'user_id' => '122',
+  'name' => '张飞',
+  'type' => '1',
+  'home' => '安阳',
+)
