@@ -281,7 +281,7 @@ class OrderymAction extends Action
                     D('Account_log')->add($data);
                     D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('dj_status')->save(array('dj_status'=>1));
                 }
-                D("Users")->enterlist($user_id,$orderlist['money']/100,$orderlist['erweima_id']);
+                D("Users")->enterlist($user_id,$orderlist['tradeMoney']/100,$orderlist['erweima_id']);
                 $this->ajaxReturn('','取消成功!',1);
             }else{
                 $this->ajaxReturn('','取消失败,稍后重试!',0);

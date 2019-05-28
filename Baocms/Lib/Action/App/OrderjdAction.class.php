@@ -16,7 +16,7 @@ class OrderjdAction extends CommonAction{
             $user_id =$this->uid;//用户id
             $recmoney =D('Account')->getdaybrokerage($user_id,3);
             $sucmoney =D('Account')->getdaybrokerage($user_id,2);
-            $list = D('Order')->where(array('user_id'=>$user_id))->field('order_sn,tradeMoney,payType,status,creatime')->select();
+            $list = D('Order')->where(array('user_id'=>$user_id))->order('creatime desc')->field('order_sn,tradeMoney,payType,status,creatime')->select();
             foreach ($list as $k =>&$v){
                 $v['tradeMoney']= $v['tradeMoney']/100;
                 $v['creatime']= date('Y/m/d H:i:s',$v['creatime']);
