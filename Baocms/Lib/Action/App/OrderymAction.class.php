@@ -269,12 +269,12 @@ class OrderymAction extends Action
                     $data =array(
                         'user_id'=>$user_id,
                         'order_id'=>$orderid,
-                        'score'=>$orderlist['money'],
+                        'score'=>$orderlist['tradeMoney'],
                         'erweima_id'=>$orderlist['erweima_id'],
                         'business_code'=>$orderlist['business_code'],
                         'out_uid'=>$orderlist['out_uid'],
                         'status'=>4,
-                        'type'=>1,
+                        'payType'=>1,
                         'remark'=>'解冻',
                         'creatime'=>time()
                     );
