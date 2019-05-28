@@ -12,7 +12,9 @@ class OrderymAction extends Action
     public function getcache(){
 //        D("Users")->enterlist('111',1,11);
 //        D("Users")->enterlist('111',1,12);
-        $list =Cac()->lRange('erweimas1111',0,-1);
+        Cac()->rPush('erweimas200132',52);
+        $list =Cac()->lRange('erweimas200132',0,-1);
+
         print_r($list);
     }
 
@@ -36,7 +38,7 @@ class OrderymAction extends Action
         $datas =$_POST;
         $sign=$datas['sign'];
         $business_code=$datas['business_code']; //商户号 不参与签名
-        $type =$datas['type'];
+        $type =$datas['payType'];
         unset($datas['sign']);
         unset($datas['business_code']);
         $business = D('business');
@@ -59,9 +61,15 @@ class OrderymAction extends Action
         {
             $this->ajaxReturn('error40007','支付类型无效!',0);
         }
-        if ($Order->where(array('out_uid'=>$datas["out_uid"],'business_code'=>$business_code,'status'=>0))->find())
+        if ($orderlist = $Order->where(array('out_uid'=>$datas["out_uid"],'business_code'=>$business_code,'status'=>0))->find())
         {
-            $this->ajaxReturn('error40008','已有订单存在,请您先取消!',0);
+            $Erwermalsit = D('Erweima')->where(array('id'=>$orderlist['erweima_id']))->find();
+            $this->geterweimaurl($Erwermalsit["erweima"],$orderlist['id'],$orderlist['user_id'],$orderlist['creatime']+300,2);
+        }
+        if ($orderlist = $Order->where(array('out_uid'=>$datas["out_uid"],'business_code'=>$business_code,'status'=>2))->find())
+        {
+            $Erwermalsit = D('Erweima')->where(array('id'=>$orderlist['erweima_id']))->find();
+            $this->geterweimaurl($Erwermalsit["erweima"],$orderlist['id'],$orderlist['user_id'],$orderlist['creatime']+300,3);
         }
 
         if( $sign!=$this->getSignK($datas,$businessinfo['accessKey'])){
@@ -72,9 +80,8 @@ class OrderymAction extends Action
         if(empty($erweimainfo)){
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
-//        print_r('money-'.$datas["tradeMoney"]/100);
-//        print_r("~~~~~~~~~~二维码信息~~~~~~~~~~~~~~~");
-//        echo "<pre>";print_r($erweimainfo);
+
+        $time =time();
         //保存商户订单记录
         $data =array(
             'out_uid'=>$datas["out_uid"],
@@ -86,11 +93,12 @@ class OrderymAction extends Action
             'erweima_id'=>$erweimainfo['id'],
             'business_code'=>$business_code,
             'user_id'=>$erweimainfo['user_id'],
-            'creatime'=>time(),
+            'creatime'=>$time,
             'notifyUrl'=>$datas['notifyUrl']
         );
-        $res = $Order->add($data);
-        if($res){
+        print_r($data);
+        $order_id = $Order->add($data);
+        if($order_id){
             $logdata =array(
                 'user_id'=>$erweimainfo['user_id'],
                 'score'=>-$datas["tradeMoney"],
@@ -100,12 +108,12 @@ class OrderymAction extends Action
                 'status'=>3,
                 'payType'=>$datas["payType"],
                 'remark'=>'跑分冻结',
-                'creatime'=>time()
+                'creatime'=>$time
             );
             D('Account_log')->add($logdata);
             $rate = D('Users')->where(array('user_id'=>$erweimainfo['user_id']))->getField('rate');
-            D('Rebate')->fy($datas["tradeMoney"] * 100 ,$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
-            $this->geterweimaurl($erweimainfo["erweima"]);
+            D('Rebate')->fy($datas["tradeMoney"] ,$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
+            $this->geterweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1);
         }else{
             $this->ajaxReturn('error40005','',0);
         }
@@ -116,10 +124,17 @@ class OrderymAction extends Action
     /**获取支付页面
      * @param $erweimaurl
      */
-    private function geterweimaurl($erweimaurl){
+    private function geterweimaurl($erweimaurl,$order_id,$user_id,$gptime,$type){
         $url=substr($erweimaurl,1);
-        $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifu.html?';
-        $this->ajaxReturn('OK',$qrurl.$_SERVER['HTTP_HOST'].$url,1001);//输出支付url
+        $data = $_SERVER['HTTP_HOST'].$url.'&'.$order_id.'&'.$user_id.'&'.$gptime;
+        if($type == 1){
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifufirst.html?data='.$data;
+        }elseif($type == 2){
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifusecond.html?data='.$data;
+        }else{
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifuthird.html?data='.$data;
+        }
+        $this->ajaxReturn('OK',$qrurl,1001);//输出支付url
     }
     /**
      * 前端回调及 调 第三方回调
@@ -135,21 +150,25 @@ class OrderymAction extends Action
             file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
             $money =$orderinfo['tradeMoney'];
-            $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time,dj_status')->save(array('status'=>1,'pay_time'=>$pay_time,'dj_status'=>1));
+            $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time));
             file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
             if($res){
-                $logdata =array(
-                    'user_id'=>$user_id,
-                    'score'=>$money,
-                    'erweima_id'=>$orderinfo['erweima_id'],
-                    'business_code'=>$orderinfo['business_code'],
-                    'out_uid'=>$orderinfo["out_uid"],
-                    'status'=>4,
-                    'payType'=>$payType,
-                    'remark'=>'跑分解冻',
-                    'creatime'=>time()
-                );
-                D('Account_log')->add($logdata);
+                if($orderinfo['dj_status']==0){
+                    $logdata =array(
+                        'user_id'=>$user_id,
+                        'score'=>$money,
+                        'erweima_id'=>$orderinfo['erweima_id'],
+                        'business_code'=>$orderinfo['business_code'],
+                        'out_uid'=>$orderinfo["out_uid"],
+                        'status'=>4,
+                        'payType'=>$payType,
+                        'remark'=>'跑分解冻',
+                        'creatime'=>time()
+                    );
+                    D('Account_log')->add($logdata);
+                    D('Order')->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
+                }
+
                 $paydata =array(
                     'user_id'=>$user_id,
                     'score'=>-$money,
@@ -175,6 +194,143 @@ class OrderymAction extends Action
         }
 
     }
+    /**
+     * 第一次进入订单检测
+     */
+    public function ddcheckfirst(){
+        if($this->isPost()){
+            $user_id =$_POST['user_id'];//码商id
+            $orderid =$_POST['order_id'];//订单id
+            $Order =D('Order');
+
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>2))->find())
+            {
+                $this->ajaxReturn('','订单已过期,请取消订单!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>3))->find())
+            {
+                $this->ajaxReturn('','订单已被取消!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>1))->find())
+            {
+                $this->ajaxReturn('','已支付成功!',0);
+            }
+
+            $this->ajaxReturn($_POST,'请求成功!',1);
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
+     * 第二次进入订单检测
+     */
+    public function ddchecksecond(){
+        if($this->isPost()){
+            $user_id =$_POST['user_id'];//码商id
+            $orderid =$_POST['order_id'];//订单id
+            $Order =D('Order');
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>0))->find())
+            {
+                $this->ajaxReturn('','订单已存在,继续支付或者取消订单!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>2))->find())
+            {
+                $this->ajaxReturn('','订单已过期,请取消订单!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>3))->find())
+            {
+                $this->ajaxReturn('','订单已被取消!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>1))->find())
+            {
+                $this->ajaxReturn('','已支付成功!',0);
+            }
+
+            $this->ajaxReturn($_POST,'请求成功!',1);
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
+     * 取消订单
+     */
+    public function ddcancel(){
+        if($this->isPost()){
+            $user_id =$_POST['user_id'];//用户id
+            $orderid =$_POST['order_id'];//订单id
+
+            if(!$orderlist =D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->find()){
+                $this->ajaxReturn('','此订单不存在!',0);
+            }
+            if(D('Order')->where(array('status'=>3,'id'=>$orderid,'user_id'=>$user_id))->find()){
+                $this->ajaxReturn('','请勿频繁操作!',0);
+            }
+            if(D('Order')->where(array('status'=>1,'id'=>$orderid,'user_id'=>$user_id))->find()){
+                $this->ajaxReturn('','您已支付成功!',0);
+            }
+
+            $savestatus =D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('status')->save(array('status'=>3));
+            if($savestatus){
+                if($orderlist['dj_status']==0){
+                    $data =array(
+                        'user_id'=>$user_id,
+                        'score'=>$orderlist['money'],
+                        'erweima_id'=>$orderlist['erweima_id'],
+                        'business_id'=>$orderlist['business_id'],
+                        'out_uid'=>$orderlist['out_uid'],
+                        'status'=>4,
+                        'type'=>1,
+                        'remark'=>'解冻',
+                        'creatime'=>time()
+                    );
+                    D('Account_log')->add($data);
+                    D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('dj_status')->save(array('dj_status'=>1));
+                }
+                $this->ajaxReturn('','取消成功!',1);
+            }else{
+                $this->ajaxReturn('','取消失败,稍后重试!',0);
+            }
+
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
+     * 已付款检测
+     */
+    public function paycheck(){
+        if($this->isPost()){
+            $user_id =$_POST['user_id'];//码商id
+            $orderid =$_POST['order_id'];//订单id
+            $Order =D('Order');
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>0))->find())
+            {
+                $this->ajaxReturn('','订单未支付成功，请继续支付或者稍后再试!',0);
+            }
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>2))->find())
+            {
+                $this->ajaxReturn('','订单已过期,请取消订单!',0);
+            }
+
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>1))->find())
+            {
+                $this->ajaxReturn('','支付成功!',1);
+            }
+
+            if ($orderlist = $Order->where(array('user_id'=>$user_id,'id'=>$orderid,'status'=>3))->find())
+            {
+                $this->ajaxReturn('','订单已取消!',0);
+            }
+
+            $this->ajaxReturn($_POST,'订单异常!',0);
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
 
     private function https_post_kfs($url,$data)
     {

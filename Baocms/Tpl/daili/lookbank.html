@@ -1,0 +1,91 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商户管理</li>
+        <li class="li2">银行卡信息</li>
+
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>用户帐号只允许是手机号码或者邮件，如果开启了UC整合，那么修改密码请在UC里面操作！另外后台注册的用户不会写入到UC的</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+
+            <div class="right">
+
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('daili/cotr')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>子商户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>费率</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                        </label>
+
+                    </div>
+                </div>
+
+        </form>
+        <div class="clear"></div>
+    </div>
+
+    <form  target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+
+                    <td>子商户号</td>
+                   <td>开户人</td>
+                    <td>开户行</td>
+
+                    <td>银行卡</td>
+
+                </tr>
+
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+
+                        <td>
+
+                            <{$var.brandid}>
+                        </td>
+                        <td>
+
+                            <{$var.username}>
+                        </td>
+
+                        <td>
+
+                            <{$var.bankname}>
+                        </td>
+
+                        <td>
+
+                            <{$var.banknum}>
+                        </td>
+
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

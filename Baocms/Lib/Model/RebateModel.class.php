@@ -14,15 +14,16 @@ class RebateModel extends Model {
         $userinfo = D('Users')->where(array('pid'=>$use_id))->field('user_id,rate')->find();
         if($userinfo['user_id']){
             $puse_id =$userinfo['user_id'];
-            $prate =$userinfo['rate'];
-            $pmoney = ($prate - $rate) * $list;
+            $prate =$userinfo['rate'] * 10000;
+            $rate = $rate * 10000;
+            $pmoney = ($prate - $rate) * $list / 1000000;
             if($pmoney<0 || $pmoney==0 ){return;}
             $this->rebate($puse_id,$pmoney,$erweima_id,$business_code,$out_uid);
             $userinfo1 = D('Users')->where(array('pid'=>$puse_id))->field('user_id,rate')->find();
             if($userinfo1['user_id']){
                 $duse_id =$userinfo1['user_id'];
-                $drate =$userinfo['rate'];
-                $dmoney = ($drate - $prate) * $list;
+                $drate =$userinfo['rate'] * 10000;
+                $dmoney = ($drate - $prate) * $list /1000000;
                 if($dmoney<0 || $dmoney==0){return;}
                 $this->rebate($duse_id,$dmoney,$erweima_id,$business_code,$out_uid);
             }
@@ -38,7 +39,8 @@ class RebateModel extends Model {
             'business_code'=>$business_code,
             'out_uid'=>$out_uid,
             'status'=>5,
-            'remark'=>'佣金'
+            'remark'=>'佣金',
+            'creatime'=>time()
         );
         D('Account_log')->add($data);
     }

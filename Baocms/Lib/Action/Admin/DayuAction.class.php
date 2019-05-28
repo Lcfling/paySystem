@@ -97,8 +97,8 @@ class DayuAction extends CommonAction
             $this->baoError('操作失败！');
 		}
 	}
-
-    public function audit($dayu_id = 0) {
+	
+	 public function audit($dayu_id = 0) {
         if (is_numeric($dayu_id) && ($dayu_id = (int) $dayu_id)) {
             $obj = D('Dayu');
             $obj->save(array('dayu_id' => $dayu_id, 'is_open' => 1));

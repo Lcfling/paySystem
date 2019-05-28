@@ -6,6 +6,9 @@ class LoginAction extends CommonAction{
     public function index(){
         $this->display();
     }
+    public function indexs(){
+        $this->display();
+    }
     
     public function loging(){
         $yzm = $this->_post('yzm');
@@ -17,9 +20,11 @@ class LoginAction extends CommonAction{
         $password = $this->_post('password','trim,md5');
         $adminObj = D('Admin');
         $admin = $adminObj->getAdminByUsername($username);
+
+
         if(empty($admin) || $admin['password'] != $password){
             session('verify',null);
-            $this->baoError('用户名或密码不正确!',2000,true);
+            $this->baoError('用户名或密码不正确!'.$password,2000,true);
         }
 		
         if($admin['closed'] == 1){
@@ -28,8 +33,9 @@ class LoginAction extends CommonAction{
         }
 		
 		if($admin['role_id'] == 2) {
+
 			session('verify',null);
-			$this->baoError('分站管理员请登录分站后台',2000,true); 
+			$this->baoError('分站管理员请登录分站后台',2000,true);
 		}
 
 		
@@ -46,6 +52,8 @@ class LoginAction extends CommonAction{
         $adminObj->where("admin_id=%d",$admin['admin_id'])->save(array('last_time'=>$admin['last_time'],'last_ip'=>$admin['last_ip']));
         
         session('admin',$admin);
+        $brandid=$admin['brandid'];
+        session('brandid',$brandid);
         $this->baoSuccess('登录成功！',U('index/index'));
     }
     

@@ -9,23 +9,25 @@
                             <td style="text-align: left">控制器</td>
                             <td style="text-align: left">排序</td>
                             <td style="text-align: left">是否显示</td>
+                            <td style="text-align: left">图标icon</td>
                             <td style="text-align: center">操作</td>
                         </tr>
                         <tbody id="jq_action_list">
-                        <foreach name="datas" item="var">   
+                        <foreach name="datas" item="var">
                             <eq name="var.parent_id" value="$parent_id">
                             <tr>
-                                <td><input type="text" name="data[<{$var.menu_id}>][menu_name]" value="<{$var.menu_name}>"  class="manageInput w100"/></td>
-                                <td><input type="text" name="data[<{$var.menu_id}>][menu_action]" value="<{$var.menu_action}>" class="manageInput w100" /></td>
-                                <td><input type="text" name="data[<{$var.menu_id}>][orderby]"    value="<{$var.orderby}>" class="manageInput w50" /></td>
+                                <td><input type="text" name="data[<{$var.menu_id}>][menu_name]" value="<{$var.menu_name}>"  class="input-xlarge focused" style="width: 100px"/></td>
+                                <td><input type="text" name="data[<{$var.menu_id}>][menu_action]" value="<{$var.menu_action}>" class="input-xlarge focused" style="width: 100px"/></td>
+                                <td><input type="text" name="data[<{$var.menu_id}>][orderby]"    value="<{$var.orderby}>" class="input-xlarge focused" style="width: 50px" /></td>
                                 <td>
-                                    <select name="data[<{$var.menu_id}>][is_show]" class="manageSelect w100">
+                                    <select name="data[<{$var.menu_id}>][is_show]" class="manageSelect" style="width: 100px">
                                         <option value="0" <eq name="var.is_show" value="0">selected="selected"</eq> >隐藏</option>
                                         <option value="1" <eq name="var.is_show" value="1">selected="selected"</eq> >显示</option>
                                     </select>
                                 </td>
+                                <td><input type="text" name="data[<{$var.menu_id}>][icon]"    value="<{$var.icon}>" class="input-xlarge focused" style="width: 50px" /></td>
                                 <td>
-                                    <{:BA('menu/delete',array("menu_id"=>$var['menu_id']),'删除','act','remberBtn')}>
+                                    <{:BA('menu/delete',array("menu_id"=>$var['menu_id']),'删除','act','btn btn-danger')}>
                                 </td>
                             </tr>
                             </eq>
@@ -33,14 +35,13 @@
                         </tbody>
                         <tr>
                             <td colspan="5">
-                                <input type="submit" class="submitbtns" value="保存"  />
-                                <a href="javascript:void(0);" id="jq_action_add" class="remberBtn" >新增一行</a>
+                                <input type="submit" class="btn btn-success" value="保存"  />
+                                <a href="javascript:void(0);" id="jq_action_add" class="btn btn-info" >新增一行</a>
                             </td>
                         </tr>
                     </table>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -48,7 +49,7 @@
 <style>
     .tableBox table, .tableBox table tr, .tableBox table tr td{
         border: none;
-    } 
+    }
     .tableBox table tr td a{
         color: #fff !important;
     }
@@ -75,7 +76,7 @@
         var action_num = 0;
         $("#jq_action_add").click(function () {
             action_num++;
-            var html = '<tr id="menu_action_' + action_num + '"> <td><input type="text" name="new[' + action_num + '][menu_name]" value=""  class="manageInput w100"/></td>   <td><input type="text" name="new[' + action_num + '][menu_action]" value="" class="manageInput w100" /></td> <td><input type="text" name="new[' + action_num + '][orderby]"    value="100" class="manageInput w50" /></td><td> <select name="new[' + action_num + '][is_show]" class="manageSelect w100"> <option value="0">隐藏</option>  <option value="1">显示</option></select></td><td><a href="javascript:void(0);" onclick="$(\'#menu_action_' + action_num + '\').remove();" class="remberBtn" >移除</a></td> </tr>';
+            var html = '<tr id="menu_action_' + action_num + '"> <td><input type="text" name="new[' + action_num + '][menu_name]" value=""  class="manageInput w100" style="width: 100px"/></td>   <td><input type="text" name="new[' + action_num + '][menu_action]" value="" class="manageInput w100" style="width: 100px"/></td> <td><input type="text" name="new[' + action_num + '][orderby]"    value="100" class="manageInput w50" style="width: 50px"/></td><td> <select name="new[' + action_num + '][is_show]" class="manageSelect w100" style="width: 100px"> <option value="0">隐藏</option>  <option value="1">显示</option></select></td><td><input type="text" name="new[' + action_num + '][icon]"    value="" class="manageInput w50" style="width: 50px"/></td><td><a href="javascript:void(0);" onclick="$(\'#menu_action_' + action_num + '\').remove();" class="btn btn-danger" >移除</a></td> </tr>';
             $("#jq_action_list").append(html);
         });
     });

@@ -1,0 +1,213 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="index.html">码商管理</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="#">码商账单</a></li>
+</ul>
+
+<div class="row-fluid sortable">
+
+    <div class="box span12">
+        <div class="box-header" data-original-title>
+            <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>商家信息</h2>
+            <div class="box-icon">
+                <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <div class="row-fluid sortable">
+                <div class="box span12">
+                    <div class="box-header" data-original-title>
+                        <h2><i class="halflings-icon white edit"></i><span class="break"></span>搜索选项</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <form class="form-horizontal" method="post" action="<{:U('user/zhangdan')}>">
+                            <fieldset>
+                                <!--<div class="control-group span5">-->
+                                    <!--<label class="control-label">手机号</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input class="input-large focused" name="mobile" type="text" value="<{$mobile|default=''}>">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="control-group span5">-->
+                                    <!--<label class="control-label">状态</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input class="input-large focused" name="frozen" type="text" value="<{$frozen|default=''}>">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            </fieldset>
+                            <fieldset>
+                                <div class="control-group span5">
+                                    <label class="control-label" >码商ID</label>
+                                    <div class="controls">
+                                        <input class="input-xlarge focused" name="user_id" type="text" value="<{$user_id|default=''}>">
+                                    </div>
+                                </div>
+                                <!--<div class="control-group span5">-->
+                                    <!--<label class="control-label" >身份(123)</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input class="input-xlarge focused" name="shenfen" type="text" value="<{$shenfen|default=''}>">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            </fieldset>
+
+                            <!--<fieldset>-->
+                                <!--<div class="control-group span5">-->
+                                    <!--<label class="control-label">开始时间</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input type="text" name="bg_time" class="input-xlarge" value="<{$bg_time|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="control-group span5">-->
+                                    <!--<label class="control-label">结束时间</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input type="text" name="end_time" class="input-xlarge" value="<{$end_time|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</fieldset>-->
+                            <fieldset>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">搜索</button>
+                                </div>
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div><!--/span-->
+
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>用户id</th>
+                    <th>充值金额</th>
+                    <th>说明</th>
+                    <th>时间</th>
+
+                    <!--<th>身份</th>-->
+                    <!--<th>派单总数</th>-->
+                    <!--<th>派单总额</th>-->
+                    <!--<th>成单总数</th>-->
+                    <!--<th>成单总额</th>-->
+                    <!--<th>剩余分数</th>-->
+                    <!--<th>佣金费率</th>-->
+                    <!--<th>完成时间</th>-->
+                    <!--<th>单笔费率(%)</th>-->
+                    <!--<th>单笔到账(元)</th>-->
+                    <!--<th>操作</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr>
+                    <td>Dennis Ji</td>
+                    <td class="center">2012/01/01</td>
+                    <td class="center">Member</td>
+                    <td class="center">
+                        <span class="label label-success">Active</span>
+                    </td>
+                    <td class="center">
+                        <a class="btn btn-success" href="#">
+                            <i class="halflings-icon white zoom-in"></i>
+                        </a>
+                        <a class="btn btn-info" href="#">
+                            <i class="halflings-icon white edit"></i>
+                        </a>
+                        <a class="btn btn-danger" href="#">
+                            <i class="halflings-icon white trash"></i>
+                        </a>
+                    </td>
+                </tr>-->
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><{$var.user_id}></td>
+                        <td>
+                            <{$var.score}>
+
+                        </td>
+                        <td>
+                            <{$var.remark}>
+
+                        </td>
+                        <td>
+
+                            <{$var.creatime|date='Y-m-d H:i:s',###}>
+                        </td>
+
+                        <!--<td>-->
+                            <!--<{$var.shenfen}>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<{$var.pcounts}>-->
+                        <!--</td>-->
+
+                        <!--<td>-->
+                            <!--<{$var.paimoney}>-->
+                        <!--</td>-->
+
+                        <!--<td>-->
+                            <!--<{$var.ccounts}>-->
+                        <!--</td>-->
+                        <!--<td>-->
+
+                            <!--<{$var.cmoney}>-->
+
+                        <!--</td>-->
+                        <!--<td>-->
+
+                            <!--<{$var.syscore}>-->
+
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<{$var.rate}>-->
+                        <!--</td>-->
+
+                        <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<{:BA('user/add',array("user_id"=>$var['user_id']),'上分','load','btn btn-success','600','230')}>&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;<{:BA('user/duce',array("user_id"=>$var['user_id']),'下分','load','btn btn-info','600','230')}>&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<{:BA('user/forb',array("user_id"=>$var['user_id']),'封禁','act','btn btn-danger')}>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;<{:BA('user/addcode',array("user_id"=>$var['user_id']),'加码','load','btn btn-success','600','230')}>&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;<{:BA('user/notice',array("user_id"=>$var['user_id']),'通知','','btn btn-info')}>&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<{:BA('user/notice',array("user_id"=>$var['user_id']),'通知','load','btn btn-success','600','230')}>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                    <!--</tr>-->
+                </foreach>
+                </tbody>
+            </table>
+
+
+
+            <p style="font-size :20px;color: red " >码商总充值: <{$score}></p>
+
+            <p style="font-size :20px;color: red " >  码商总提现: <{$money}></p>
+
+            <p style="font-size :20px;color: red " > 今日收益: <{$jrscore}></p>
+            
+            <p style="font-size :20px;color: red " >今日提现:<{$jr_money}></p>
+            <p style="font-size :20px;color: red " >  提现成功:<{$y_tx}></p>
+
+
+
+            <!--码商总充值  <{$score}><br>-->
+            <!--今日收益  <{$jrscore}><br>-->
+            <!--码商总提现  <{$money}><br>-->
+            <!--今日提现 <{$jr_money}><br>-->
+            <!--已提现 <{$y_tx}>-->
+        </div>
+    </div><!--/span-->
+
+</div><!--/row-->
+
+<!--/row-->
+</div>
+</body>
+</html>

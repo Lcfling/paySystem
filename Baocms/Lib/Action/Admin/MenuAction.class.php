@@ -4,8 +4,8 @@
 
 class MenuAction extends CommonAction {
 
-    private $create_fields = array('parent_id', 'menu_name');
-    private $edit_fields = array('parent_id', 'menu_name');
+    private $create_fields = array('parent_id', 'menu_name','icon');
+    private $edit_fields = array('parent_id', 'menu_name','icon');
 
     public function index() {
         $menu = D('Menu')->fetchAll();

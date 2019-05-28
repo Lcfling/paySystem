@@ -1,0 +1,30 @@
+<div class="box-content">
+
+    <form target="baocms_frm" class="form-horizontal" action="<{:U('withdraw/bank')}>" method="post">
+        <div class="control-group">
+            <label class="control-label" for="inputname">支付宝UID</label>
+            <div class="controls">
+                <input class="input-xlarge focused" id="inputname" name="data[aliuid]" type="text" value="<{$detail.username|default=''}>">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputbank">手机号</label>
+            <div class="controls">
+                <input class="input-xlarge focused" id="inputbank" name="data[mobile]" type="text" value="<{$detail.bankname|default=''}>">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputnum">限额</label>
+            <div class="controls">
+                <input class="input-xlarge focused" id="inputnum" name="data[limit]" type="text" value="<{$detail.banknum|default=''}>">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">确认添加</button>
+            <!--<button class="btn">Cancel</button>-->
+        </div>
+    </form>
+
+
+
+</div>

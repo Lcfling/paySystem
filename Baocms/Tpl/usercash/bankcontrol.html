@@ -1,0 +1,96 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">首页</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">银行卡管理</a></li>
+    </ul>
+
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>银行卡管理</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <td>开户人</td>
+                        <!--<td>密码</td>-->
+                        <td>开户行</td>
+                        <td>开户卡号</td>
+                        <td>添加时间</td>
+
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-success" href="#">
+                                <i class="halflings-icon white zoom-in"></i>
+                            </a>
+                            <a class="btn btn-info" href="#">
+                                <i class="halflings-icon white edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="halflings-icon white trash"></i>
+                            </a>
+                        </td>
+                    </tr>-->
+
+                    <foreach name="list" item="var">
+                        <tr>
+                        <td>
+                            <{$var.name}>
+                        </td>
+                        <td>
+                            <{$var.deposit_name}>
+
+                        </td>
+
+                        <td>
+                            <{$var.deposit_card}>
+                        </td>
+                        <td>
+                            <{$var.creatime|date='Y-m-d H:i:s',###}>
+                        </td>
+
+                        <td>
+                            <{:BAICON('usercash/bankedit',array("bank_id"=>$var["id"]),'编辑','load','btn-info',700,600)}>
+
+                            <{:BAICON('usercash/bankdelete',array("bank_id"=>$var["id"]),'删除','act','btn-danger','','','trash')}>
+
+                            <!-- <a target="_blank" href="<{:U('user/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn_small">管理用户</a>-->
+                        </td>
+                    </tr>
+                    </foreach>
+
+                    </tbody>
+                </table>
+                <{$page}>
+            </div>
+        </div><!--/span-->
+
+    </div><!--/row-->
+
+    <!--/row-->
+</div>
+</body>
+</html>
+
+

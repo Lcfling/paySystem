@@ -8,7 +8,7 @@ function setUid($uid){
     return true;
 }
 function clearUid(){
-    cookie('BAOCMS_TOKEN',null); 
+    cookie('BAOCMS_TOKEN',null);
     return true;
 }
 //不清楚是什么东西
@@ -21,25 +21,25 @@ function getUid(){
     return (int)$token[1];
 }
 
-function export_csv($filename,$data)   
-{   
-    header("Content-type:text/csv");   
-    header("Content-Disposition:attachment;filename=".$filename);   
-    header('Cache-Control:must-revalidate,post-check=0,pre-check=0');   
-    header('Expires:0');   
-    header('Pragma:public');   
-    echo $data;die;   
-} 
+function export_csv($filename,$data)
+{
+    header("Content-type:text/csv");
+    header("Content-Disposition:attachment;filename=".$filename);
+    header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
+    header('Expires:0');
+    header('Pragma:public');
+    echo $data;die;
+}
 
 
 function searchWordFrom() { //主要方便存入COOKIE（跟踪一个月）
-    
+
     if(!empty($_GET['tuiyitui'])){//全局的推广连接可以 主要是投放广告等监控使用
         $keyword = htmlspecialchars($_GET['tuiyitui']);
         $from = 'tui';//推广
         cookie('tui_from',$keyword,30*86400);//存放在COOKIE 一个月
     }
-    
+
     $referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
     if(strstr( $referer, 'baidu.com')){ //百度
         preg_match( "|baidu.+wo?r?d=([^\&]*)|is", $referer, $tmp );
@@ -56,11 +56,11 @@ function searchWordFrom() { //主要方便存入COOKIE（跟踪一个月）
     }elseif(strstr( $referer, 'so.com')){ //360搜索
         preg_match( "|so.+q=([^\&]*)|is", $referer, $tmp );
         $keyword = htmlspecialchars(urldecode( $tmp[1] ));
-        $from = '360';  
+        $from = '360';
     }elseif(strstr( $referer, 'sogou.com')){ //搜狗
         preg_match( "|sogou.com.+query=([^\&]*)|is", $referer, $tmp );
         $keyword = htmlspecialchars(urldecode( $tmp[1] ));
-        $from = 'sogou';    
+        $from = 'sogou';
     }else{
         return false;
     }
@@ -91,33 +91,33 @@ function baoQrCode($token,$url,$size = 8){ //生成网址的二维码 返回图�
     }
     return $file;
 }
-function is_mobile() { 
-    $user_agent = $_SERVER['HTTP_USER_AGENT']; 
-    $mobile_agents = array("240x320","acer","acoon","acs-","abacho","ahong","airness","alcatel","amoi", 
-    "android","anywhereyougo.com","applewebkit/525","applewebkit/532","asus","audio", 
-    "au-mic","avantogo","becker","benq","bilbo","bird","blackberry","blazer","bleu", 
-    "cdm-","compal","coolpad","danger","dbtel","dopod","elaine","eric","etouch","fly ", 
-    "fly_","fly-","go.web","goodaccess","gradiente","grundig","haier","hedy","hitachi", 
-    "htc","huawei","hutchison","inno","ipad","ipaq","iphone","ipod","jbrowser","kddi", 
-    "kgt","kwc","lenovo","lg ","lg2","lg3","lg4","lg5","lg7","lg8","lg9","lg-","lge-","lge9","longcos","maemo", 
-    "mercator","meridian","micromax","midp","mini","mitsu","mmm","mmp","mobi","mot-", 
-    "moto","nec-","netfront","newgen","nexian","nf-browser","nintendo","nitro","nokia", 
-    "nook","novarra","obigo","palm","panasonic","pantech","philips","phone","pg-", 
-    "playstation","pocket","pt-","qc-","qtek","rover","sagem","sama","samu","sanyo", 
-    "samsung","sch-","scooter","sec-","sendo","sgh-","sharp","siemens","sie-","softbank", 
-    "sony","spice","sprint","spv","symbian","tablet","talkabout","tcl-","teleca","telit", 
-    "tianyu","tim-","toshiba","tsm","up.browser","utec","utstar","verykool","virgin", 
-    "vk-","voda","voxtel","vx","wap","wellco","wig browser","wii","windows ce", 
-    "wireless","xda","xde","zte"); 
-    $is_mobile = false; 
-    foreach ($mobile_agents as $device) { 
-        if (stristr($user_agent, $device)) { 
-            $is_mobile = true; 
-            break; 
-        } 
-    } 
-    return $is_mobile; 
-} 
+function is_mobile() {
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $mobile_agents = array("240x320","acer","acoon","acs-","abacho","ahong","airness","alcatel","amoi",
+        "android","anywhereyougo.com","applewebkit/525","applewebkit/532","asus","audio",
+        "au-mic","avantogo","becker","benq","bilbo","bird","blackberry","blazer","bleu",
+        "cdm-","compal","coolpad","danger","dbtel","dopod","elaine","eric","etouch","fly ",
+        "fly_","fly-","go.web","goodaccess","gradiente","grundig","haier","hedy","hitachi",
+        "htc","huawei","hutchison","inno","ipad","ipaq","iphone","ipod","jbrowser","kddi",
+        "kgt","kwc","lenovo","lg ","lg2","lg3","lg4","lg5","lg7","lg8","lg9","lg-","lge-","lge9","longcos","maemo",
+        "mercator","meridian","micromax","midp","mini","mitsu","mmm","mmp","mobi","mot-",
+        "moto","nec-","netfront","newgen","nexian","nf-browser","nintendo","nitro","nokia",
+        "nook","novarra","obigo","palm","panasonic","pantech","philips","phone","pg-",
+        "playstation","pocket","pt-","qc-","qtek","rover","sagem","sama","samu","sanyo",
+        "samsung","sch-","scooter","sec-","sendo","sgh-","sharp","siemens","sie-","softbank",
+        "sony","spice","sprint","spv","symbian","tablet","talkabout","tcl-","teleca","telit",
+        "tianyu","tim-","toshiba","tsm","up.browser","utec","utstar","verykool","virgin",
+        "vk-","voda","voxtel","vx","wap","wellco","wig browser","wii","windows ce",
+        "wireless","xda","xde","zte");
+    $is_mobile = false;
+    foreach ($mobile_agents as $device) {
+        if (stristr($user_agent, $device)) {
+            $is_mobile = true;
+            break;
+        }
+    }
+    return $is_mobile;
+}
 
 function is_weixin() {
     return strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger');
@@ -127,22 +127,22 @@ function isWx() {
 }
 
 function isMail($email) {
-	$pattern = "/^[a-zA-Z][a-zA-z0-9-]*[@]([a-zA-Z0-9]*[.]){1,3}[a-zA-Z]*/";
-	if(preg_match($pattern,$email)!= 1){
-		return false;
-	}else{
-		return true;
-	}
+    $pattern = "/^[a-zA-Z][a-zA-z0-9-]*[@]([a-zA-Z0-9]*[.]){1,3}[a-zA-Z]*/";
+    if(preg_match($pattern,$email)!= 1){
+        return false;
+    }else{
+        return true;
+    }
 }
 
 function isIos(){
-	$is_iphone = (strpos($agent, 'iphone')) ? true : false; 
-	$is_ipad = (strpos($agent, 'ipad')) ? true : false;  
-	if($is_iphone==true || $is_ipad == true){
-		return true;
-	}else{
-		return false;
-	}
+    $is_iphone = (strpos($agent, 'iphone')) ? true : false;
+    $is_ipad = (strpos($agent, 'ipad')) ? true : false;
+    if($is_iphone==true || $is_ipad == true){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 //获取ip地址
@@ -164,18 +164,18 @@ function getip() {
 
 //专门给含有HTML的字段
 function niuMsubstr($str,$start,$length,$suffix){
-    
-   $str = preg_replace( "@<(.*?)>@is", "", $str);
-   return   msubstr($str, $start, $length, 'utf-8', $suffix);
+
+    $str = preg_replace( "@<(.*?)>@is", "", $str);
+    return   msubstr($str, $start, $length, 'utf-8', $suffix);
 }
 
 
 
 //专门给含有HTML的字段
 function bao_msubstr($str,$start,$length,$suffix){
-    
-   $str = preg_replace( "@<(.*?)>@is", "", $str);
-   return   msubstr($str, $start, $length, 'utf-8', $suffix);
+
+    $str = preg_replace( "@<(.*?)>@is", "", $str);
+    return   msubstr($str, $start, $length, 'utf-8', $suffix);
 }
 
 
@@ -231,28 +231,28 @@ function formatTime($time) {
 
 //时间格式化2
 function pincheTime($time) {
-	 $today  =  strtotime(date('Y-m-d')); //今天零点
-      $here   =  (int)(($time - $today)/86400) ; 
-	  if($here==1){
-		  return '明天';  
-	  }
-	  if($here==2) {
-		  return '后天';  
-	  }
-	  if($here>=3 && $here<7){
-		  return $here.'天后';  
-	  }
-	  if($here>=7 && $here<30){
-		  return '一周后';  
-	  }
-	  if($here>=30 && $here<365){
-		  return '一个月后';  
-	  }
-	  if($here>=365){
-		  $r = (int)($here/365).'年后'; 
-		  return   $r;
-	  }
-	 return '今天';
+    $today  =  strtotime(date('Y-m-d')); //今天零点
+    $here   =  (int)(($time - $today)/86400) ;
+    if($here==1){
+        return '明天';
+    }
+    if($here==2) {
+        return '后天';
+    }
+    if($here>=3 && $here<7){
+        return $here.'天后';
+    }
+    if($here>=7 && $here<30){
+        return '一周后';
+    }
+    if($here>=30 && $here<365){
+        return '一个月后';
+    }
+    if($here>=365){
+        $r = (int)($here/365).'年后';
+        return   $r;
+    }
+    return '今天';
 }
 /*
  * 经度纬度 转换成距离
@@ -359,7 +359,7 @@ function delFileByDir($dir) {
     $dh = opendir($dir);
     while ($file = readdir($dh)) {
         if ($file != "." && $file != "..") {
-           
+
             $fullpath = $dir . "/" . $file;
             if(is_dir($fullpath)) {
                 delFileByDir($fullpath);
@@ -400,11 +400,11 @@ function LinkTo($ctl, $vars = array(),$var2=array()) {
 function IpToArea($_ip) {
     static $IpLocation;
     if(empty($IpLocation)){
-         import('ORG.Net.IpLocation'); // 
-         $IpLocation = new IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
+        import('ORG.Net.IpLocation'); //
+        $IpLocation = new IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
     }
     $arr = $IpLocation->getlocation($_ip);
- 
+
     return $arr['country'] . $arr['area'];
 }
 
@@ -470,12 +470,12 @@ function FZBA($url = '', $vars = '', $title = '', $mini = "", $class = "", $widt
  * @return string
  */
 function BA($url = '', $vars = '', $title = '', $mini = "", $class = "", $width = '', $height = '') {
-	static $admin;
+    static $admin;
     if(empty($admin)){
-		$admin = session('admin');
-		$admin['menu_list'] = D('RoleMaps')->getMenuIdsByRoleId($admin['role_id']);
+        $admin = session('admin');
+        $admin['menu_list'] = D('RoleMaps')->getMenuIdsByRoleId($admin['role_id']);
     }
-	if ($admin['role_id'] != 1) {
+    if ($admin['role_id'] != 1) {
         $menu = D('Menu')->fetchAll();
         $menu_id = 0;
         foreach ($menu as $k => $v) {
@@ -484,7 +484,7 @@ function BA($url = '', $vars = '', $title = '', $mini = "", $class = "", $width 
             }
         }
         if (empty($menu_id) || !isset($admin['menu_list'][$menu_id])) {
-			
+
             $url = 'javascript:void(0);';
             $title = '未授权';
             $mini = '';
@@ -504,13 +504,56 @@ function BA($url = '', $vars = '', $title = '', $mini = "", $class = "", $width 
         $c = ' class="' . $class . ' " ';
     }
     if (!empty($width)) {
-        $w = ' w="' . $width . ' " ';
+        $w = ' w="' . $width . '" ';
     }
     if (!empty($width)) {
-        $h = ' h="' . $height . ' " ';
+        $h = ' h="' . $height . '" ';
     }
 
     return '<a href="' . $url . '" ' . $m . $c . $w . $h . ' >' . $title . '</a>';
+}
+function BAICON($url = '', $vars = '', $title = '', $mini = "", $class = "", $width = '', $height = '',$icon='zoom-in') {
+    static $admin;
+    if(empty($admin)){
+        $admin = session('admin');
+        $admin['menu_list'] = D('RoleMaps')->getMenuIdsByRoleId($admin['role_id']);
+    }
+    if ($admin['role_id'] != 1) {
+        $menu = D('Menu')->fetchAll();
+        $menu_id = 0;
+        foreach ($menu as $k => $v) {
+            if ($v['menu_action'] == $url) {
+                $menu_id = (int) $k;
+            }
+        }
+        if (empty($menu_id) || !isset($admin['menu_list'][$menu_id])) {
+
+            $url = 'javascript:void(0);';
+            $title = '未授权';
+            $mini = '';
+        } else {
+            $url = U($url, $vars);
+        }
+    } else {
+        $url = U($url, $vars);
+    }
+
+    //权限判断 暂时忽略，后面补充
+    $m = $c = $h = $w = '';
+    if (!empty($mini)) {
+        $m = ' mini="' . $mini . '"  ';
+    }
+    if (!empty($class)) {
+        $c = ' class="btn ' . $class . ' " ';
+    }
+    if (!empty($width)) {
+        $w = ' w="' . $width . '" ';
+    }
+    if (!empty($width)) {
+        $h = ' h="' . $height . '" ';
+    }
+
+    return '<a href="' . $url . '" ' . $m . $c . $w . $h . ' ><i class="halflings-icon white ' .$icon. '"></i></a>';
 }
 
 /**
@@ -518,7 +561,7 @@ function BA($url = '', $vars = '', $title = '', $mini = "", $class = "", $width 
  */
 function SecurityEditorHtml($str) {
     $farr = array(
-        "/\s+/", //过滤多余的空白 
+        "/\s+/", //过滤多余的空白
         "/<(\/?)(script|i?frame|style|html|body|title|link|meta|\?|\%)([^>]*?)>/isU",
         "/(<[^>]*)on[a-zA-Z]+\s*=([^>]*>)/isU"
     );
@@ -591,8 +634,8 @@ function isPhone($string) {
  */
 function isMobile($string) {
     if(preg_match('/^[1]+[3,4,5,7,8]+\d{9}$/', $string))
-            return true;
-        return false;
+        return true;
+    return false;
     //return ctype_digit($string) && (11 == strlen($string)) && ($string[0] == 1);
 }
 
@@ -616,17 +659,17 @@ function isQQ($string) {
  *
  * @param string $fileName
  * @return boolean
- 
-function isImage($fileName) {
-    $ext = explode('.', $fileName);
-    $ext_seg_num = count($ext);
-    if ($ext_seg_num <= 1)
-        return false;
 
-    $ext = strtolower($ext[$ext_seg_num - 1]);
-    return in_array($ext, array('jpeg', 'jpg', 'png', 'gif'));
+function isImage($fileName) {
+$ext = explode('.', $fileName);
+$ext_seg_num = count($ext);
+if ($ext_seg_num <= 1)
+return false;
+
+$ext = strtolower($ext[$ext_seg_num - 1]);
+return in_array($ext, array('jpeg', 'jpg', 'png', 'gif'));
 }
-*/
+ */
 function isImage($fileName) {
     $ext = explode('.', $fileName);
     $ext_seg_num = count($ext);
@@ -1122,41 +1165,41 @@ function auto_charset($fContents, $from = 'gbk', $to = 'utf-8') {
 
 /* 提取所有图片 */
 function getImgs($content,$order='all'){
-	$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
-	preg_match_all($pattern,$content,$match);
-	if(isset($match[1])&&!empty($match[1])){
-		if($order==='all'){
-			return $match[1];
-		}
-		if(is_numeric($order)&&isset($match[1][$order])){
-			return $match[1][$order];
-		}
-	}
-	return '';
+    $pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
+    preg_match_all($pattern,$content,$match);
+    if(isset($match[1])&&!empty($match[1])){
+        if($order==='all'){
+            return $match[1];
+        }
+        if(is_numeric($order)&&isset($match[1][$order])){
+            return $match[1][$order];
+        }
+    }
+    return '';
 }
 
 
 /*对象转换为数组*/
-function object_array($array) {  
-    if(is_object($array)) {  
-        $array = (array)$array;  
-     } if(is_array($array)) {  
-         foreach($array as $key=>$value) {  
-             $array[$key] = object_array($value);  
-             }  
-     }  
-     return $array;  
+function object_array($array) {
+    if(is_object($array)) {
+        $array = (array)$array;
+    } if(is_array($array)) {
+        foreach($array as $key=>$value) {
+            $array[$key] = object_array($value);
+        }
+    }
+    return $array;
 }
 
 //重复数组
 function a_array_unique($array){
-   $out = array();
-   foreach ($array as $key=>$value){
-       if (!in_array($value, $out)){
-           $out[$key] = $value;
-       }
-   }
-   return $out;
+    $out = array();
+    foreach ($array as $key=>$value){
+        if (!in_array($value, $out)){
+            $out[$key] = $value;
+        }
+    }
+    return $out;
 }
 
 //坐标范围
@@ -1166,34 +1209,34 @@ function returnSquarePoint($lng, $lat,$distance){
     $dlat = $distance/6378.2;
     $dlat = rad2deg($dlat);
     return array(
-		'left-top'=>array('lat'=>$lat + $dlat,'lng'=>$lng-$dlng),
-		'right-top'=>array('lat'=>$lat + $dlat, 'lng'=>$lng + $dlng),
-		'left-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng - $dlng),
-		'right-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng + $dlng)
-	);
+        'left-top'=>array('lat'=>$lat + $dlat,'lng'=>$lng-$dlng),
+        'right-top'=>array('lat'=>$lat + $dlat, 'lng'=>$lng + $dlng),
+        'left-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng - $dlng),
+        'right-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng + $dlng)
+    );
 }
 
 //偏移换算
 function placeToBaidu($lng,$lat){
-	$p = 3.14159265358979324 * 6378.2 / 360.0;
-	$x = $lng;
-	$y = $lat;
-	$z = sqrt($x * $x + $y * $y) + 0.00002 * sin($y * $p); 
-	$theta = atan2($y, $x) + 0.000003 * cos($x * $p); 
-	$bd_lng = $z * cos($theta) + 0.0065;
-	$bd_lat = $z * sin($theta) + 0.006;
-	return array('lng' => $bd_lng ,'lat' => $bd_lat);
+    $p = 3.14159265358979324 * 6378.2 / 360.0;
+    $x = $lng;
+    $y = $lat;
+    $z = sqrt($x * $x + $y * $y) + 0.00002 * sin($y * $p);
+    $theta = atan2($y, $x) + 0.000003 * cos($x * $p);
+    $bd_lng = $z * cos($theta) + 0.0065;
+    $bd_lat = $z * sin($theta) + 0.006;
+    return array('lng' => $bd_lng ,'lat' => $bd_lat);
 }
 //carrot添加全局归递找父级
 function get_all_parent ($array, $cate_id) {
-	$arr = array();
-	foreach ($array as $v) {
-		if ($v['cate_id'] == $cate_id) {
-			$arr[] = $v;
-			$arr = array_merge($arr, get_all_parent($array, $v['parent_id']));
-		}
-	}
-	return $arr;
+    $arr = array();
+    foreach ($array as $v) {
+        if ($v['cate_id'] == $cate_id) {
+            $arr[] = $v;
+            $arr = array_merge($arr, get_all_parent($array, $v['parent_id']));
+        }
+    }
+    return $arr;
 }
 
 /*数据库备份*/
@@ -1205,47 +1248,47 @@ function format_bytes($size, $delimiter = '') {
 
 
 function config_img($img){
-	if(strstr($img,"http")){
-	 	$img = $img;
-	}elseif(empty($img)){
-		$img = __ROOT__.'/attachs/default.jpg';
-	}else{
-		if(strstr($img,"attachs")){
-			$img = __ROOT__.'/'.$img;
-		}else{
-			$img = __ROOT__.'/attachs/'.$img;
-		}
-	}
-	return  $img;
-} 
+    if(strstr($img,"http")){
+        $img = $img;
+    }elseif(empty($img)){
+        $img = __ROOT__.'/attachs/default.jpg';
+    }else{
+        if(strstr($img,"attachs")){
+            $img = __ROOT__.'/'.$img;
+        }else{
+            $img = __ROOT__.'/attachs/'.$img;
+        }
+    }
+    return  $img;
+}
 
 
 function config_weixin_img($img){
-	if(strstr($img,"http")){
-	 	$img = $img;
-	}elseif(empty($img)){
-		$img = __HOST__ .'/attachs/default.jpg';
-	}else{
-		if(strstr($img,"attachs")){
-			$img = __HOST__ . '/'.$img;
-		}else{
-			$img = __HOST__ . '/attachs/'.$img;
-		}
-	}
-	return  $img;
-} 
+    if(strstr($img,"http")){
+        $img = $img;
+    }elseif(empty($img)){
+        $img = __HOST__ .'/attachs/default.jpg';
+    }else{
+        if(strstr($img,"attachs")){
+            $img = __HOST__ . '/'.$img;
+        }else{
+            $img = __HOST__ . '/attachs/'.$img;
+        }
+    }
+    return  $img;
+}
 
 
 function config_user_name($user_name){
-	if(strstr($user_name,'@')){
-	 	$user_name = substr_replace($user_name,'****',3,4);
-	}elseif(preg_match("/1[3458]{1}\d{9}$/",$user_name)){
-		$user_name = substr_replace($user_name,'****',3,4);
-	}else{
-		$user_name = $user_name;
-	}
-	return  $user_name;
-} 
+    if(strstr($user_name,'@')){
+        $user_name = substr_replace($user_name,'****',3,4);
+    }elseif(preg_match("/1[3458]{1}\d{9}$/",$user_name)){
+        $user_name = substr_replace($user_name,'****',3,4);
+    }else{
+        $user_name = $user_name;
+    }
+    return  $user_name;
+}
 //分割缩略图设置尺寸
 function thumbSize($thumb = '200X200',$key = 0){
     if(is_array($thumb)){
@@ -1266,76 +1309,96 @@ function array_comparison($v1, $v2) { //比较数组
     }
 }
 function getcwdOL(){
-   $total = $_SERVER[PHP_SELF];
-   $file = explode("/", $total);
-   $file = $file[sizeof($file) - 1];
-  return substr($total, 0, strlen($total) - strlen($file) - 1);
+    $total = $_SERVER[PHP_SELF];
+    $file = explode("/", $total);
+    $file = $file[sizeof($file) - 1];
+    return substr($total, 0, strlen($total) - strlen($file) - 1);
 }
 
 function getSiteUrl(){
-  $host = $_SERVER[SERVER_NAME];
-  $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
-  return "http://" . $host . $port . getcwdOL();
+    $host = $_SERVER[SERVER_NAME];
+    $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
+    return "http://" . $host . $port . getcwdOL();
 }
 
 //格式化打印函数
 function p($array) {
-	dump ( $array, 1, '<pre style=font-size:14px;color:#00ae19;>', 0 );
+    dump ( $array, 1, '<pre style=font-size:14px;color:#00ae19;>', 0 );
 }
 
-//加密
-function encrypt($data, $key)
-{
-    $key    =    md5($key);
-    $x        =    0;
-    $len    =    strlen($data);
-    $l        =    strlen($key);
-    $char="";
-    $str="";
-    for ($i = 0; $i < $len; $i++)
-    {
-        if ($x == $l)
-        {
-            $x = 0;
-        }
-        $char .= $key{$x};
-        $x++;
+function DebugLog($text,$file){
+    if(!$file){
+        $file="system";
     }
-    for ($i = 0; $i < $len; $i++)
-    {
-        $str .= chr(ord($data{$i}) + (ord($char{$i})) % 256);
-    }
-    return base64_encode($str);
+    file_put_contents ( "./".$file.date('Ymd',time()).".txt", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
 }
-//解密
-function decrypt($data, $key)
-{
-    $key = md5($key);
-    $x = 0;
-    $data = base64_decode($data);
-    $len = strlen($data);
-    $l = strlen($key);
-    $char="";
-    $str="";
-    for ($i = 0; $i < $len; $i++)
-    {
-        if ($x == $l)
-        {
-            $x = 0;
+
+/**
+
+ * 数据导出
+
+ * @param array $title   标题行名称
+
+ * @param array $data   导出数据
+
+ * @param string $fileName 文件名
+
+ * @param string $savePath 保存路径
+
+ * @param $type   是否下载  false--保存   true--下载
+
+ * @return string   返回文件全路径
+
+ * @throws PHPExcel_Exception
+
+ * @throws PHPExcel_Reader_Exception
+
+ */
+
+function exportExcel($title=array(), $data=array(), $fileName='', $savePath='./', $isDown=false){
+
+    include_once(LIB_PATH.'Excel/PHPExcel.php');
+    $obj = new PHPExcel();
+    //横向单元格标识
+    $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ');
+    $obj->getActiveSheet(0)->setTitle('sheet名称');   //设置sheet名称
+    $_row = 1;   //设置纵向单元格标识
+    if($title){
+        $_cnt = count($title);
+        $obj->getActiveSheet(0)->mergeCells('A'.$_row.':'.$cellName[$_cnt-1].$_row);   //合并单元格
+        $obj->setActiveSheetIndex(0)->setCellValue('A'.$_row, '数据导出：'.date('Y-m-d H:i:s'));  //设置合并后的单元格内容
+        $_row++;
+        $i = 0;
+        foreach($title AS $v){   //设置列标题
+            $obj->setActiveSheetIndex(0)->setCellValue($cellName[$i].$_row, $v);
+            $i++;
         }
-        $char .= substr($key, $x, 1);
-        $x++;
+        $_row++;
     }
-    for ($i = 0; $i < $len; $i++)
-    {
-        if (ord(substr($data, $i, 1)) < ord(substr($char, $i, 1)))
-        {
-            $str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));
-        }
-        else
-        {
-            $str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));
+    //填写数据
+    if($data){
+        $i = 0;
+        foreach($data AS $_v){
+            $j = 0;
+            foreach($_v AS $_cell){
+                $obj->getActiveSheet(0)->setCellValue($cellName[$j] . ($i+$_row), $_cell);
+                $j++;
+            }
+            $i++;
         }
     }
-    return $str;
+    //文件名处理
+    if(!$fileName){
+        $fileName = uniqid(time(),true);
+    }
+    $objWrite = PHPExcel_IOFactory::createWriter($obj, 'Excel2007');
+    if($isDown){   //网页下载
+        header('pragma:public');
+        header("Content-Disposition:attachment;filename=$fileName.xls");
+        $objWrite->save('php://output');exit;
+    }
+    $_fileName = iconv("utf-8", "gb2312", $fileName);   //转码
+    $_savePath = $savePath.$_fileName.'.xlsx';
+    $objWrite->save($_savePath);
+    return $savePath.$fileName.'.xlsx';
 }

@@ -1,0 +1,76 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">提现管理</li>
+        <li class="li2">申请提现</li>
+
+    </ul>
+</div>
+<div class="listBox clfx">
+
+    <div class="right" >
+        x
+
+        <div class="clear"></div>
+    </div>
+
+    <div class="menuManage">
+
+
+
+        <form target="baocms_frm" action="<{:U('withdraw/withdrawsearch')}>" method="post">
+
+            <div class="mainScAdd">
+
+                <div class="tableBox">
+
+
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                        <tr>
+                            <td class="lfTdBt">提现额度：</td>
+                            <td class="rgTdBt"><input type="text" name="data[money]" value="" class="scAddTextName w200" />
+                                <code>可提余额:<{$counts.money}>元</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">到账银行信息：</td>
+                            <td class="rgTdBt">
+                                <input type="hidden" name="data[bank_id]" value="<{$bankinfo.id}>" />
+                                <{$bankinfo.username}>&nbsp;&nbsp;<{$bankinfo.bankname}>&nbsp;&nbsp;<{$bankinfo.banknum}>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lfTdBt">提现密码：</td>
+                            <td class="rgTdBt"><input type="password" name="data[password]" value="" class="scAddTextName w200" />
+                                <code>初始密码:123456</code>
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+                </div>
+
+
+
+                <div class="smtQr"><input type="submit" value="申请提现" class="smtQrIpt" /></div>
+
+
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+</div>
+
+<include  file='public:footer'/>

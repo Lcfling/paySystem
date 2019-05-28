@@ -1,46 +1,76 @@
-<include  file='public:header'/>    
-<div class="mainBt">
-    <ul>
-        <li class="li1">系统</li>
-        <li class="li2">管理员管理</li>
-        <li class="li2 li3">角色管理</li>
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">首页</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">管理员管理</a></li>
     </ul>
-</div>
-<div class="main-jsgl">
-    <p class="attention"><span>注意：</span>每个角色有对应的权限，默认超级管理员角色不能删除！</p>
-    <div class="jsglNr" style="  border-top: 1px solid #e1e6eb;">
-        <div class="selectNr">
-            <div class="left">
-                <{:BA('role/create','','添加角色','load','',600,220)}>
-            </div>
-            <form method="post" action="<{:U('role/index')}>">
-                <div class="right">
-                    <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="  搜索"  class="inptButton" />
+
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>管理员管理</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
                 </div>
-            </form>
-        </div>
-        <div class="tableBox">
-            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
-                <tr>
-                    <td>用户ID</td>
-                    <td>用户名</td>
-                    <td>操作</td>
-                </tr>
-                <foreach name="list" item="var">
+            </div>
+            <div class="box-content"> <{:BA('role/create','','添加角色','load','btn btn-success','600','220')}></div>
+            <div class="box-content">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
                     <tr>
-                        <td><{$var.role_id}></td>
-                        <td><{$var.role_name}></td>
-                        <td><eq name='var.role_id' value="1">
-                            没有可操作的
-                    <else/>
-                    <{:BA('role/auth',array("role_id"=>$var['role_id']),'角色权限','','remberBtn')}>
-                    <{:BA('role/delete',array("role_id"=>$var['role_id']),'删除','act','remberBtn')}>
-                    </eq></td>
+                        <td>用户ID</td>
+                        <td>用户名</td>
+                        <td>操作</td>
                     </tr>
-                </foreach>
-            </table>
-            <{$page}>
-        </div>
-    </div>
+                    </thead>
+                    <tbody>
+                    <!--<tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-success" href="#">
+                                <i class="halflings-icon white zoom-in"></i>
+                            </a>
+                            <a class="btn btn-info" href="#">
+                                <i class="halflings-icon white edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="halflings-icon white trash"></i>
+                            </a>
+                        </td>
+                    </tr>-->
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.role_id}></td>
+                            <td><{$var.role_name}></td>
+                            <td><eq name='var.role_id' value="1">
+                                没有可操作的
+                                <else/>
+                                <{:BA('role/auth',array("role_id"=>$var['role_id']),'角色权限','','btn btn-success')}>
+                                <{:BA('role/edit',array("role_id"=>$var['role_id']),'编辑','load','btn btn-info','600','450')}>
+                                <{:BA('role/delete',array("role_id"=>$var['role_id']),'删除','act','btn btn-danger')}>
+                            </eq></td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+                <div class="pagination pagination-centered"><{$page}></div>
+            </div>
+        </div><!--/span-->
+
+    </div><!--/row-->
+
+    <!--/row-->
 </div>
-<include  file='public:footer'/>       
+</body>
+</html>

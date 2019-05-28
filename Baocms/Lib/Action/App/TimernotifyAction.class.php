@@ -171,13 +171,36 @@ class TimernotifyAction extends Action
      * 订单5分钟更改为过期
      */
     public function setstale(){
-        $bg_time = strtotime(TODAY);
-        $bj_time = $bg_time - 300;
+        $bj_time = time() - 300;
         $Order=D('Order');
         if($orderinfo = $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
             $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
         }
+    }
 
+    /**
+     * 订单3个小时解冻订单并返回跑分
+     */
+    public function orderunfreeze(){
+        $bj_time = time() - 10800;
+        $Order=D('Order');
+        if($orderinfo = $Order->where(array('status'=>2,'dj_status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
+            $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
+            foreach ($orderinfo as $k=>$v){
+                $data=array(
+                    'user_id'=>$orderinfo['user_id'],
+                    'score'=>$orderinfo['tradeMoney'],
+                    'erweima_id'=>$orderinfo['erweima_id'],
+                    'business_code'=>$orderinfo['business_code'],
+                    'out_uid'=>$orderinfo['out_uid'],
+                    'status'=>4,
+                    'payType'=>$orderinfo['payType'],
+                    'remark'=>'解冻',
+                    'creatime'=>time()
+                );
+                D('Account_log')->add($data);
+            }
+        }
     }
 
     /**

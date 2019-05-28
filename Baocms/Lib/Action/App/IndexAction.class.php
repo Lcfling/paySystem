@@ -12,8 +12,9 @@ class IndexAction extends Action
         $data["out_order_sn"] = "n1909";//订单号
         $data["tradeMoney"] = $_GET['money'];//
         $data["notifyUrl"] = "http://91pai.webziti.com/app/index/notifyUrl";//回调
-        $data["sign"] = $this->getSign($data);//签名
-        $data["business_code"] = '30001';//商户ID
+        $key = '96075976683e158558458fabe7dab859';
+        $data["sign"] = $this->getSign($data,$key);//签名
+        $data["business_code"] = $_GET['business_code'];
         $url = 'http://91pai.webziti.com/app/orderym/kuaifupay';
         $res = $this->https_post_kf($url,$data);
         print_r($res);exit();
@@ -36,7 +37,7 @@ class IndexAction extends Action
         }
     }
 
-    private function getSign($Obj)
+    private function getSign($Obj,$key)
     {
 
         foreach ($Obj as $k => $v) {
@@ -47,7 +48,7 @@ class IndexAction extends Action
         $String = $this->formatBizQueryParaMap($Parameters, false);
 //        echo '【string1】' . $String . '</br>';
         //签名步骤二：在string后加入KEY
-        $String = $String . "&accessKey=" . '7a50b63265f5db56bf184e4320a70f8a';
+        $String = $String . "&accessKey=" . $key;
         //echo "【string2】".$String."</br>";
         //签名步骤三：MD5加密
         $String = md5($String);

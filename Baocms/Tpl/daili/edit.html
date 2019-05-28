@@ -1,0 +1,116 @@
+<include  file='public:header'/>
+
+<div class="listBox clfx">
+
+
+
+    <div class="menuManage">
+
+
+
+        <form target="baocms_frm" action="<{:U('daili/edit',array('daili_id'=>$detail['admin_id']))}>" method="post">
+
+
+
+            <div class="mainScAdd">
+
+
+
+                <div class="tableBox">
+
+
+
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+
+
+                        <tr>
+
+
+
+                            <td class="lfTdBt">商户号：</td>
+
+                            <td class="rgTdBt"><input type="text" name="data[brandid]" disabled="disabled" value="<{$detail.brandid|default=''}>" class="scAddTextName w200" />
+
+                            </td>
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="lfTdBt">费率：</td>
+
+                            <td class="rgTdBt"><input type="text" name="data[rate]" value="<{$detail.rate|default=''}>" class="scAddTextName w200" />
+<code>请输入百分比数字</code>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="lfTdBt">登录账号：</td>
+
+                            <td class="rgTdBt"><input type="text" name="data[username]" value="<{$detail.username|default=''}>" class="scAddTextName w200" />
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="lfTdBt">商户备注：</td>
+
+                            <td class="rgTdBt"><input type="text" name="data[remark]" value="<{$detail.remark|default=''}>" class="scAddTextName w200" />
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+
+                </div>
+
+
+
+                <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+
+
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+</div>
+
+<include  file='public:footer'/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

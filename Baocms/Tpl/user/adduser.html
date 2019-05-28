@@ -1,0 +1,103 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">码商管理</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">添加码商</a></li>
+    </ul>
+
+
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>添加码商</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+
+                    <form target="baocms_frm" class="form-horizontal" action="<{:U('User/adduser')}>" method="post">
+                        <div class="control-group">
+                            <label class="control-label" for="inputname">手机号(账号)</label>
+
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="inputname" name="account" type="text" value="<{$detail.username|default=''}>">
+                                <strong>请填写手机号</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inputbank">密码</label>
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="inputbank" name="password" type="password" value="<{$detail.bankname|default=''}>">
+
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="inputpid">上级id</label>
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="inputpid" name="pid" type="text" value="<{$detail.banknum|default=''}>">
+                                <strong>没有则不填</strong>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="inputpid">身份</label>
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="inputshenfen" name="shenfen" type="text" value="<{$detail.banknum|default=''}>">
+                                <strong>1-2-3</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inputpid">佣金费率</label>
+                            <div class="controls">
+                                <input class="input-xlarge focused" id="inputrate" name="rate" type="text" value="<{$detail.banknum|default=''}>">
+                                <strong>请填写数字 例:1.5</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">确认添加</button>
+                            <!--<button class="btn">Cancel</button>-->
+                        </div>
+                    </form>
+
+
+
+            </div>
+        </div><!--/span-->
+
+    </div><!--/row-->
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

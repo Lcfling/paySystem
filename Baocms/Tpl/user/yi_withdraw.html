@@ -1,0 +1,146 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">码商提现管理</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">已结算</a></li>
+    </ul>
+
+    <div class="row-fluid sortable">
+
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>已结算</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="row-fluid sortable">
+                    <div class="box span12">
+                        <div class="box-header" data-original-title>
+                            <h2><i class="halflings-icon white edit"></i><span class="break"></span>搜索选项</h2>
+                            <div class="box-icon">
+                                <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <form class="form-horizontal" method="post" action="<{:U('user/yi_withdraw')}>">
+                                <fieldset>
+                                    <div class="control-group">
+                                        <label class="control-label" for="focusedInput">码商ID</label>
+                                        <div class="controls">
+                                            <input class="input-xlarge focused" name="user_id" id="focusedInput" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <!--<div class="control-group">-->
+                                        <!--<label class="control-label" for="focusedInput2">订单号</label>-->
+                                        <!--<div class="controls">-->
+                                            <!--<input class="input-xlarge focused" name="ordid" id="focusedInput2" type="text" value="">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="date01">开始时间</label>
+                                        <div class="controls">
+                                            <input type="text" name="bg_date" class="input-xlarge" id="date01" value=""  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="date01">结束时间</label>
+                                        <div class="controls">
+                                            <input type="text" name="end_date" class="input-xlarge" id="date02" value=""  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">搜索</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                        </div>
+                    </div><!--/span-->
+
+                </div>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>申请时间</td>
+                        <td>提现额度</td>
+                        <td>开户人</td>
+                        <td>开户行</td>
+                        <td>卡号</td>
+                        <td>状态</td>
+                        <td>通过时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-success" href="#">
+                                <i class="halflings-icon white zoom-in"></i>
+                            </a>
+                            <a class="btn btn-info" href="#">
+                                <i class="halflings-icon white edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="halflings-icon white trash"></i>
+                            </a>
+                        </td>
+                    </tr>-->
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td>
+                                <{$var.user_id}>
+
+                            </td>
+                            <td>
+
+                                <{$var.creatime|date='Y-m-d H:i:s', ###}>
+                            </td>
+
+                            <td>
+                                <{$var.money}>
+                            </td>
+                            <td>
+                                <{$var.name}>
+
+                            </td>
+                            <td>
+                                <{$var.deposit_name}>
+                            </td>
+                            <td>
+                                <{$var.deposit_card}>
+
+                            </td>
+                            <td>
+                                打款成功
+
+                            </td>
+                            <td>
+                                <{$var.withdraw_time|date='Y-m-d H:i:s', ###}>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+                <div class="pagination pagination-centered"><{$page}></div>
+            </div>
+        </div><!--/span-->
+
+    </div><!--/row-->
+
+    <!--/row-->
+</div>
+</body>
+</html>

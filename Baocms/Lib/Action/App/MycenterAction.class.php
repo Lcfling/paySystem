@@ -38,9 +38,10 @@ class MycenterAction extends CommonAction{
     public function recharge_list(){
         if($this->isPost()){
             $user_id = $this->uid;
-            $list =D('Account_log')->where(array('user_id'=>$user_id,'status'=>1))->field('score,status,creatime')->select();
+            $list =D('Account_log')->where(array('user_id'=>$user_id,'status'=>1))->order('creatime desc')->field('score,status,creatime')->select();
             foreach ($list as $k=>&$v){
                 $v['money'] = $v['score']/100;
+                $v['creatime']= date('Y/m/d H:i:s',$v['creatime']);
             }
             $this->ajaxReturn($list,'请求成功!',1);
         }else{
@@ -60,7 +61,7 @@ class MycenterAction extends CommonAction{
             if($money > $tolscore){
                 $this->ajaxReturn('','提现金额大于总金额!',0);
             }
-            if($userinfo['zf_pwd']){
+            if(empty($userinfo['zf_pwd'])){
                 $this->ajaxReturn('','未设置支付密码,请去设置!',2);
             }
             if($userinfo['take_status'] == 1){
@@ -86,7 +87,7 @@ class MycenterAction extends CommonAction{
             if($money > $tolscore){
                 $this->ajaxReturn('','提现金额大于总金额!',0);
             }
-            if($userinfo['zf_pwd']){
+            if(empty($userinfo['zf_pwd'])){
                 $this->ajaxReturn('','未设置支付密码,请去设置!',2);
             }
             if($userinfo['take_status'] == 1){
@@ -98,12 +99,12 @@ class MycenterAction extends CommonAction{
             $data =array(
                 'user_id'=>$user_id,
                 'order_no'=>$this->getrequestId(),
-                'mobile'=>$userinfo,
+                'mobile'=>$userinfo['mobile'],
                 'money'=>$money,
-                'wx_name'=>$userinfo,
-                'name'=>$userinfo,
-                'deposit_name'=>$userinfo,
-                'deposit_card'=>$userinfo,
+                'wx_name'=>$userinfo['wx_name'],
+                'name'=>$userinfo['name'],
+                'deposit_name'=>$userinfo['deposit_name'],
+                'deposit_card'=>$userinfo['deposit_card'],
                 'creatime'=>time(),
             );
             $res = D('Withdraw')->add($data);
@@ -129,7 +130,7 @@ class MycenterAction extends CommonAction{
     public function withdraw_list(){
         if($this->isPost()){
             $user_id = $this->uid;
-            $list = D('Withdraw')->where(array('user_id'=>$user_id))->select();
+            $list = D('Withdraw')->where(array('user_id'=>$user_id))->order('creatime desc')->select();
             foreach ($list as $k=>&$v){
                 $v['money']=$v['money']/100;
                 $v['creatime']= date('Y/m/d H:i:s',$v['creatime']);
@@ -226,10 +227,10 @@ class MycenterAction extends CommonAction{
             $user_id = $this->uid;
             $listkey = $_POST['list'];
             $type =$_POST['type'];
-            $qrcodeinfo = D('Erweima')->where(array('user_id'=>$user_id,'list'=>$listkey,'type'=>$type))->select();
+            $qrcodeinfo = D('Erweima')->where(array('status'=>0,'user_id'=>$user_id,'list'=>$listkey,'type'=>$type))->select();
             if($qrcodeinfo){
                 foreach ($qrcodeinfo as $k=>&$v){
-                    $v['edu'] = $v['edu']/100;
+                    $v['edu'] = number_format($v['edu']/100,2);
                     $v['creatime'] = date('Y/m/d H:i:s',$v['creatime']);
                 }
                 $this->ajaxReturn($qrcodeinfo,'请求成功!',1);
@@ -248,12 +249,14 @@ class MycenterAction extends CommonAction{
         if($this->isPost()){
             $user_id = $this->uid;
             $id = $_POST['id'];
-            if(D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->find()){
+            if($list =D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->find()){
                 $savestatus = D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->field('status,savetime')->save(array('status'=>1,'savetime'=>time()));
+                $moneys = $list['list'];
+                Cac()->lRem("erweimas".$moneys.$user_id,0,$id);
                 if($savestatus){
-                    $this->ajaxReturn('','更改成功!',1);
+                    $this->ajaxReturn('','删除成功!',1);
                 }else{
-                    $this->ajaxReturn('','更改失败!',0);
+                    $this->ajaxReturn('','删除失败!',0);
                 }
             }
         }else{
@@ -298,13 +301,13 @@ class MycenterAction extends CommonAction{
     }
 
     /**
-     * 创建推广码
+     * 创建邀请码
      */
     public function createcode(){
         if($this->isPost()){
             $user_id = $this->uid;
             $useinfo =$this->member;
-            $imsinum =D('Imsi')->getimsinum($user_id);
+            $imsinum =D('Imsi')->getprinum($user_id);
             if($useinfo['shenfen']>2){
                 $this->ajaxReturn('','无权限!',0);
             }
@@ -337,6 +340,22 @@ class MycenterAction extends CommonAction{
     }
 
     /**
+     * 邀请码列表
+     */
+    public function codelist(){
+        if($this->isPost()){
+            $user_id = $this->uid;
+            $imsilist = D('Imsi')->where(array('user_id'=>$user_id,'status'=>0))->select();
+            foreach ($imsilist as $k=>&$v){
+                $v['creatime'] = date('Y/m/d H:i:s',$v['creatime']);
+            }
+            $this->ajaxReturn($imsilist,'请求成功!',1);
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
      * 下发码数量
      */
      public function issuecode(){
@@ -346,7 +365,14 @@ class MycenterAction extends CommonAction{
              $issuenum = (int)$_POST['issuenum'];
              $bind_id = $_POST['bind_id'];
              $imsinum =D('Imsi')->getimsinum($user_id);
-             if((int)$issuenum > $useinfo['imsi_num'] - (int)$imsinum){
+             $imsiprinum =D('Imsi')->getprinum($user_id);
+             if(empty($issuenum)){
+                 $this->ajaxReturn('','未填写邀请码数量!',0);
+             }
+             if(empty($bind_id)){
+                 $this->ajaxReturn('','下发的代理商id未填写!',0);
+             }
+             if((int)$issuenum > $useinfo['imsi_num'] - (int)$imsinum - (int)$imsiprinum){
                  $this->ajaxReturn('','邀请码数量不够!',0);
              }
              D('Users')->where(array('user_id'=>$bind_id))->setInc('imsi_num',$issuenum);
@@ -373,10 +399,11 @@ class MycenterAction extends CommonAction{
                 $this->ajaxReturn('','费率不能超过自己的!',0);
             }
             $saverate =D('Users')->where(array('user_id'=>$bind_id))->field('rate')->save(array('rate'=>$pronum));
+            $sql = D('Users')->getLastSql();
             if($saverate){
                 $this->ajaxReturn('','费率更改成功!',1);
             }else{
-                $this->ajaxReturn('','费率更改失败!',0);
+                $this->ajaxReturn($sql,'费率更改失败!',0);
             }
 
         }else{
@@ -394,11 +421,14 @@ class MycenterAction extends CommonAction{
             $agentlist =D('Users')->where(array('pid'=>$user_id))->select();
             $pernum =D('Users')->where(array('pid'=>$user_id))->count();
             $list = D('Myinfo')->gettolAgent($agentlist,true);
+            $imsinum =D('Imsi')->getprinum($user_id);
             $tolnum = (int)$pernum + count($list);
+            $surimsinum = $useinfo['imsi_num']-$imsinum;
             if($agentlist){
                 $data =array(
                     'pernum'=>$pernum,
                     'tolnum'=>$tolnum,
+                    'surimsinum'=>$surimsinum,
                     'rate'=>$useinfo['rate'],
                     'agentlist'=>$agentlist
                 );
@@ -407,10 +437,11 @@ class MycenterAction extends CommonAction{
                 $data =array(
                     'pernum'=>0,
                     'tolnum'=>0,
+                    'surimsinum'=>$surimsinum,
                     'rate'=>$useinfo['rate'],
-                    'agentlist'=>''
+                    'agentlist'=>$agentlist
                 );
-                $this->ajaxReturn($data,'暂无代理商数据!',0);
+                $this->ajaxReturn($data,'暂无代理商数据!',1);
             }
 
         }else{

@@ -33,46 +33,184 @@ class AdminAction extends CommonAction {
 
     public function create() {
         if ($this->isPost()) {
-            $data = $this->createCheck();
-            $obj = D('Admin');
-            if ($obj->add($data)) {
-                $this->baoSuccess('添加成功', U('admin/index'));
-            }
-            $this->baoError('操作失败！');
+
+            $this->createChecks();
+
+//            $business = D('Business');
+//            $business_code=$business->add($data);
+//            if ($business_code) {
+//                $data['business_code']=$business_code;
+//                $data = $this->createCheck($data);
+//                $admin=D('Admin');
+//                if ($admin->add($data)){
+//                    $this->baoSuccess('添加成功', U('admin/index'));
+//                }else{
+//                    $this->baoError('操作失败！');
+//                }
+//
+//            }
+//            $this->baoError('操作失败！');
         } else {
             $this->assign('roles', D('Role')->fetchAll());
             $this->display();
         }
     }
 
-    private function createCheck() {
-        $data = $this->checkFields($this->_post('data', false), $this->create_fields);
-        $data['username'] = htmlspecialchars($data['username']);
-        if (empty($data['username'])) {
-            $this->baoError('用户名不能为空');
+
+    public function createChecks(){
+
+
+
+        $data['shenfen'] = (int) $_POST['role_id'];
+        if (empty($data['shenfen'])) {
+            $this->baoError('角色不能为空');
         }
-        if (D('Admin')->getAdminByUsername($data['username'])) {
-            $this->baoError('用户名已经存在');
+
+         $roleinfo=D("role")->where(array("role_id"=>$data['shenfen']))->find();
+
+
+//-------------------------------------------------------------------------------
+        if ($roleinfo['role_name'] == "商户"){
+            $data['nickname'] = htmlspecialchars($_POST['nickname']);
+            if (empty($data['nickname'])) {
+                $this->baoError('商户名不能为空');
+            }
+
+            $data['account'] = htmlspecialchars($_POST['account']);
+            if (empty($data['account'])) {
+                $this->baoError('账号不能为空');
+            }
+
+            $business=D("business")->where(array("account"=>$data['account']))->find();
+
+            if (!empty($business)) {
+                $this->baoError('账号已存在！');
+            }
+
+            if (D('Admin')->getAdminByUsername($data['account'])) {
+                $this->baoError('账号已经存在');
+            }
+
+            $data['password'] = md5($_POST['password']);
+            if (empty($data['password'])) {
+                $this->baoError('密码不能为空');
+            }
+
+
+            $data['accessKey'] = md5($_POST['accessKey']);
+
+            if (empty($data['accessKey'])) {
+                $this->baoError('密钥不能为空');
+            }
+
+            $data['fee'] = htmlspecialchars($_POST['fee']/100);
+            if (empty($data['fee'])) {
+                $this->baoError('费率不能为空');
+            }
+
+            $data['mobile'] = htmlspecialchars($_POST['mobile']);
+            if (empty($data['mobile'])) {
+                $this->baoError('电话不能为空');
+            }
+
+            if (!isMobile($data['mobile'])) {
+                $this->baoError('手机格式不正确');
+            }
+
+//            $data['shenfen']="商户";
+            $data['status']=1;
+            $data['paypassword']=md5(123456);
+            $data['creatime']=time();
+
+
+            $business = D('Business');
+            $business_code=$business->add($data);
+
+            if ($business_code) {
+                $data['business_code']=$business_code;
+                $data = $this->createCheck($data);
+                $admin=D('Admin');
+                if ($admin->add($data)){
+                    $this->baoSuccess('添加成功', U('admin/index'));
+                }else{
+                    $this->baoError('操作失败！');
+                }
+
+            }
+
+
         }
-        $data['password'] = md5($data['password']);
-		if (empty($data['password'])) {
-            $this->baoError('密码不能为空');
+
+//----------------------------------------------------------------------------
+
+        if ($roleinfo['role_name'] =="管理员"){
+
+
+            $data['username'] = htmlspecialchars($_POST['account']);
+            if (empty( $data['username'])) {
+                $this->baoError('账号不能为空');
+            }
+
+
+            if (D('Admin')->getAdminByUsername($data['username'])) {
+                $this->baoError('账号已经存在');
+            }
+
+
+
+            $data['role_id'] = (int) $data['shenfen'];
+            if (empty($data['role_id'])) {
+                $this->baoError('角色不能为空');
+            }
+
+
+            $data['mobile'] = htmlspecialchars($_POST['mobile']);
+            if (empty($data['mobile'])) {
+                $this->baoError('手机不能为空');
+            }
+            $data['create_time'] = NOW_TIME;
+            $data['create_ip'] = get_client_ip();
+
+            $admin=D('Admin');
+            if ($admin->add($data)){
+                $this->baoSuccess('添加成功', U('admin/index'));
+            }else{
+                $this->baoError('操作失败！');
+            }
+
+
         }
-		
-        $data['role_id'] = (int) $data['role_id'];
+
+       // $data = $this->checkFields($this->_post('data', false), $this->create_fields);
+
+
+    }
+
+
+
+    private function createCheck($data) {
+
+        //-------------------------------------------------------------------------
+
+        $data['username'] = htmlspecialchars($data['account']);
+        $data['role_id'] = (int) $data['shenfen'];
         if (empty($data['role_id'])) {
             $this->baoError('角色不能为空');
-        } $data['mobile'] = htmlspecialchars($data['mobile']);
+        }
+        $data['mobile'] = htmlspecialchars($data['mobile']);
         if (empty($data['mobile'])) {
             $this->baoError('手机不能为空');
-        }
-        if (!isMobile($data['mobile'])) {
-            $this->baoError('手机格式不正确');
         }
         $data['create_time'] = NOW_TIME;
         $data['create_ip'] = get_client_ip();
         return $data;
     }
+
+
+
+
+
+
 
     public function edit($admin_id = 0) {
         if ($admin_id = (int) $admin_id) {

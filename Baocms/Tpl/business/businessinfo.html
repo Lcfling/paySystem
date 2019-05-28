@@ -1,0 +1,177 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="index.html">首页</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="#">商家信息</a></li>
+</ul>
+
+<div class="row-fluid sortable">
+
+    <div class="box span12">
+        <div class="box-header" data-original-title>
+            <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>商家信息</h2>
+            <div class="box-icon">
+                <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <div class="row-fluid sortable">
+                <!--<div class="box span12">-->
+                    <!--<div class="box-header" data-original-title>-->
+                        <!--<h2><i class="halflings-icon white edit"></i><span class="break"></span>搜索选项</h2>-->
+                        <!--<div class="box-icon">-->
+                            <!--<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="box-content">-->
+                        <!--<form class="form-horizontal" method="post" action="<{:U('daili/search')}>">-->
+                            <!--<fieldset>-->
+                                <!--<div class="control-group">-->
+                                    <!--<label class="control-label" for="focusedInput">商户号</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input class="input-xlarge focused" name="brandid" id="focusedInput" type="text" value="">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="control-group">-->
+                                    <!--<label class="control-label" for="focusedInput2">订单号</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input class="input-xlarge focused" name="ordid" id="focusedInput2" type="text" value="">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="control-group">-->
+                                    <!--<label class="control-label" for="date01">开始时间</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input type="text" name="bg_date" class="input-xlarge" id="date01" value="<{$todaytime|date='Y-m-d', ###}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">-->
+                                    <!--</div>-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--<div class="control-group">-->
+                                    <!--<label class="control-label" for="date01">结束时间</label>-->
+                                    <!--<div class="controls">-->
+                                        <!--<input type="text" name="end_date" class="input-xlarge" id="date02" value="<{$todaytime|date='Y-m-d', ###}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-actions">-->
+                                    <!--<button type="submit" class="btn btn-primary">搜索</button>-->
+                                <!--</div>-->
+                            </fieldset>
+                        </form>
+
+                    <!--</div>-->
+                </div><!--/span-->
+
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></th>
+                    <th>商户号</th>
+                    <th>联系人</th>
+                    <th>联系电话</th>
+                    <th>费率</th>
+                    <th>收款金额</th>
+                    <th>成功率</th>
+                    <!--<th>状态</th>-->
+                    <th>创建时间</th>
+                    <!--<th>完成时间</th>-->
+                    <!--<th>单笔费率(%)</th>-->
+                    <!--<th>单笔到账(元)</th>-->
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr>
+                    <td>Dennis Ji</td>
+                    <td class="center">2012/01/01</td>
+                    <td class="center">Member</td>
+                    <td class="center">
+                        <span class="label label-success">Active</span>
+                    </td>
+                    <td class="center">
+                        <a class="btn btn-success" href="#">
+                            <i class="halflings-icon white zoom-in"></i>
+                        </a>
+                        <a class="btn btn-info" href="#">
+                            <i class="halflings-icon white edit"></i>
+                        </a>
+                        <a class="btn btn-danger" href="#">
+                            <i class="halflings-icon white trash"></i>
+                        </a>
+                    </td>
+                </tr>-->
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td>
+                            <{$var.business_code}>
+
+                        </td>
+                        <td>
+                            <{$var.nickname}>
+
+                        </td>
+                        <td>
+                            <{$var.account}>
+                        </td>
+
+                        <td>
+                            <{$var.fee}>%
+                        </td>
+
+                        <td>
+                            <{$money}>
+                        </td>
+
+                        <td>
+                            <{$count}>%
+                            <!--<if condition="$var.ifsuccess eq 1">-->
+                                <!--<span class="label label-success">回调成功</span>-->
+                            <!--</if>-->
+                            <!--<if condition="$var.ifsuccess eq 2">-->
+                                <!--<span class="label label-important">回调失败</span>-->
+                            <!--</if>-->
+                            <!--<if condition="$var.ifsuccess eq 0">-->
+                                <!--<span class="label label-warning">回调<{$var.ifsuccess}>次</span>-->
+                            <!--</if>-->
+                        </td>
+
+                        <!--<td>-->
+                            <!--<{$var.status}>-->
+                        <!--</td>-->
+                        <td>
+
+                            <{$var.creatime|date='Y-m-d H:i:s', ###}>
+
+                        </td>
+
+                        <!--<td>-->
+                            <!--<{$var.paidTime}>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<{$var.rate}>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<{$var.payAmt}>-->
+                        <!--</td>-->
+                        <td>
+                            <a class="btn btn-success" href="#">
+                                <i class="halflings-icon white zoom-in"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </div>
+    </div><!--/span-->
+
+</div><!--/row-->
+
+<!--/row-->
+</div>
+</body>
+</html>

@@ -84,27 +84,26 @@ class UsersModel extends CommonModel
         return $userInfo;
     }
 
-    public function insertUserInfo($mobile,$pid=0){
+    public function insertUserInfo($mobile,$codeinfo,$password){
+
+        if($codeinfo["user_id"]==0||$codeinfo["user_id"]==""||$codeinfo["user_id"]==null)
+            $codeinfo["user_id"]=0;
+        $info['pid']=$codeinfo["user_id"];
+        $info['shenfen']=$codeinfo["grade"];
         $info['account']=$mobile;
-        $info['password']=md5(rand_string(11,1));
-        $info['nickname']=rand_string(6,1);
+        $info['password']=md5($password);
+        $info['token']=md5(rand_string(6,1));
         $info['money']=0;
-        $info['mobile']=$mobile;
+        $info['imsi_num']=0;
+        $info['frozen']=0;
+        $info['take_status']=0;
         $info['reg_ip']=$info['last_ip']=getip();
         $info['reg_time']=$info['last_time']=time();
-        $token=$info['token']=md5(rand_string(6,1));
-        if($pid==0||$pid==""||$pid==null)
-            $pid=0;
-        $info['pid']=$pid;
-        $this->add($info);
-        $userInfo=$this->find(array('where'=>array('account'=>$mobile)));
-        $userInfo['nickname']='*'.$userInfo['user_id'];
-        $data['nickname']='*'.$userInfo['user_id'];
-        $this->where(array('account'=>$mobile))->save($data);
-        Cac()->set('userinfo_'.$userInfo['user_id'],serialize($userInfo));
-        Cac()->set('userinfo_mobile_'.$userInfo['account'],serialize($userInfo));
-        $this->addmoney($userInfo['user_id'],500,1,1,"体验金");
-        return $userInfo;
+        $info['mobile']=$mobile;
+        
+        $user_id=$this->add($info);
+
+        return $user_id;
     }
 
     /**添加用户金额
@@ -411,6 +410,47 @@ class UsersModel extends CommonModel
         }else{
             return false;
         }
+    }
+
+
+    //  二维码重新入队
+    public function enterlist($user_id,$moneys,$erweima_id){
+
+        Cac()->lRem("erweimas".$moneys.$user_id,$erweima_id,0);
+        // 二维码存入用户缓冲
+        Cac()->rPush('erweimas'.$moneys.$user_id,$erweima_id);
+        return "222";
+    }
+
+
+
+
+    // 获取二维码
+    public function getcode($money){
+
+        $user_id=Cac()->LPOP("jiedans");
+        if ( !$user_id>0){
+           return false;
+        }
+
+        $time=Cac()->get("jiedan_status".$user_id);
+        if ($time+3<time()){
+            Cac()->lRem("jiedans",$user_id,0);
+            D("Users")->where(array("user_id"=>$user_id))->save(array("take_status"=>0));
+            $this->getcode($money);
+        }else{
+            //用户入接单队列
+            Cac()->rPush('jiedans',$user_id);
+            $erweima_id=Cac()->LPOP("erweimas".$money.$user_id);
+            if (empty($erweima_id)){
+                return false;
+            }
+            $data=D("erweima")->where(array("id"=>$erweima_id))->find();
+
+            return $data;
+        }
+
+
     }
 
 

@@ -1,0 +1,110 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">提现管理</li>
+        <li class="li2">银行卡管理</li>
+
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>用户帐号只允许是手机号码或者邮件，如果开启了UC整合，那么修改密码请在UC里面操作！另外后台注册的用户不会写入到UC的</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+
+
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('user/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>昵称</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>手机号码</span>
+                            <input type="text" name="mobile" value="<{$mobile}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>扩展字段</span>
+                            <input type="text" name="ext0" value="<{$ext0}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>用户等级：</span>
+                            <select name="rank_id" class="select w100">
+                                <option value="0">请选择</option>
+                                <foreach name="ranks" item="item">
+                                    <option <eq name="item.rank_id" value="$rank_id">selected="selected"</eq>  value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                                </foreach>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+
+    <form  target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+
+                    <td>开户人</td>
+                    <!--<td>密码</td>-->
+                    <td>开户行</td>
+                    <td>开户卡号</td>
+                    <td>添加时间</td>
+
+                    <td class="w150">操作</td>
+                </tr>
+
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.id}>" /></td>
+
+                        <td>
+                     <{$var.username}>
+                        </td>
+                        <td>
+                            <{$var.bankname}>
+
+                        </td>
+
+                        <td>
+                            <{$var.banknum}>
+                        </td>
+                        <td>
+                            <{$var.creattime|date='Y-m-d H:i:s',###}>
+                        </td>
+
+
+                        <td class="w150">
+
+
+                            <{:BA('withdraw/bankedit',array("bank_id"=>$var["id"]),'编辑','load','remberBtn_small',700,600)}>
+
+                           <{:BA('withdraw/bankdelete',array("bank_id"=>$var["id"]),'删除','act','remberBtn_small')}>
+                           
+                            <!-- <a target="_blank" href="<{:U('user/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn_small">管理用户</a>-->
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

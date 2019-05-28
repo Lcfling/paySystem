@@ -1,0 +1,251 @@
+<include  file='public:head'/>
+
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">首页</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">概览</a></li>
+    </ul>
+    <div class="row-fluid">
+
+        <div class="span6 statbox purple" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">5,6,7,2,0,4,2,4,8,2,3,3,2</div>
+            <div class="number"><{$counts.count_ord}>单</div>
+            <div class="title">order</div>
+            <div class="footer">
+                <a href="#">今日订单数</a>
+            </div>
+        </div>
+        <div class="span6 statbox green" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">1,2,6,4,0,8,2,4,5,3,1,7,5</div>
+            <div class="number"><{$counts.count_ord_success}>单</div>
+            <div class="title">order</div>
+            <div class="footer">
+                <a href="#"> 今日成功订单</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row-fluid">
+
+
+        <div class="span6 statbox blue noMargin" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">5,6,7,2,0,-4,-2,4,8,2,3,3,2</div>
+            <div class="number"><{$counts.day_rujin}>元</div>
+            <div class="title">money</div>
+            <div class="footer">
+                <a href="#">今日总收入</a>
+            </div>
+        </div>
+        <div class="span6 statbox yellow" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">7,2,2,2,1,-4,-2,4,8,,0,3,3,5</div>
+            <div class="number"><{$counts.day_rujin}>元</div>
+            <div class="title">money</div>
+            <div class="footer">
+                <a href="#">今日成交金额</a>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+
+        <div class="span6 statbox purple" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">5,6,7,2,0,4,2,4,8,2,3,3,2</div>
+            <div class="number"><{$counts.money}>元</div>
+            <div class="title">money</div>
+            <div class="footer">
+                <a href="#">账户余额可提现</a>
+            </div>
+        </div>
+        <div class="span6 statbox green" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">1,2,6,4,0,8,2,4,5,3,1,7,5</div>
+            <div class="number"><{$counts.count_ord_fail}>单</div>
+            <div class="title">order</div>
+            <div class="footer">
+                <a href="#">今日未付订单</a>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+
+
+        <div class="span6 statbox blue noMargin" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">5,6,7,2,0,-4,-2,4,8,2,3,3,2</div>
+            <div class="number"><{$counts.pay_money}>元</div>
+            <div class="title">money</div>
+            <div class="footer">
+                <a href="#">累计成交金额</a>
+            </div>
+        </div>
+        <div class="span6 statbox yellow" onTablet="span6" onDesktop="span6">
+            <div class="boxchart">7,2,2,2,1,-4,-2,4,8,,0,3,3,5</div>
+            <div class="number"><{$counts.txian}>元</div>
+            <div class="title">money</div>
+            <div class="footer">
+                <a href="#">累计提现成功</a>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>账户信息</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <form target="baocms_frm" class="form-horizontal">
+                    <fieldset>
+                        <div class="control-group span4">
+                            <label class="control-label" for="inputname">账户ID：</label>
+                            <div class="controls">
+                                <input class="input-xlarge disabled" disabled id="inputname" type="text" value="<{$businessinfo.business_code}>">
+
+                            </div>
+                        </div>
+                        <div class="control-group span4">
+                            <label class="control-label" for="inputbank">密钥：</label>
+                            <div class="controls">
+                                <input class="input-xlarge disabled" disabled id="inputbank"  type="text" value="<{$businessinfo.accessKey}>">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="control-group span4">
+                            <label class="control-label" for="inputname">费率：</label>
+                            <div class="controls">
+                                <input class="input-xlarge disabled" disabled  type="text" value="<{$businessinfo.fee}>‰">
+
+                            </div>
+                        </div>
+                        <div class="control-group span4">
+                            <label class="control-label" for="inputbank">商户名称：</label>
+                            <div class="controls">
+                                <input class="input-xlarge disabled" disabled  type="text" value="<{$businessinfo.nickname}>">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+        </div><!--/span-->
+
+    </div>
+    <div class="row-fluid">
+
+        <div class="widget span12" onTablet="span12" onDesktop="span12">
+            <h2><span class="glyphicons-icon right_indent"><i></i></span></h2>
+            <hr>
+            <div class="box-content">
+                <form target="baocms_frm" id="form1" class="form-horizontal" method="post" action="<{:U('index/mains')}>">
+                    <div class="control-group">
+                        <div class="control-group">
+                            <label class="control-label" for="date01">日期</label>
+                            <div class="controls">
+                                <input type="text" name="time" class="input-xlarge" id="date01" value="<{$time|date='Y-m-d', ###}>"  onfocus="WdatePicker({onpicked:function(e){console.log(e.el.realValue);location.href='<{:U('index/mains')}>?time='+e.el.realValue+'#form1';},dateFmt: 'yyyy-MM-dd'});">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="box-content">
+                <div id="sincos"  class="center" style="height:300px;" ></div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+<script>
+    var all = <{$value}>;
+    var suc = <{$value2}>;
+    var per = <{$value3}>;
+    var res=<{$res}>;
+    if($("#sincos").length)
+    {
+
+
+        /*for (var i = 0; i < 14; i += 0.5) {
+            sin.push([i, Math.sin(i)/i]);
+            cos.push([i, Math.cos(i)]);
+        }*/
+        //console.log(sin)
+
+        var plot = $.plot($("#sincos"),
+            [ { data: all, label: "总订单"} ,{ data: suc, label: "成交订单"},{ data: per, label: "成功率",} ], {
+                series: {
+                    lines: { show: true,
+                        lineWidth: 2,
+                    },
+                    points: { show: true },
+                    shadowSize: 2
+                },
+                xaxis: {
+                    ticks: res,
+                },
+                grid: { hoverable: true,
+                    clickable: true,
+                    tickColor: "#dddddd",
+                    borderWidth: 0
+                },
+                colors: ["#FA5833", "#2FABE9" ,"#2ac53d"]
+            });
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css( {
+                position: 'absolute',
+                display: 'none',
+                top: y + 5,
+                left: x + 5,
+                border: '1px solid #fdd',
+                padding: '2px',
+                'background-color': '#dfeffc',
+                opacity: 0.80,
+                'z-index': 99999
+            }).appendTo("body").fadeIn(200);
+        }
+
+        var previousPoint = null;
+        $("#sincos").bind("plothover", function (event, pos, item) {
+            $("#x").text(pos.x.toFixed(2));
+            $("#y").text(pos.y.toFixed(2));
+
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+
+                    if(item.series.label=="成功率"){
+                        showTooltip(item.pageX, item.pageY, y +"%");
+                    }else{
+                        showTooltip(item.pageX, item.pageY, y +"单");
+                    }
+
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+        });
+    }
+
+</script>
+
+
+
+</div>
+
+</body>
+</html>

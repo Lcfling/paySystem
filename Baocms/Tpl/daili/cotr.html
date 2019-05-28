@@ -1,0 +1,103 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商户管理</li>
+        <li class="li2">商户信息</li>
+
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>用户帐号只允许是手机号码或者邮件，如果开启了UC整合，那么修改密码请在UC里面操作！另外后台注册的用户不会写入到UC的</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+
+            <div class="right">
+
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('daili/cotr')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>子商户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>费率</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                        </label>
+
+                    </div>
+                </div>
+
+        </form>
+        <div class="clear"></div>
+    </div>
+
+    <form  target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+                  <td>登录账号</td>
+                    <td>子商户号</td>
+                    <td>费率</td>
+                    <td>商户信息</td>
+                    <td>操作</td>
+                </tr>
+
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td>
+
+                            <{$var.username}>
+                        </td>
+                        <td>
+
+                        <{$var.brandid}>
+                        </td>
+                        <td>
+
+                            <{$var.rate}>
+                        </td>
+                        <td>
+
+                            <{$var.remark}>
+                        </td>
+
+
+                        <td class="w150">
+                            <{:BA('daili/edit',array("daili_id"=>$var["admin_id"]),'编辑商户信息','load','remberBtn_small',700,600)}>
+                           <{:BA('daili/lookbank',array("brand_id"=>$var["brandid"]),'查看银行卡','load','remberBtn_small',600,350)}>
+                            <{:BA('daili/moneyinfo',array("brandid"=>$var["brandid"]),'商户明细','','remberBtn_small',1400,500)}>
+                            <!-- <{:BA('daili/editbrandinfo',array("brand_id"=>$var["brandid"]),'编辑商户信息','load','remberBtn_small',700,600)}>
+                               <{:BA('user/notice',array("user_id"=>$var["user_id"]),'添加通知','load','remberBtn_small',700,600)}>
+                             <{:BA('user/vipinfo',array("user_id"=>$var["user_id"]),'查看明细','load','remberBtn_small',800,800)}>
+                             <{:BA('user/vip',array("user_id"=>$var["user_id"]),'升级会员','load','remberBtn_small',600,200)}>
+                             <{:BA('user/vipshang',array("user_id"=>$var["user_id"]),'查看上级','load','remberBtn_small',700,600)}>
+                             <{:BA('user/vipxia',array("user_id"=>$var["user_id"]),'查看下级','load','remberBtn_small',700,600)}>
+                             <!-- <{:BA('user/delete',array("user_id"=>$var["user_id"]),'删除','act','remberBtn_small')}>-->
+                            <eq name="var.closed" value="-1">
+                                <!-- <{:BA('user/audit',array("user_id"=>$var["user_id"]),'审核通过','act','remberBtn_small')}>-->
+                            </eq>
+                            <!-- <a target="_blank" href="<{:U('user/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn_small">管理用户</a>-->
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>
+
+

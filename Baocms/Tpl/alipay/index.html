@@ -1,0 +1,74 @@
+<include  file='public:head'/>
+
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">首页</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">支付宝列表</a></li>
+    </ul>
+
+    <div class="row-fluid sortable">
+
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>支付宝列表</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <a href="create.html" class="btn btn-primary">添加</a>
+                <a href="<{:U('alipay/qrcode')}>" class="btn btn-primary" mini="load" w="450" h="450">获取支付宝uid</a>
+            </div>
+            <div class="box-content">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></th>
+                        <td>支付宝ID</td>
+                        <td>手机</td>
+                        <td>创建时间</td>
+                        <td>限额</td>
+                        <td>是否可用</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                            <td>
+                                <{$var.aliuid}>
+                            </td>
+                            <td>
+                                <{$var.mobile}>
+                            </td>
+                            <td>
+                                <{$var.creatime}>
+                            </td>
+
+                            <td>
+                                <{$var.limit}>
+                            </td>
+                            <td>
+                                <{$var.is_active}>
+                            </td>
+
+                            <td>
+                                <{:BAICON('alipay/edit',array("id"=>$var['id']),'编辑','load','btn-info',600,280,'edit')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+            </div>
+        </div><!--/span-->
+    </div><!--/row-->
+    <!--/row-->
+</div>
+</body>
+</html>

@@ -1,37 +1,62 @@
-<include  file='public:header'/>
+<include  file='public:head'/>
 
-<div class="mainBt">
-    <ul>
-        <li class="li1">系统</li>
-        <li class="li2">后台菜单设置</li>
-        <li class="li2 li3">菜单列表</li>
+<div id="content" class="span10">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="index.html">首页</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">交易统计</a></li>
     </ul>
-</div>
-<div class="main-cate">
-    <p class="attention"><span>注意：</span>这里主要管理后台的菜单，通常后台的基本权限是和这类菜单关联的！</p>
-    <div class="jsglNr">
-        <form id="cate_action" action="<{:U('menu/update')}>" target="baocms_frm" method="post">
-            <div class="selectNr" style="border-top: 1px solid #e1e6eb;">
-                <div class="left">
-                    <{:BA('menu/create','','添加菜单','load','',600,280)}>
-                </div>
-                <div class="right">
-                     <input type="submit" class="sBtn" value="更新"  />
+
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>交易统计</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
                 </div>
             </div>
-            <div class="tableBox">
-                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
-                    <tr bgcolor="#F5F6FA" height="35px;" style="color:#333; font-size:16px; line-height:35px;">
-                        <td>分类</td>
+            <div class="box-content">
+                
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td>分类1</td>
                         <td>排序</td>
                         <td>操作</td>
                     </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-success" href="#">
+                                <i class="halflings-icon white zoom-in"></i>
+                            </a>
+                            <a class="btn btn-info" href="#">
+                                <i class="halflings-icon white edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#">
+                                <i class="halflings-icon white trash"></i>
+                            </a>
+                        </td>
+                    </tr>-->
+
+
+
                     <foreach name="datas" item="var">
-                        <if condition="($var.parent_id eq 0)">  
+                        <if condition="($var.parent_id eq 0)">
                             <tr bgcolor="#f1f1f1" height="48px" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
-                                <td style="padding-left:20px;"><{$var.menu_name}></td>
-                                <td style="padding-left:70px;"><input name="orderby[<{$var.menu_id}>]" value="<{$var.orderby}>" type="text" class="remberinput w80" /></td>
-                                <td style="text-align:center;">
+                                <td><{$var.menu_name}></td>
+                                <td><input name="orderby[<{$var.menu_id}>]" value="<{$var.orderby}>" type="text" class="remberinput w80" /></td>
+                                <td>
                                     <{:BA('menu/create',array("parent_id"=>$var['menu_id']),'添加','load','remberBtn',600,280)}>
                                     <{:BA('menu/edit',array("menu_id"=>$var['menu_id']),'编辑','load','remberBtn',600,280)}>
                                     <{:BA('menu/delete',array("menu_id"=>$var['menu_id']),'删除','act','remberBtn')}>
@@ -39,29 +64,181 @@
                             </tr>
                             <foreach name="datas" item="var2">
                                 <eq name="var2.parent_id" value="$var.menu_id">
-                                <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
-                                    <td><{$var2.menu_name}></td>
-                                    <td><input name="orderby[<{$var2.menu_id}>]" value="<{$var2.orderby}>" type="text" class="remberinput w80" /></td>
-                                    <td>
-                                        <{:BA('menu/action',array("parent_id"=>$var2['menu_id']),'添加','load','remberBtn',800,500)}>
-                                        <{:BA('menu/edit',array("menu_id"=>$var2['menu_id']),'编辑','load','remberBtn',600,280)}>
-                                        <{:BA('menu/delete',array("menu_id"=>$var2['menu_id']),'删除','act','remberBtn')}>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="padding-left: 70px"><{$var2.menu_name}></td>
+                                        <td><input name="orderby[<{$var2.menu_id}>]" value="<{$var2.orderby}>" type="text" class="remberinput w80" /></td>
+                                        <td>
+                                            <{:BAICON('menu/action',array("parent_id"=>$var2['menu_id']),'添加','load','btn-success',800,500)}>
+                                            <{:BAICON('menu/edit',array("menu_id"=>$var2['menu_id']),'编辑','load','btn-info',600,280,'edit')}>
+                                            <{:BAICON('menu/delete',array("menu_id"=>$var2['menu_id']),'删除','act','btn-danger','','','trash')}>
+                                        </td>
+                                    </tr>
                                 </eq>
                             </foreach>
                         </if>
-                    </foreach>     
+                    </foreach>
+                    </tbody>
                 </table>
             </div>
-        </form>
-    </div>
+        </div><!--/span-->
+
+    </div><!--/row-->
+
+    <!--<div class="row-fluid sortable">
+        <div class="box span6">
+            <div class="box-header">
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Simple Table</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Date registered</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/02/01</td>
+                        <td class="center">Staff</td>
+                        <td class="center">
+                            <span class="label label-important">Banned</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/02/01</td>
+                        <td class="center">Admin</td>
+                        <td class="center">
+                            <span class="label">Inactive</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/03/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-warning">Pending</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/21</td>
+                        <td class="center">Staff</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination pagination-centered">
+                    <ul>
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>&lt;!&ndash;/span&ndash;&gt;
+
+        <div class="box span6">
+            <div class="box-header">
+                <h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Striped Table</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+                    <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                    <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Date registered</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/02/01</td>
+                        <td class="center">Staff</td>
+                        <td class="center">
+                            <span class="label label-important">Banned</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/02/01</td>
+                        <td class="center">Admin</td>
+                        <td class="center">
+                            <span class="label">Inactive</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/03/01</td>
+                        <td class="center">Member</td>
+                        <td class="center">
+                            <span class="label label-warning">Pending</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dennis Ji</td>
+                        <td class="center">2012/01/21</td>
+                        <td class="center">Staff</td>
+                        <td class="center">
+                            <span class="label label-success">Active</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination pagination-centered">
+                    <ul>
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>&lt;!&ndash;/span&ndash;&gt;
+    </div>--><!--/row-->
 </div>
-<include  file='public:footer'/>
-
-
-
-
-
-
-
+</body>
+</html>

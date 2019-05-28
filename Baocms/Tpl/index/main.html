@@ -34,12 +34,15 @@
     .comiis_19ditu980 .comiis_19forum .comiis_19forum_list h3{width:82px;}
     .red{ color:#F00 !important}
     .mainBt ul span{ background:#F00; color:#FFF; padding:5px 15px; margin-right:40px;}
+    .divbg{ width:28vw;height:13vh;background: #fff; float:left; margin-left: 2vw;margin-top: 2vh;}
+    .fontstyle{font-size:1.6rem;color: #5b6e89; margin-left: 3vw;}
+    .divtext{font-size:0.8rem;color: #7c8b9f; margin-left: 3vw;}
+    .dan{width:5vw;height:auto; float:right; color:#1c93d6;font-size:1.2rem;}
 </style>
 <div class="mainBt">
     <ul>
         <li class="li1">首页</li>
-        <li class="li2">后台首页</li>
-        <li class="li2 li3">待办事项</li>
+        <li class="li2">商户概览</li>
         <if condition="$warning['is_ip'] eq 1">
             <if condition="!empty($admin['username'])">
                 <span style="float:right">尊敬的&nbsp;<{$admin.username}>&nbsp;您上次登录IP跟本次登录IP地址不一致，建议您立即修改密码！</span>
@@ -52,8 +55,50 @@
 <div class="main-jsgl main-sc">
     <div class="comiis_19ditu ">
         <ul class="comiis_19ditu_bg cl masonry" style="position: relative; height: 1014px;">
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.count_ord}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext">今日总订单数</div>
+                <div class="dan">单</div>
+            </li>
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.count_ord_success}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext">今日已付订单数</div>
+                <div class="dan">单</div>
+            </li>
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.count_ord_fail}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext">今日未付订单</div>
+                <div class="dan">单</div>
+            </li>
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.pay_money}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext">今日总入金</div>
+                <div class="dan">元</div>
+            </li>
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.day_rujin}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext">今日实付金额</div>
+                <div class="dan">元</div>
+            </li>
+            <li class="divbg">
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="fontstyle"><{$counts.money}></div>
+                <div id="kong" style="width:100%;height:2vh;"></div>
+                <div class="divtext"> 账户余额可提现</div>
+                <div class="dan">元</div>
+            </li>
 
-            <li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+            <!--<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
                 <div class="comiis_19forum_top comiis_19forum_id1">
                     <div class="comiis_19forum_div">
                         <div class="comiis_19forum_title">
@@ -70,9 +115,9 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li>-->
 
-            <li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+            <!--<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
                 <div class="comiis_19forum_top comiis_19forum_id1">
                     <div class="comiis_19forum_div">
                         <div class="comiis_19forum_title">
@@ -92,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li>-->
 
 
             <!--<li class="comiis_19forum comiis_19forum_style0 masonry-brick">-->
@@ -193,12 +238,12 @@
 
 
 
-            <li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+            <!-- <li class="comiis_19forum comiis_19forum_style0 masonry-brick">
                 <div class="comiis_19forum_top comiis_19forum_id1">
                     <div class="comiis_19forum_div">
                         <div class="comiis_19forum_title">
                             <span class="comiis_19forum_icon"></span>
-                            <h1><a href="#" style="font-size: 32px">总提现申请</a></h1>
+                            <h1><a href="#" style="font-size: 32px">今日总订单</a></h1>
                         </div>
                         <div class="comiis_19forum_list">
 
@@ -356,7 +401,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li>-->
 
 
 

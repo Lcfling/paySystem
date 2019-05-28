@@ -1,34 +1,46 @@
-<include  file='public:header'/>
-<div class="mainBt">
-    <ul>
-        <li class="li1">会员管理</li>
-        <li class="li2">银行信息</li>
-    </ul>
-</div>
-<form target="baocms_frm" action="<{:U('usercash/edit',array('user_id'=>$detail['user_id']))}>" method="post">
-    <div class="mainScAdd">
-        <div class="tableBox">
-            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
-                <tr>
-                    <td class="lfTdBt">开户人：</td>
-                    <td class="rgTdBt"><input type="text" name="data[user_name]" value="<{$detail.user_name|default=''}>" class="manageInput" />
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form target="baocms_frm" action="<{:U('menu/edit',array('menu_id'=>$detail['menu_id']))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="300%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
 
-                    </td>
-                </tr><tr>
-                <td class="lfTdBt">卡号：</td>
-                <td class="rgTdBt"><input type="text" name="data[bank_num]" value="<{$detail.bank_num|default=''}>" class="manageInput" />
+                        <tr>
+                            <td class="lfTdBt">结算金额：</td>
+                            <td class="rgTdBt">
+                                <input name="money" type="text" class="scAddTextName w200" />
+                            </td>
+                        </tr>
 
-                </td>
-            </tr><tr>
-                <td class="lfTdBt">开户银行：</td>
-                <td class="rgTdBt"><input type="text" name="data[bank_info]" value="<{$detail.bank_info|default=''}>" class="manageInput" />
+                        <tr>
+                            <td class="lfTdBt">银行卡：</td>
+                            <td class="rgTdBt">
+                                <select name="data[parent_id]" class="seleFl w200">
+                                    <option value="0">请选择</option>
+                                    <foreach name="datas" item="var">
+                                        <if condition="($var.parent_id eq 0)">
+                                            <option value="<{$var.menu_id}>"   <eq name="var.menu_id" value="$detail[parent_id]"> selected="selected" </eq> ><{$var.menu_name}></option>
+                                        </if>
+                                    </foreach>       
+                                </select>
+                            </td>
+                        </tr>
 
-                </td>
-            </tr>
-            </table>
-        </div>
-        <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+
+                        <tr>
+                            <td class="lfTdBt">备注：</td>
+                            <td class="rgTdBt">
+                                <input name="data[icon]" type="text" class="scAddTextName w200" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认提交" class="smtQrIpt" /></div>
+            </div>
+        </form>
     </div>
-</form>
-<include  file='public:footer'/>
+</div>
+
+
+
 
