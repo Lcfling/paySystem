@@ -16,14 +16,14 @@ class RebateModel extends Model {
             $puse_id =$userinfo['user_id'];
             $prate =$userinfo['rate'] * 10000;
             $rate = $rate * 10000;
-            $pmoney = ($prate - $rate) * $list / 1000000;
+            $pmoney = ($prate - $rate) * $list / 10000;
             if($pmoney<0 || $pmoney==0 ){return;}
             $this->rebate($puse_id,$pmoney,$erweima_id,$business_code,$out_uid);
             $userinfo1 = D('Users')->where(array('pid'=>$puse_id))->field('user_id,rate')->find();
             if($userinfo1['user_id']){
                 $duse_id =$userinfo1['user_id'];
                 $drate =$userinfo['rate'] * 10000;
-                $dmoney = ($drate - $prate) * $list /1000000;
+                $dmoney = ($drate - $prate) * $list /10000;
                 if($dmoney<0 || $dmoney==0){return;}
                 $this->rebate($duse_id,$dmoney,$erweima_id,$business_code,$out_uid);
             }
