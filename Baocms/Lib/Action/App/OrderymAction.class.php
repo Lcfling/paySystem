@@ -9,15 +9,6 @@
 class OrderymAction extends Action
 {
 
-    public function getcache(){
-//        D("Users")->enterlist('111',1,11);
-//        D("Users")->enterlist('111',1,12);
-        Cac()->rPush('erweimas200132',52);
-        $list =Cac()->lRange('erweimas200132',0,-1);
-
-        print_r($list);
-    }
-
     /**
      * 获取商户秘钥 唯一识别码
      */
@@ -77,7 +68,7 @@ class OrderymAction extends Action
         }
 
         $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100);//二维码信息
-        if(empty($erweimainfo)){
+        if(!$erweimainfo){
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
 
@@ -96,7 +87,6 @@ class OrderymAction extends Action
             'creatime'=>$time,
             'notifyUrl'=>$datas['notifyUrl']
         );
-        print_r($data);
         $order_id = $Order->add($data);
         if($order_id){
             $logdata =array(
@@ -111,8 +101,7 @@ class OrderymAction extends Action
                 'creatime'=>$time
             );
             D('Account_log')->add($logdata);
-            $rate = D('Users')->where(array('user_id'=>$erweimainfo['user_id']))->getField('rate');
-            D('Rebate')->fy($datas["tradeMoney"] ,$erweimainfo['user_id'],$rate,$erweimainfo['id'],$business_code,$datas["out_uid"]);
+
             $this->geterweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1);
         }else{
             $this->ajaxReturn('error40005','',0);
@@ -181,6 +170,8 @@ class OrderymAction extends Action
                     'creatime'=>time()
                 );
                 D('Account_log')->add($paydata);
+                $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                D('Rebate')->fy($datas["tradeMoney"] ,$user_id,$rate,$orderinfo['erweima_id'],$orderinfo['business_code'],$orderinfo["out_uid"]);
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);
@@ -278,7 +269,7 @@ class OrderymAction extends Action
                         'user_id'=>$user_id,
                         'score'=>$orderlist['money'],
                         'erweima_id'=>$orderlist['erweima_id'],
-                        'business_id'=>$orderlist['business_id'],
+                        'business_code'=>$orderlist['business_code'],
                         'out_uid'=>$orderlist['out_uid'],
                         'status'=>4,
                         'type'=>1,

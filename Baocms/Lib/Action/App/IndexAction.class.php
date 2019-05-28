@@ -25,7 +25,8 @@ class IndexAction extends Action
         $retrun_datas =$_POST;
         $retrun_sign=$retrun_datas['sign'];//签名值
         unset($retrun_datas['sign']);
-        $sign =$this->getSign($retrun_datas);
+        $key = '96075976683e158558458fabe7dab859';
+        $sign =$this->getSign($retrun_datas,$key);
         if($retrun_sign==$sign){
             echo "success";
             file_put_contents('./notifyUrl.txt',print_r($retrun_datas,true).PHP_EOL,FILE_APPEND);
