@@ -371,7 +371,7 @@ function Cac(){
         return $redis;
     }else{
         $redis=new Redis();
-        $redis->connect('47.92.162.75', '6379');
+        $redis->connect('127.0.0.1', '6379');
         $redis->auth('lcf2954626');
         return $redis;
     }
