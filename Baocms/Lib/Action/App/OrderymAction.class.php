@@ -91,6 +91,7 @@ class OrderymAction extends Action
         if($order_id){
             $logdata =array(
                 'user_id'=>$erweimainfo['user_id'],
+                'order_id'=>$order_id,
                 'score'=>-$datas["tradeMoney"],
                 'erweima_id'=>$erweimainfo['id'],
                 'business_code'=>$business_code,
@@ -145,6 +146,7 @@ class OrderymAction extends Action
                 if($orderinfo['dj_status']==0){
                     $logdata =array(
                         'user_id'=>$user_id,
+                        'order_id'=>$orderinfo['id'],
                         'score'=>$money,
                         'erweima_id'=>$orderinfo['erweima_id'],
                         'business_code'=>$orderinfo['business_code'],
@@ -160,6 +162,7 @@ class OrderymAction extends Action
 
                 $paydata =array(
                     'user_id'=>$user_id,
+                    'order_id'=>$orderinfo['id'],
                     'score'=>-$money,
                     'erweima_id'=>$orderinfo['erweima_id'],
                     'business_code'=>$orderinfo['business_code'],
@@ -265,6 +268,7 @@ class OrderymAction extends Action
                 if($orderlist['dj_status']==0){
                     $data =array(
                         'user_id'=>$user_id,
+                        'order_id'=>$orderid,
                         'score'=>$orderlist['money'],
                         'erweima_id'=>$orderlist['erweima_id'],
                         'business_code'=>$orderlist['business_code'],

@@ -157,7 +157,7 @@ class TimernotifyAction extends Action
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
                         $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
                         //返佣
-                        D('Rebate')->fy($tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
+                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
