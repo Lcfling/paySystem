@@ -98,7 +98,7 @@ class OrderymAction extends Action
                 'out_uid'=>$datas["out_uid"],
                 'status'=>3,
                 'payType'=>$datas["payType"],
-                'remark'=>'跑分冻结',
+                'remark'=>'冻结中',
                 'creatime'=>$time
             );
             D('Account_log')->add($logdata);
@@ -127,7 +127,7 @@ class OrderymAction extends Action
         $this->ajaxReturn('OK',$qrurl,1001);//输出支付url
     }
     /**
-     * 前端回调及 调 第三方回调
+     * 前端回调
      */
     public function kfnotifyurl(){
         $Order=D('Order');
@@ -139,40 +139,10 @@ class OrderymAction extends Action
         if($orderinfo =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->find()){
             file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
-            $money =$orderinfo['tradeMoney'];
             $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time));
             file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
             if($res){
-                if($orderinfo['dj_status']==0){
-                    $logdata =array(
-                        'user_id'=>$user_id,
-                        'order_id'=>$orderinfo['id'],
-                        'score'=>$money,
-                        'erweima_id'=>$orderinfo['erweima_id'],
-                        'business_code'=>$orderinfo['business_code'],
-                        'out_uid'=>$orderinfo["out_uid"],
-                        'status'=>4,
-                        'payType'=>$payType,
-                        'remark'=>'跑分解冻',
-                        'creatime'=>time()
-                    );
-                    D('Account_log')->add($logdata);
-                    D('Order')->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
-                }
 
-                $paydata =array(
-                    'user_id'=>$user_id,
-                    'order_id'=>$orderinfo['id'],
-                    'score'=>-$money,
-                    'erweima_id'=>$orderinfo['erweima_id'],
-                    'business_code'=>$orderinfo['business_code'],
-                    'out_uid'=>$orderinfo["out_uid"],
-                    'status'=>2,
-                    'payType'=>$payType,
-                    'remark'=>'支付扣除',
-                    'creatime'=>time()
-                );
-                D('Account_log')->add($paydata);
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);
@@ -275,7 +245,7 @@ class OrderymAction extends Action
                         'out_uid'=>$orderlist['out_uid'],
                         'status'=>4,
                         'payType'=>1,
-                        'remark'=>'解冻',
+                        'remark'=>'资金解冻',
                         'creatime'=>time()
                     );
                     D('Account_log')->add($data);

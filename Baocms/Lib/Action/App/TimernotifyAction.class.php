@@ -22,6 +22,8 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
+                    $business_code =$v['business_code'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
@@ -44,14 +46,46 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>1,'callback_time'=>time()));
 
+                        if($v['dj_status']==0){
+                            $logdata =array(
+                                'user_id'=>$user_id,
+                                'order_id'=>$v['id'],
+                                'score'=>$tradeMoney,
+                                'erweima_id'=>$erweima_id,
+                                'business_code'=>$business_code,
+                                'out_uid'=>$v["out_uid"],
+                                'status'=>4,
+                                'payType'=>$payType,
+                                'remark'=>'资金解冻',
+                                'creatime'=>time()
+                            );
+                            D('Account_log')->add($logdata);
+                            D('Order')->where(array('id'=>$v['id'],'user_id'=>$user_id,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
+                        }
+
+                        $paydata =array(
+                            'user_id'=>$user_id,
+                            'order_id'=>$v['id'],
+                            'score'=>-$tradeMoney,
+                            'erweima_id'=>$erweima_id,
+                            'business_code'=>$business_code,
+                            'out_uid'=>$orderinfo["out_uid"],
+                            'status'=>2,
+                            'payType'=>$payType,
+                            'remark'=>'资金扣除',
+                            'creatime'=>time()
+                        );
+                       $paystatus = D('Account_log')->add($paydata);
+
                         //存入缓存
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
-
-                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
-                        //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
+                        if($paystatus){
+                            $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
+                            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                            file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
+                            //返佣
+                            D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
+                        }
 
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
@@ -83,6 +117,8 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
+                    $business_code =$v['business_code'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
@@ -104,12 +140,47 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
+
+                        if($v['dj_status']==0){
+                            $logdata =array(
+                                'user_id'=>$user_id,
+                                'order_id'=>$v['id'],
+                                'score'=>$tradeMoney,
+                                'erweima_id'=>$erweima_id,
+                                'business_code'=>$business_code,
+                                'out_uid'=>$v["out_uid"],
+                                'status'=>4,
+                                'payType'=>$payType,
+                                'remark'=>'资金解冻',
+                                'creatime'=>time()
+                            );
+                            D('Account_log')->add($logdata);
+                            D('Order')->where(array('id'=>$v['id'],'user_id'=>$user_id,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
+                        }
+
+                        $paydata =array(
+                            'user_id'=>$user_id,
+                            'order_id'=>$v['id'],
+                            'score'=>-$tradeMoney,
+                            'erweima_id'=>$erweima_id,
+                            'business_code'=>$business_code,
+                            'out_uid'=>$orderinfo["out_uid"],
+                            'status'=>2,
+                            'payType'=>$payType,
+                            'remark'=>'资金扣除',
+                            'creatime'=>time()
+                        );
+                        $paystatus = D('Account_log')->add($paydata);
+
+                        //存入缓存
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
-                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
-                        //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
+                        if($paystatus){
+                            $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
+                            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                            file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
+                            //返佣
+                            D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$business_code,$v["out_uid"]);
+                        }
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -140,6 +211,8 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
+                    $business_code =$v['business_code'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
@@ -161,12 +234,47 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
+
+                        if($v['dj_status']==0){
+                            $logdata =array(
+                                'user_id'=>$user_id,
+                                'order_id'=>$v['id'],
+                                'score'=>$tradeMoney,
+                                'erweima_id'=>$erweima_id,
+                                'business_code'=>$business_code,
+                                'out_uid'=>$v["out_uid"],
+                                'status'=>4,
+                                'payType'=>$payType,
+                                'remark'=>'资金解冻',
+                                'creatime'=>time()
+                            );
+                            D('Account_log')->add($logdata);
+                            D('Order')->where(array('id'=>$v['id'],'user_id'=>$user_id,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
+                        }
+
+                        $paydata =array(
+                            'user_id'=>$user_id,
+                            'order_id'=>$v['id'],
+                            'score'=>-$tradeMoney,
+                            'erweima_id'=>$erweima_id,
+                            'business_code'=>$business_code,
+                            'out_uid'=>$orderinfo["out_uid"],
+                            'status'=>2,
+                            'payType'=>$payType,
+                            'remark'=>'资金扣除',
+                            'creatime'=>time()
+                        );
+                        $paystatus = D('Account_log')->add($paydata);
+
+                        //存入缓存
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
-                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
-                        file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
-                        //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
+                        if($paystatus){
+                            $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
+                            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                            file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
+                            //返佣
+                            D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$business_code,$v["out_uid"]);
+                        }
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -216,7 +324,7 @@ class TimernotifyAction extends Action
                     'out_uid'=>$orderinfo['out_uid'],
                     'status'=>4,
                     'payType'=>$orderinfo['payType'],
-                    'remark'=>'解冻',
+                    'remark'=>'资金解冻',
                     'creatime'=>time()
                 );
                 D('Account_log')->add($data);

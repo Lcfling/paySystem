@@ -399,11 +399,35 @@ class MycenterAction extends CommonAction{
                 $this->ajaxReturn('','费率不能超过自己的!',0);
             }
             $saverate =D('Users')->where(array('user_id'=>$bind_id))->field('rate')->save(array('rate'=>$pronum));
-            $sql = D('Users')->getLastSql();
             if($saverate){
                 $this->ajaxReturn('','费率更改成功!',1);
             }else{
-                $this->ajaxReturn($sql,'费率更改失败!',0);
+                $this->ajaxReturn('','费率更改失败!',0);
+            }
+
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
+     * 分润更改列表
+     */
+    public function prosavelist(){
+        if($this->isPost()){
+            $useinfo =$this->member;
+            $bind_id = (int)$_POST['bind_id'];
+            $bind_rate =D('Users')->where(array('user_id'=>$bind_id))->getField('rate');
+            $rate =$useinfo['rate'] * 10000;
+            $num =(int)($rate - $bind_rate * 10000)/1000;
+            $ratearr =array();
+            for ( $i=0;$i< $num-1;$i++ ){
+                $ratearr[$i]= ($bind_rate *1000 + $i )/1000;
+            }
+            if(!empty($ratearr)){
+                $this->ajaxReturn($ratearr,'请求成功!',1);
+            }else{
+                $this->ajaxReturn('','当前分润已无法更改!',0);
             }
 
         }else{
