@@ -47,11 +47,11 @@ class TimernotifyAction extends Action
                         //存入缓存
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
 
-                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($rate,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
                         //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
+                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
 
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
@@ -105,11 +105,11 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>1))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>2,'callback_time'=>time()));
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
-                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($rate,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
                         //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
+                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
@@ -162,11 +162,11 @@ class TimernotifyAction extends Action
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);
                         $Order->where(array('id'=>$v['id'],'status'=>1,'callback_status'=>0,'callback_num'=>2))->field("callback_status,callback_num,callback_time")->save(array('callback_status'=>1,'callback_num'=>3,'callback_time'=>time()));
                         D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
-                        $rate = D('Users')->where(array('user_id'=>$user_id))->getField('rate');
+                        $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-                        file_put_contents('./notifyUrl.txt',print_r($rate,true).PHP_EOL,FILE_APPEND);
+                        file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
                         //返佣
-                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$rate,$erweima_id,$v['business_code'],$v["out_uid"]);
+                        D('Rebate')->fy($v['id'],$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$v['business_code'],$v["out_uid"]);
                     }else{
                         file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~第三方回调返回失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                         file_put_contents('./notifyUrl.txt',print_r($res,true).PHP_EOL,FILE_APPEND);

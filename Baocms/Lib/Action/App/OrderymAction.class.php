@@ -67,7 +67,7 @@ class OrderymAction extends Action
             $this->ajaxReturn('error','签名错误!',0);
         }
 
-        $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100);//二维码信息
+        $erweimainfo = D("Users")->getcode($datas["tradeMoney"]/100,1);//二维码信息
         if(!$erweimainfo){
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
