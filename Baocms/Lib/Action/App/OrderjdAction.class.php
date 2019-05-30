@@ -16,10 +16,11 @@ class OrderjdAction extends CommonAction{
             $user_id =$this->uid;//用户id
             $recmoney =D('Account')->getdaybrokerage($user_id,3);
             $sucmoney =D('Account')->getdaybrokerage($user_id,2);
-            $list = D('Order')->where(array('user_id'=>$user_id))->order('creatime desc')->field('order_sn,tradeMoney,payType,status,creatime')->select();
+            $list = D('Order')->where(array('user_id'=>$user_id))->order('creatime desc')->field('erweima_id,order_sn,tradeMoney,payType,status,creatime')->select();
             foreach ($list as $k =>&$v){
                 $v['tradeMoney']= $v['tradeMoney']/100;
                 $v['creatime']= date('Y/m/d H:i:s',$v['creatime']);
+                $v['name'] = $this->getname($v['erweima_id']);
             }
             $data = array(
                 'recmoney'=>-$recmoney/100,
@@ -30,6 +31,11 @@ class OrderjdAction extends CommonAction{
         }else{
             $this->ajaxReturn('','请求数据异常!',0);
         }
+    }
+
+    private function getname($erweima_id){
+       $name = D('erweima')->where(array('id'=>$erweima_id))->getField('name');
+       return $name;
     }
     
 }

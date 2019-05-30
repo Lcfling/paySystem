@@ -54,7 +54,6 @@ class ZfnoticeAction extends CommonAction{
     }
 
 
-
     // 客服二维码
     public function kefu(){
 
@@ -62,6 +61,15 @@ class ZfnoticeAction extends CommonAction{
         $list = $kefu->order(array('id'=>'desc'))->limit(1)->select();
         $this->ajaxReturn($list,'请求成功!',1);
 
+    }
+
+    /**
+     * 公告
+     */
+    public function getnotice(){
+        $notice=D("index");
+        $list = $notice->order(array('id'=>'desc'))->limit(1)->find();
+        $this->ajaxReturn($list,'请求成功!',1);
     }
 
 }

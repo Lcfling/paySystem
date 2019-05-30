@@ -419,11 +419,17 @@ class MycenterAction extends CommonAction{
             $bind_id = (int)$_POST['bind_id'];
             $bind_rate =D('Users')->where(array('user_id'=>$bind_id))->getField('rate');
             $rate =$useinfo['rate'] * 10000;
-            $num =(int)($rate - $bind_rate * 10000)/1000;
+            $num =(int)($rate - $bind_rate * 10000)/10;
             $ratearr =array();
-            for ( $i=0;$i< $num-1;$i++ ){
-                $ratearr[$i]= ($bind_rate *1000 + $i )/1000;
-            }
+//            if($num>5){
+                for ( $i=0;$i< 5;$i++ ){
+                    $ratearr[$i]= ($useinfo['rate'] *1000 - $i - 1 )/1000;
+                }
+//            }else{
+//                for ( $i=0;$i< $num -1;$i++ ){
+//                    $ratearr[$i]= ($useinfo['rate'] *1000 - $i - 1 )/1000;
+//                }
+//            }
             if(!empty($ratearr)){
                 $this->ajaxReturn($ratearr,'请求成功!',1);
             }else{
@@ -468,6 +474,34 @@ class MycenterAction extends CommonAction{
                 $this->ajaxReturn($data,'暂无代理商数据!',1);
             }
 
+        }else{
+
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+    }
+
+    /**
+     * 资金列表 type 1 佣金进来  2 冻结中进来
+     */
+    public function acountlist(){
+        if($this->isPost()){
+            $user_id = $this->uid;
+            $type = $_POST['type'];
+            $djorder = D('Order')->where(array('user_id'=>$user_id,'dj_status'=>0))->field('id')->select();
+            if($type == 1){
+                $acountlist = D('Account_log')->where("status = 5 and user_id = $user_id")->order('creatime desc')->select();
+            }elseif($type == 2){
+                $ids =array_column($djorder,'id');
+                $ids =implode(',',$ids);
+                $acountlist = D('Account_log')->where("order_id in (".$ids.") and status = 3 and user_id = $user_id")->order('creatime desc')->select();
+            }else{
+                $acountlist = D('Account_log')->where("user_id = $user_id")->order('creatime desc')->select();
+            }
+            foreach ($acountlist as $k=>&$v){
+                $v['creatime'] = date('Y/m/d H:i:s',$v['creatime']);
+                $v['money'] = $v['score']/100;
+            }
+            $this->ajaxReturn($acountlist,'请求成功!',1);
         }else{
 
             $this->ajaxReturn('','请求数据异常!',0);

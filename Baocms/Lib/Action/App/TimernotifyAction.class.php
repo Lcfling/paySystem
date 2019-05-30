@@ -69,7 +69,7 @@ class TimernotifyAction extends Action
                             'score'=>-$tradeMoney,
                             'erweima_id'=>$erweima_id,
                             'business_code'=>$business_code,
-                            'out_uid'=>$orderinfo["out_uid"],
+                            'out_uid'=>$v["out_uid"],
                             'status'=>2,
                             'payType'=>$payType,
                             'remark'=>'资金扣除',

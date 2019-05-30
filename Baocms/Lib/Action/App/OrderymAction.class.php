@@ -142,7 +142,6 @@ class OrderymAction extends Action
             $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time));
             file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
             if($res){
-
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);
