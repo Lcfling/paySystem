@@ -421,15 +421,14 @@ class MycenterAction extends CommonAction{
             $rate =$useinfo['rate'] * 10000;
             $num =(int)($rate - $bind_rate * 10000)/10;
             $ratearr =array();
-//            if($num>5){
-                for ( $i=0;$i< 5;$i++ ){
-                    $ratearr[$i]= ($useinfo['rate'] *1000 - $i - 1 )/1000;
+
+            for ( $i=0;$i< 5;$i++ ){
+                $ratenum =$useinfo['rate'] *1000 - $i - 1 ;
+                if((int)$ratenum > 0){
+                    $ratearr[$i]= $ratenum /1000;
                 }
-//            }else{
-//                for ( $i=0;$i< $num -1;$i++ ){
-//                    $ratearr[$i]= ($useinfo['rate'] *1000 - $i - 1 )/1000;
-//                }
-//            }
+            }
+
             if(!empty($ratearr)){
                 $this->ajaxReturn($ratearr,'请求成功!',1);
             }else{
