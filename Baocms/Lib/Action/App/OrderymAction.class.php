@@ -142,6 +142,51 @@ class OrderymAction extends Action
             $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time));
             file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
             if($res){
+                $order_id=$orderinfo['id'];
+                $tradeMoney=$orderinfo['tradeMoney'];
+                $erweima_id=$orderinfo['erweima_id'];
+                $business_code=$orderinfo['business_code'];
+                $out_uid=$orderinfo["out_uid"];
+                if($orderinfo['dj_status']==0){
+                    $logdata =array(
+                        'user_id'=>$user_id,
+                        'order_id'=>$order_id,
+                        'score'=>$tradeMoney,
+                        'erweima_id'=>$erweima_id,
+                        'business_code'=>$business_code,
+                        'out_uid'=>$out_uid,
+                        'status'=>4,
+                        'payType'=>$payType,
+                        'remark'=>'资金解冻',
+                        'creatime'=>time()
+                    );
+                    D('Account_log')->add($logdata);
+                    D('Order')->where(array('id'=>$order_id,'user_id'=>$user_id,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
+                }
+
+                $paydata =array(
+                    'user_id'=>$user_id,
+                    'order_id'=>$order_id,
+                    'score'=>-$tradeMoney,
+                    'erweima_id'=>$erweima_id,
+                    'business_code'=>$business_code,
+                    'out_uid'=>$out_uid,
+                    'status'=>2,
+                    'payType'=>$payType,
+                    'remark'=>'资金扣除',
+                    'creatime'=>time()
+                );
+                $paystatus = D('Account_log')->add($paydata);
+
+                //存入缓存
+                D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
+                if($paystatus){
+                    $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
+                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
+                    //返佣
+                    D('Rebate')->fy($order_id,$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$business_code,$out_uid);
+                }
                 $this->ajaxReturn('success','',1);
             }else{
                 $this->ajaxReturn('fail','',0);

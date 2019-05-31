@@ -22,7 +22,7 @@ class WxzftyAction extends Action{
             $data["business_code"] = 1;
             $url = 'http://'.$_SERVER['HTTP_HOST'].'/app/Orderymty/kuaifupay';
             $res = $this->https_post_kf($url,$data);
-            return $res;
+            echo $res;
         }else{
             $this->ajaxReturn('','请求数据异常!',0);
         }
