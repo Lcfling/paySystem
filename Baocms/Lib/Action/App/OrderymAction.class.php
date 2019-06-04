@@ -53,7 +53,8 @@ class OrderymAction extends Action
                     'data'=>"error40002",
                     'info'=>"商户号不能为空!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
 
             $this->ajaxReturn('error40002','商户号不能为空!',0);
@@ -66,7 +67,8 @@ class OrderymAction extends Action
                     'data'=>"error40003",
                     'info'=>"商户未启用!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
             $this->ajaxReturn('error40003','商户未启用!',0);
         }
@@ -78,7 +80,8 @@ class OrderymAction extends Action
                     'data'=>"error40006",
                     'info'=>"订单金额有误!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
             $this->ajaxReturn('error40006','订单金额有误!',0);
         }
@@ -90,7 +93,8 @@ class OrderymAction extends Action
                     'data'=>"error40007",
                     'info'=>"支付类型无效!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
             $this->ajaxReturn('error40007','支付类型无效!',0);
         }
@@ -118,7 +122,8 @@ class OrderymAction extends Action
                     'data'=>"error",
                     'info'=>"签名错误!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
 
             $this->ajaxReturn('error','签名错误!',0);
@@ -132,7 +137,8 @@ class OrderymAction extends Action
                     'data'=>"error40004",
                     'info'=>"暂无支付码!"
                 );
-                echo htmlentities($inputstr ,ENT_QUOTES,"UTF-8");exit();
+                $json = json_encode($inputstr,true);
+                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
             }
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
@@ -185,19 +191,19 @@ class OrderymAction extends Action
 
         if($type == 1){
             if($business_code == 30011){
-                $inputstr = D("QRcode")->getQRurl($erweimaurl,$gptime,$order_id,$user_id);
+                $inputstr = D("QRcode")->getQRurl($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id);
                 echo $inputstr;exit();
             }
             $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifufirst.html?data='.$data;
         }elseif($type == 2){
             if($business_code == 30011){
-                $inputstr = D("QRcode")->getQRurl($erweimaurl,$gptime,$order_id,$user_id);
+                $inputstr = D("QRcode")->getQRurl($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id);
                 echo $inputstr;exit();
             }
             $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifusecond.html?data='.$data;
         }else{
             if($business_code == 30011){
-                $inputstr = D("QRcode")->getQRurl($erweimaurl,$gptime,$order_id,$user_id);
+                $inputstr = D("QRcode")->getQRurl($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id);
                 echo $inputstr;exit();
             }
             $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifuthird.html?data='.$data;
