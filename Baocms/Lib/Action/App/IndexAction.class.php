@@ -7,15 +7,15 @@ class IndexAction extends Action
     public function index()
     {
 
-        $data['out_uid']='123';
+        $data['out_uid']='100000003217';
         $data["payType"] = 1;//支付方式  1微信  2支付宝
-        $data["out_order_sn"] = "n1909";//订单号
+        $data["out_order_sn"] = "100000003217";//订单号
         $data["tradeMoney"] = $_GET['money'];//
-        $data["notifyUrl"] = "http://91pai.webziti.com/app/index/notifyUrl";//回调
-        $key = '96075976683e158558458fabe7dab859';
+        $data["notifyUrl"] = "http://leshua.622c7.cn/app/orderym/notifyUrl";//回调
+        $key = 'b59c67bf196a4758191e42f76670ceba';
         $data["sign"] = $this->getSign($data,$key);//签名
         $data["business_code"] = $_GET['business_code'];
-        $url = 'http://91pai.webziti.com/app/orderym/kuaifupay';
+        $url = 'http://leshua.622c7.cn/app/orderym/kuaifupay';
         $res = $this->https_post_kf($url,$data);
         print_r($res);exit();
     }
@@ -25,7 +25,7 @@ class IndexAction extends Action
         $retrun_datas =$_POST;
         $retrun_sign=$retrun_datas['sign'];//签名值
         unset($retrun_datas['sign']);
-        $key = '96075976683e158558458fabe7dab859';
+        $key = 'b59c67bf196a4758191e42f76670ceba';
         $sign =$this->getSign($retrun_datas,$key);
         if($retrun_sign==$sign){
             echo "success";

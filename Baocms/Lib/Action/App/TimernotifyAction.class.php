@@ -188,23 +188,27 @@ class TimernotifyAction extends Action
      * 过期订单3个小时之后解冻并返回跑分 更改订单为订单取消
      */
     public function orderunfreeze(){
-        $bj_time = time() - 10800;
+        $bj_time = time() - 10800 ;
         $Order=D('Order');
         if($orderinfo = $Order->where(array('status'=>2,'dj_status'=>0,'creatime'=>array('LT',$bj_time)))->select()){
             $Order->where(array('status'=>2,'dj_status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>3));
             foreach ($orderinfo as $k=>$v){
+                $order_id = $v['id'];
+                $user_id = $v['user_id'];
+                $payType = $v['payType'];
                 $data=array(
-                    'user_id'=>$orderinfo['user_id'],
-                    'score'=>$orderinfo['tradeMoney'],
-                    'erweima_id'=>$orderinfo['erweima_id'],
-                    'business_code'=>$orderinfo['business_code'],
-                    'out_uid'=>$orderinfo['out_uid'],
+                    'user_id'=>$v['user_id'],
+                    'score'=>$v['tradeMoney'],
+                    'erweima_id'=>$v['erweima_id'],
+                    'business_code'=>$v['business_code'],
+                    'out_uid'=>$v['out_uid'],
                     'status'=>4,
-                    'payType'=>$orderinfo['payType'],
+                    'payType'=>$v['payType'],
                     'remark'=>'资金解冻',
                     'creatime'=>time()
                 );
                 D('Account_log')->add($data);
+                D('Order')->where(array('id'=>$order_id,'user_id'=>$user_id,'payType'=>$payType))->field('dj_status')->save(array('dj_status'=>1));
             }
         }
     }
