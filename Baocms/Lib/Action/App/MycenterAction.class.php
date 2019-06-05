@@ -252,7 +252,7 @@ class MycenterAction extends CommonAction{
             if($list =D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->find()){
                 $savestatus = D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->field('status,savetime')->save(array('status'=>1,'savetime'=>time()));
                 $moneys = $list['list'];
-                Cac()->lRem("erweimas".$moneys.$user_id,0,$id);
+                Cac()->lRem("erweimas".$moneys.$user_id,$id,0);
                 if($savestatus){
                     $this->ajaxReturn('','删除成功!',1);
                 }else{
@@ -311,9 +311,11 @@ class MycenterAction extends CommonAction{
             if($useinfo['shenfen']>2){
                 $this->ajaxReturn('','无权限!',0);
             }
-            if((int)$imsinum > (int)$useinfo['imsi_num']){
+
+            if((int)$imsinum >= (int)$useinfo['imsi_num'] ){
                 $this->ajaxReturn('','生成码已达到上限!',0);
             }
+
             if($useinfo['shenfen']==1){
                 $code =$this->generateCode(2,1);
             }else{
@@ -545,7 +547,7 @@ class MycenterAction extends CommonAction{
 
         if(!empty($info)){
 
-            $this->generateCode($nums,$num);
+            return $this->generateCode($nums,$num);
 
         }else{
 

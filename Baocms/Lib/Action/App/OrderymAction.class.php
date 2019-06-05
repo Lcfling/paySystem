@@ -32,9 +32,9 @@ class OrderymAction extends Action
     public function kuaifupay(){
 
         $datas =$_POST;
-        file_put_contents('./businesspost.txt',"~~~~~~~~~~~~~post数据~~~~~~~~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+        file_put_contents('./businesspost.txt',"~~~~~~~~~~~~~post数据".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
         file_put_contents('./businesspost.txt',print_r($datas,true).PHP_EOL,FILE_APPEND);
-        file_put_contents('./businesspost.txt',"~~~~~~~~~~~~~business_code~~~~~~~~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+        file_put_contents('./businesspost.txt',"~~~~~~~~~~~~~business_code".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
         file_put_contents('./businesspost.txt',print_r($datas['business_code'],true).PHP_EOL,FILE_APPEND);
         $sign=$datas['sign'];
         $business_code=$datas['business_code']; //商户号 不参与签名
@@ -53,8 +53,7 @@ class OrderymAction extends Action
                     'data'=>"error40002",
                     'info'=>"商户号不能为空!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
 
             $this->ajaxReturn('error40002','商户号不能为空!',0);
@@ -67,8 +66,7 @@ class OrderymAction extends Action
                     'data'=>"error40003",
                     'info'=>"商户未启用!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
             $this->ajaxReturn('error40003','商户未启用!',0);
         }
@@ -80,8 +78,7 @@ class OrderymAction extends Action
                     'data'=>"error40006",
                     'info'=>"订单金额有误!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
             $this->ajaxReturn('error40006','订单金额有误!',0);
         }
@@ -93,8 +90,7 @@ class OrderymAction extends Action
                     'data'=>"error40007",
                     'info'=>"支付类型无效!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
             $this->ajaxReturn('error40007','支付类型无效!',0);
         }
@@ -111,19 +107,18 @@ class OrderymAction extends Action
 
         if( $sign!=$this->getSignK($datas,$businessinfo['accessKey'])){
 
-             file_put_contents('./sign.txt',"~~~~~~~~~~~~~~~平台sign~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+             file_put_contents('./sign.txt',"~~~~~~~~~~~~~~~平台sign".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
              $psign = $this->getSignK($datas,$businessinfo['accessKey']);
              file_put_contents('./sign.txt',print_r($psign,true).PHP_EOL,FILE_APPEND);
-             file_put_contents('./sign.txt',"~~~~~~~~~~~~~~~平台商户sign~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
-             file_put_contents('./sign.txt',print_r($sign,true),FILE_APPEND);
+             file_put_contents('./sign.txt',"~~~~~~~~~~~~~~~平台商户sign".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+             file_put_contents('./sign.txt',print_r($sign,true).PHP_EOL,FILE_APPEND);
             if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error",
                     'info'=>"签名错误!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
 
             $this->ajaxReturn('error','签名错误!',0);
@@ -137,8 +132,7 @@ class OrderymAction extends Action
                     'data'=>"error40004",
                     'info'=>"暂无支付码!"
                 );
-                $json = json_encode($inputstr,true);
-                echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+                $this->returnhtml($inputstr);
             }
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
@@ -221,7 +215,7 @@ class OrderymAction extends Action
         $pay_time = $datas['pay_time'];
         $payMoney = $datas['tradeMoney'] *100;
         if($orderinfo =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->find()){
-            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配成功".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
             $res =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->field('status,pay_time')->save(array('status'=>1,'pay_time'=>$pay_time));
             file_put_contents('./notifyUrl.txt',$Order->getLastSql(),FILE_APPEND);
@@ -266,10 +260,12 @@ class OrderymAction extends Action
                 D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
                 if($paystatus){
                     $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
-                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+                    file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
                     file_put_contents('./notifyUrl.txt',print_r($userinfo['rate'],true).PHP_EOL,FILE_APPEND);
                     //返佣
                     D('Rebate')->fy($order_id,$tradeMoney,$user_id,$userinfo['rate'],$userinfo['pid'],$erweima_id,$business_code,$out_uid);
+                    //减码的额度
+                    D("erweima")->where(array("id"=>$erweima_id))->setDec('limits',$tradeMoney/100);
                 }
                 $this->ajaxReturn('success','',1);
             }else{
@@ -278,7 +274,7 @@ class OrderymAction extends Action
         }else{
             $datas['status']=1;
             D('Yc_order')->add($datas);
-            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配失败~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
+            file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~订单匹配失败".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
             file_put_contents('./notifyUrl.txt',print_r($datas,true),FILE_APPEND);
             $this->ajaxReturn('fail','',0);
         }
@@ -377,7 +373,6 @@ class OrderymAction extends Action
                         'creatime'=>time()
                     );
                     D('Account_log')->add($data);
-                    file_put_contents("./sql.txt",D('Account_log')->getLastSql());
                     D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('dj_status')->save(array('dj_status'=>1));
                 }
                 D("Users")->enterlist($user_id,$orderlist['tradeMoney']/100,$orderlist['erweima_id']);
@@ -509,5 +504,13 @@ class OrderymAction extends Action
         $haomiao    =	substr($haomiao,0,3);
         $requestId  =	date("YmdHis",$s2).$haomiao; //商户订单号(out_trade_no).必填(建议是英文字母和数字,不能含有特殊字符)
         return $requestId;
+    }
+
+    /**
+     * 返回html页面代码
+     */
+    private function returnhtml($inputstr){
+        $json = json_encode($inputstr,true);
+        echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
     }
 }
