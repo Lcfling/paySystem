@@ -8,14 +8,20 @@ class IndexAction extends Action
     {
 
         $data['out_uid']='100000003217';
+        $codeType =$_POST['codeType'];
         $data["payType"] = 1;//支付方式  1微信  2支付宝
+        $data["codeType"] = $codeType;//二维码类型  1 固码  2 通用码
         $data["out_order_sn"] = $_POST['out_order_sn'];//订单号
-        $data["tradeMoney"] = $_POST['money'];//
+        $data["tradeMoney"] = $_POST['money'];
         $data["notifyUrl"] = "http://".$_SERVER['HTTP_HOST']."/app/orderym/notifyUrl";//回调
         $key = $_POST['accessKey'];
         $data["sign"] = $this->getSign($data,$key);//签名
         $data["business_code"] = $_POST['business_code'];
-        $url = 'http://'.$_SERVER['HTTP_HOST'].'/app/orderym/kuaifupay';
+        if($codeType == 1){
+            $url = 'http://'.$_SERVER['HTTP_HOST'].'/app/orderym/kuaifupay';
+        }else{
+            $url = 'http://'.$_SERVER['HTTP_HOST'].'/code/orderym/kuaifupay';
+        }
         $res = $this->https_post_kf($url,$data);
         print_r($res);exit();
     }
