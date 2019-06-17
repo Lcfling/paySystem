@@ -1,23 +1,32 @@
-<?PHP
-
-class IndexAction extends Action
-{
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2019/5/30
+ * Time: 11:04
+ */
+class WxzftyAction extends Action{
 
 
     public function index()
     {
+        if($this->isPost()){
 
-        $data['out_uid']='100000003217';
-        $data["payType"] = 1;//支付方式  1微信  2支付宝
-        $data["out_order_sn"] = $_POST['out_order_sn'];//订单号
-        $data["tradeMoney"] = $_POST['money'];//
-        $data["notifyUrl"] = "http://".$_SERVER['HTTP_HOST']."/app/orderym/notifyUrl";//回调
-        $key = $_POST['accessKey'];
-        $data["sign"] = $this->getSign($data,$key);//签名
-        $data["business_code"] = $_POST['business_code'];
-        $url = 'http://'.$_SERVER['HTTP_HOST'].'/app/orderym/kuaifupay';
-        $res = $this->https_post_kf($url,$data);
-        print_r($res);exit();
+            $data['out_uid']='0';
+            $data["payType"] = $_POST['payType'];//支付方式  1微信  2支付宝
+            $data["out_order_sn"] = $_POST['out_order_sn'];//订单号
+            $data["tradeMoney"] = $_POST['money'];//
+            $data["notifyUrl"] = 'http://'.$_SERVER['HTTP_HOST']."/app/index/notifyUrl";//回调
+            $key = '6610330216b45c1f68e59a245e9b9822';
+            $data["sign"] = $this->getSign($data,$key);//签名
+            $data["business_code"] = 1;
+            $url = 'http://'.$_SERVER['HTTP_HOST'].'/app/Orderymty/kuaifupay';
+            $res = $this->https_post_kf($url,$data);
+            echo $res;
+        }else{
+            $this->ajaxReturn('','请求数据异常!',0);
+        }
+
     }
 
     public function notifyUrl(){
@@ -25,7 +34,7 @@ class IndexAction extends Action
         $retrun_datas =$_POST;
         $retrun_sign=$retrun_datas['sign'];//签名值
         unset($retrun_datas['sign']);
-        $key = '3a55e1588ce31326f56fcca97a20626f';
+        $key = '6610330216b45c1f68e59a245e9b9822';
         $sign =$this->getSign($retrun_datas,$key);
         if($retrun_sign==$sign){
             echo "success";
@@ -92,5 +101,5 @@ class IndexAction extends Action
         curl_close($curl);
         return $result;
     }
+
 }
-?>
