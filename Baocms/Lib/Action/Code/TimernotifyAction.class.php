@@ -179,7 +179,8 @@ class TimernotifyAction extends Action
                 $user_id =$v['user_id'];
                 $money = $v['tradeMoney']/100;
                 $erweima_id =$v['erweima_id'];
-                D("Users")->enterlist($user_id,$money,$erweima_id);
+                //更改二维码为未使用状态
+                D("Orderym")->saveuse_status($erweima_id);
             }
         }
     }

@@ -48,61 +48,64 @@ class OrderymAction extends Action
 
         $where['business_code']=$business_code;
         if(empty($business_code)){
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error40002",
                     'info'=>"商户号不能为空!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
 
             $this->ajaxReturn('error40002','商户号不能为空!',0);
         }
         $businessinfo=$business->where($where)->find();
         if(empty($businessinfo)){
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error40003",
                     'info'=>"商户未启用!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
             $this->ajaxReturn('error40003','商户未启用!',0);
         }
         if (!is_numeric($datas['tradeMoney']))
         {
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error40006",
                     'info'=>"订单金额有误!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
             $this->ajaxReturn('error40006','订单金额有误!',0);
         }
         if ($type != 1 && $type != 2)
         {
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error40007",
                     'info'=>"支付类型无效!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
             $this->ajaxReturn('error40007','支付类型无效!',0);
         }
         if ($codeType != 1 && $codeType != 2)
         {
-            $inputstr=array(
-                'status'=>0,
-                'data'=>"error40007",
-                'info'=>"二维码类型无效!"
-            );
-            $this->returnhtml($inputstr);
+            if($business_code == 30011) {
+                $inputstr = array(
+                    'status' => 0,
+                    'data' => "error40008",
+                    'info' => "二维码类型无效!"
+                );
+                $this->returnhtml($inputstr);
+            }
+            $this->ajaxReturn('error40008','支付类型无效!',0);
         }
         if ($orderlist = $Order->where(array('out_order_sn'=>$out_order_sn,'business_code'=>$business_code,'status'=>0))->find())
         {
@@ -122,14 +125,14 @@ class OrderymAction extends Action
              file_put_contents('./sign.txt',print_r($psign,true).PHP_EOL,FILE_APPEND);
              file_put_contents('./sign.txt',"~~~~~~~~~~~~~~~平台商户sign".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
              file_put_contents('./sign.txt',print_r($sign,true).PHP_EOL,FILE_APPEND);
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error",
                     'info'=>"签名错误!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
 
             $this->ajaxReturn('error','签名错误!',0);
         }
@@ -141,14 +144,14 @@ class OrderymAction extends Action
             $payMoney =$datas["tradeMoney"] - mt_rand(0,9);
         }
         if(!$erweimainfo){
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr=array(
                     'status'=>0,
                     'data'=>"error40004",
                     'info'=>"暂无支付码!"
                 );
                 $this->returnhtml($inputstr);
-//            }
+            }
             $this->ajaxReturn('error40004','暂无支付码!',0);
         }
 
@@ -186,7 +189,8 @@ class OrderymAction extends Action
             if($codeType == 1){
                 $this->geterweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1,$business_code);
             }else{
-                $this->getcomonerweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1,$business_code,$payMoney);
+                file_put_contents('./ceshi.txt',print_r($erweimainfo,true),FILE_APPEND);
+                $this->getcomonerweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1,$business_code,$payMoney/100);
             }
         }else{
             $this->ajaxReturn('error40005','',0);
@@ -229,26 +233,26 @@ class OrderymAction extends Action
      */
     private function getcomonerweimaurl($erweimaurl,$order_id,$user_id,$gptime,$type,$business_code,$tradeMoney){
         $url=substr($erweimaurl,1);
-        $data = $_SERVER['HTTP_HOST'].$url.'&'.$order_id.'&'.$user_id.'&'.$gptime;
+        $data = $_SERVER['HTTP_HOST'].$url.'&'.$order_id.'&'.$user_id.'&'.$gptime.'&'.$tradeMoney;
 
         if($type == 1){
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr = D("QRcode")->getcommonQRurl($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id,$tradeMoney);
                 echo $inputstr;exit();
-//            }
-//            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifufirst.html?data='.$data;
+            }
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zfcmfirst.html?data='.$data;
         }elseif($type == 2){
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr = D("QRcode")->getcomonQRurlsecond($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id,$tradeMoney);
                 echo $inputstr;exit();
-//            }
-            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifusecond.html?data='.$data;
+            }
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zfcmsecond.html?data='.$data;
         }else{
-//            if($business_code == 30011){
+            if($business_code == 30011){
                 $inputstr = D("QRcode")->getcomonQRurlthird($_SERVER['HTTP_HOST'].$url,$gptime,$order_id,$user_id);
                 echo $inputstr;exit();
-//            }
-            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zhifuthird.html?data='.$data;
+            }
+            $qrurl = 'http://'.$_SERVER['HTTP_HOST'].'/wxzfqr/zfcmthird.html?data='.$data;
         }
         $this->ajaxReturn('OK',$qrurl,1001);//输出支付url
     }
@@ -305,7 +309,7 @@ class OrderymAction extends Action
                 $paystatus = D('Account_log')->add($paydata);
 
                 //存入缓存
-                D("Users")->enterlist($user_id,$tradeMoney/100,$erweima_id);
+                D("Orderym")->saveuse_status($erweima_id);
                 if($paystatus){
                     $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                     file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
@@ -560,6 +564,8 @@ class OrderymAction extends Action
      */
     private function returnhtml($inputstr){
         $json = json_encode($inputstr,true);
-        echo htmlentities($json ,ENT_QUOTES,"UTF-8");exit();
+        $html =htmlentities($json ,ENT_QUOTES,"UTF-8");
+        file_put_contents("./ceshi.txt",print_r($html,true),FILE_APPEND);
+        echo $html;exit();
     }
 }

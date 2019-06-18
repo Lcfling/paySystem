@@ -225,12 +225,13 @@ class MycenterAction extends CommonAction{
     public function qrcode(){
         if($this->isPost()){
             $user_id = $this->uid;
-            $listkey = $_POST['list'];
+            $listmin = $_POST['min'];
+            $listmax = $_POST['max'];
             $type =$_POST['type'];
-            $qrcodeinfo = D('Erweima')->where(array('status'=>0,'user_id'=>$user_id,'list'=>$listkey,'type'=>$type))->select();
+            $qrcodeinfo = D('Erweima_generic')->where(array('status'=>0,'user_id'=>$user_id,'min'=>$listmin,'max'=>$listmax,'type'=>$type))->select();
+            file_put_contents("./ceshi.txt",print_r($_POST,true),FILE_APPEND);
             if($qrcodeinfo){
                 foreach ($qrcodeinfo as $k=>&$v){
-                    $v['edu'] = number_format($v['edu']/100,2);
                     $v['creatime'] = date('Y/m/d H:i:s',$v['creatime']);
                 }
                 $this->ajaxReturn($qrcodeinfo,'请求成功!',1);
@@ -249,10 +250,8 @@ class MycenterAction extends CommonAction{
         if($this->isPost()){
             $user_id = $this->uid;
             $id = $_POST['id'];
-            if($list =D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->find()){
-                $savestatus = D('Erweima')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->field('status,savetime')->save(array('status'=>1,'savetime'=>time()));
-                $moneys = $list['list'];
-                Cac()->lRem("erweimas".$moneys.$user_id,$id,0);
+            if($list =D('Erweima_generic')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->find()){
+                $savestatus = D('Erweima_generic')->where(array('id'=>$id,'user_id'=>$user_id,'status'=>0))->field('status,savetime')->save(array('status'=>1,'savetime'=>time()));
                 if($savestatus){
                     $this->ajaxReturn('','删除成功!',1);
                 }else{

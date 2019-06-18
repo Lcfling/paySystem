@@ -13,7 +13,7 @@ class IndexAction extends Action
         $data["codeType"] = $codeType;//二维码类型  1 固码  2 通用码
         $data["out_order_sn"] = $_POST['out_order_sn'];//订单号
         $data["tradeMoney"] = $_POST['money'];
-        $data["notifyUrl"] = "http://".$_SERVER['HTTP_HOST']."/app/orderym/notifyUrl";//回调
+        $data["notifyUrl"] = "http://".$_SERVER['HTTP_HOST']."/code/orderym/notifyUrl";//回调
         $key = $_POST['accessKey'];
         $data["sign"] = $this->getSign($data,$key);//签名
         $data["business_code"] = $_POST['business_code'];
