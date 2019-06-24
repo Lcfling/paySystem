@@ -30,7 +30,7 @@ class QRcodeModel extends Model{
                 
                     <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                     <title>Document</title>
                 
@@ -138,7 +138,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcheckfirst',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcheckfirst',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 0){
@@ -158,7 +158,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/paycheck',
+                            url: 'http://sky.562555.cn/app/Orderym/paycheck',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 1){
@@ -192,7 +192,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                             success: function (res) {
                                 console.log(res);
                 
@@ -229,7 +229,7 @@ class QRcodeModel extends Model{
                 
                     <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                     <title>Document</title>
                 
@@ -336,7 +336,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddchecksecond',
+                            url: 'http://sky.562555.cn/app/Orderym/ddchecksecond',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 0){
@@ -356,7 +356,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/paycheck',
+                            url: 'http://sky.562555.cn/app/Orderym/paycheck',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 1){
@@ -390,7 +390,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                             success: function (res) {
                                 console.log(res);
                 
@@ -440,7 +440,7 @@ class QRcodeModel extends Model{
                 
                 
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                 
                 
@@ -612,7 +612,7 @@ class QRcodeModel extends Model{
                 
                             dataType: 'json',
                 
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                 
                             success: function (res) {
                 
@@ -661,7 +661,7 @@ class QRcodeModel extends Model{
                 
                     <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                     <title>Document</title>
                 
@@ -770,7 +770,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcheckfirst',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcheckfirst',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 0){
@@ -790,7 +790,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/paycheck',
+                            url: 'http://sky.562555.cn/app/Orderym/paycheck',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 1){
@@ -824,7 +824,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                             success: function (res) {
                                 console.log(res);
                 
@@ -862,7 +862,7 @@ class QRcodeModel extends Model{
                 
                     <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                     <title>Document</title>
                 
@@ -970,7 +970,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddchecksecond',
+                            url: 'http://sky.562555.cn/app/Orderym/ddchecksecond',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 0){
@@ -990,7 +990,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/paycheck',
+                            url: 'http://sky.562555.cn/app/Orderym/paycheck',
                             success: function (res) {
                                 console.log(res);
                                 if(res.status == 1){
@@ -1024,7 +1024,7 @@ class QRcodeModel extends Model{
                             type: 'post',
                             data: data,
                             dataType: 'json',
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                             success: function (res) {
                                 console.log(res);
                 
@@ -1075,7 +1075,7 @@ class QRcodeModel extends Model{
                 
                 
                 
-                    <script type=\"text/javascript\" src=\"http://leshua.622c7.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
+                    <script type=\"text/javascript\" src=\"http://sky.562555.cn/wxzfqr/jquery-3.3.1.min.js\"></script>
                 
                 
                 
@@ -1247,7 +1247,7 @@ class QRcodeModel extends Model{
                 
                             dataType: 'json',
                 
-                            url: 'http://leshua.622c7.cn/app/Orderym/ddcancel',
+                            url: 'http://sky.562555.cn/app/Orderym/ddcancel',
                 
                             success: function (res) {
                 
