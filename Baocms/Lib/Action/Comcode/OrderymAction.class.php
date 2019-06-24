@@ -21,6 +21,7 @@ class OrderymAction extends Action
         );
         $this->ajaxReturn($data,'请求成功!',1);
     }
+
     /**
      * 第三方调支付
      */
@@ -131,12 +132,22 @@ class OrderymAction extends Action
 
             $this->ajaxReturn('error','签名错误!',0);
         }
+        //获取码信息
+        $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100,$business_code);
 
-//            $erweimainfo = D("Users")->getGeneric_code($datas["tradeMoney"]/100,1);//二维码信息
-//            $payMoney =$datas["tradeMoney"] - mt_rand(0,9);
-            $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100,$business_code);
-            $chanum =$erweimainfo['chanum'];
-            $payMoney =$datas["tradeMoney"] - $chanum;
+        if(!$erweimainfo){
+            if($business_code == 30011){
+                $inputstr=array(
+                    'status'=>0,
+                    'data'=>"error40004",
+                    'info'=>"暂无支付码!"
+                );
+                $this->returnhtml($inputstr);
+            }
+            $this->ajaxReturn('error40004','暂无支付码!',0);
+        }
+        $chanum =$erweimainfo['chanum'];
+        $payMoney =$datas["tradeMoney"] - $chanum;
 
         $time =time();
 
@@ -262,7 +273,6 @@ class OrderymAction extends Action
 
                 //存入缓存
                 D("Orderym")->chanum_push($erweima_id,$chanum);
-//                D("Orderym")->saveuse_status($erweima_id);
                 if($paystatus){
                     $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                     file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
@@ -529,24 +539,16 @@ class OrderymAction extends Action
     private function getcodenum($tradeMoney,$business_code=30011,$i=0){
         $erweimainfo = D("Users")->getGeneric_code($tradeMoney,1);//二维码信息
         if(!$erweimainfo || $i>5 ){
-            if($business_code == 30011){
-                $inputstr=array(
-                    'status'=>0,
-                    'data'=>"error40004",
-                    'info'=>"暂无支付码!"
-                );
-                $this->returnhtml($inputstr);
-            }
-            $this->ajaxReturn('error40004','暂无支付码!',0);
+            return false;
         }
         $code_id =$erweimainfo['id'];
         $chanum =D('Getcode')->getcode($code_id);
-        if(!$chanum || empty($chanum)){
+        if($chanum==0 || empty($chanum)){
             $i++;
-            $this->getcodenum($tradeMoney,$business_code,$i);
+            $this->getcodenum($tradeMoney,$business_code,$i);exit();
         }else{
             $erweimainfo['chanum']=$chanum;
+            return $erweimainfo;
         }
-        return $erweimainfo;
     }
 }
