@@ -133,7 +133,7 @@ class OrderymAction extends Action
             $this->ajaxReturn('error','签名错误!',0);
         }
         //获取码信息
-        $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100,$business_code);
+        $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100,$type);
 
         if(!$erweimainfo){
             if($business_code == 30011){
@@ -225,7 +225,7 @@ class OrderymAction extends Action
         $Order=D('Order');
         $datas =$_POST;
         $user_id = $datas['user_id'];
-        $payType = 1;
+        $payType = $datas['payType'];
         $pay_time = $datas['pay_time'];
         $payMoney = $datas['payMoney'] *100;
         if($orderinfo =$Order->where(array('user_id'=>$user_id,'payMoney'=>$payMoney,'payType'=>$payType,'status'=>0))->find()){
@@ -373,6 +373,7 @@ class OrderymAction extends Action
             }
             $erweima_id =$orderlist['erweima_id'];
             $chanum = $orderlist['chanum'];
+            $payType = $orderlist['payType'];
             $savestatus =D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('status')->save(array('status'=>3));
             if($savestatus){
                 if($orderlist['dj_status']==0){
@@ -384,7 +385,7 @@ class OrderymAction extends Action
                         'business_code'=>$orderlist['business_code'],
                         'out_uid'=>$orderlist['out_uid'],
                         'status'=>4,
-                        'payType'=>1,
+                        'payType'=>$payType,
                         'remark'=>'资金解冻',
                         'creatime'=>time()
                     );
@@ -536,8 +537,8 @@ class OrderymAction extends Action
     /**获取二维码信息和差值
      * @param $tradeMoney
      */
-    private function getcodenum($tradeMoney,$business_code=30011,$i=0){
-        $erweimainfo = D("Users")->getGeneric_code($tradeMoney,1);//二维码信息
+    private function getcodenum($tradeMoney,$payType,$i=0){
+        $erweimainfo = D("Users")->getGeneric_code($tradeMoney,$payType);//二维码信息
         if(!$erweimainfo || $i>5 ){
             return false;
         }
@@ -545,7 +546,7 @@ class OrderymAction extends Action
         $chanum =D('Getcode')->getcode($code_id);
         if($chanum==0 || empty($chanum)){
             $i++;
-            $this->getcodenum($tradeMoney,$business_code,$i);exit();
+            $this->getcodenum($tradeMoney,$payType,$i);exit();
         }else{
             $erweimainfo['chanum']=$chanum;
             return $erweimainfo;

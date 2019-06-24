@@ -28,6 +28,7 @@ class TimernotifyAction extends Action
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType'=>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
@@ -82,6 +83,7 @@ class TimernotifyAction extends Action
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType'=>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
@@ -135,6 +137,7 @@ class TimernotifyAction extends Action
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType'=>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
@@ -230,10 +233,12 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType'=>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
@@ -279,10 +284,12 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType' =>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
@@ -328,10 +335,12 @@ class TimernotifyAction extends Action
                     $user_id = $v['user_id'];
                     $tradeMoney = $v['tradeMoney'] ;
                     $erweima_id =$v['erweima_id'];
+                    $payType =$v['payType'];
                     $data=array(
                         'order_sn'=>$v['order_sn'],
                         'out_order_sn'=>$v['out_order_sn'],
                         'paymoney'=>$tradeMoney,
+                        'payType'=>$payType,
                         'pay_time'=>$v['pay_time'],
                         'status'=>$v['status']
                     );
