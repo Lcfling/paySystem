@@ -179,7 +179,9 @@ class TimernotifyAction extends Action
                 $user_id =$v['user_id'];
                 $erweima_id =$v['erweima_id'];
                 $type=$v['payType'];
-                D("Users")->Genericlist($user_id,$type,$erweima_id);
+                $chanum = $v['chanum'];
+                //存入缓存
+                D("Orderym")->chanum_push($erweima_id,$chanum);
             }
         }
     }

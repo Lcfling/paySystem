@@ -12,10 +12,9 @@ class IndexAction extends Action
     }
     public function index()
     {
-
         $data['out_uid']='100000003217';
         $codeType =$_POST['codeType'];
-        $data["payType"] = 1;//支付方式  1微信  2支付宝
+        $data["payType"] = $_POST['payType'];//支付方式  1微信  2支付宝
         $data["codeType"] = $codeType;//二维码类型  1 固码  2 通用码
         $data["out_order_sn"] = $_POST['out_order_sn'];//订单号
         $data["tradeMoney"] = $_POST['money'];

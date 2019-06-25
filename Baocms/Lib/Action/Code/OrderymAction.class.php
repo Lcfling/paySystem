@@ -132,8 +132,29 @@ class OrderymAction extends Action
             $this->ajaxReturn('error','签名错误!',0);
         }
 
-        $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100);
-        $chanum =mt_rand(0,9);
+        $erweimainfo = $this->getcodenum($datas["tradeMoney"]/100,$type);
+        if(!$erweimainfo){
+
+            if($business_code == 30011){
+
+                $inputstr=array(
+
+                    'status'=>0,
+
+                    'data'=>"error40004",
+
+                    'info'=>"暂无支付码!"
+
+                );
+
+                $this->returnhtml($inputstr);
+
+            }
+
+            $this->ajaxReturn('error40004','暂无支付码!',0);
+
+        }
+        $chanum =$erweimainfo['chanum'];
         $payMoney =$datas["tradeMoney"] - $chanum;
 
         $time =time();
@@ -172,7 +193,7 @@ class OrderymAction extends Action
             $this->getcomonerweimaurl($erweimainfo["erweima"],$order_id,$erweimainfo['user_id'],$time + 300,1,$business_code,$payMoney/100);
 
         }else{
-            $this->ajaxReturn('error40005','',0);
+            $this->ajaxReturn('error40005','订单生成失败!',0);
         }
 
 
@@ -260,7 +281,7 @@ class OrderymAction extends Action
                 $paystatus = D('Account_log')->add($paydata);
 
                 //存入缓存
-                D("Users")->Genericlist($user_id,$payType,$erweima_id);
+                D("Orderym")->chanum_push($erweima_id,$chanum);
                 if($paystatus){
                     $userinfo = D('Users')->where(array('user_id'=>$user_id))->field('rate,pid')->find();
                     file_put_contents('./notifyUrl.txt',"~~~~~~~~~~~~~~~码商费率".date('Y/m/d h:i:s')."~~~~~~~~~~~~~~~".PHP_EOL,FILE_APPEND);
@@ -381,7 +402,7 @@ class OrderymAction extends Action
                     D('Order')->where(array('id'=>$orderid,'user_id'=>$user_id))->field('dj_status')->save(array('dj_status'=>1));
                 }
                 //存入缓存
-                D("Users")->Genericlist($user_id,$payType,$erweima_id);
+                D("Orderym")->chanum_push($erweima_id,$chanum);
                 $this->ajaxReturn('','取消成功!',1);
             }else{
                 $this->ajaxReturn('','取消失败,稍后重试!',0);
@@ -524,10 +545,29 @@ class OrderymAction extends Action
      */
     private function getcodenum($tradeMoney,$payType,$i=0){
         $erweimainfo = D("Users")->getGeneric_code($tradeMoney,1,$payType);//二维码信息
+
         if(!$erweimainfo || $i>5 ){
+
             return false;
+
+        }
+
+        $code_id =$erweimainfo['id'];
+
+        $chanum =D('Getcode')->getcode($code_id);
+
+        if($chanum==0 || empty($chanum)){
+
+            $i++;
+
+            $this->getcodenum($tradeMoney,$payType,$i);exit();
+
         }else{
+
+            $erweimainfo['chanum']=$chanum;
+
             return $erweimainfo;
+
         }
     }
 }

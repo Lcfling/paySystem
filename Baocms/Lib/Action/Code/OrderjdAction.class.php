@@ -51,15 +51,18 @@ class OrderjdAction extends CommonAction{
         if($this->isPost()){
             $user_id =$this->uid;//用户id
             $order_id =$_POST['order_id'];
+            $skmoney=$_POST['skmoney'];
 
 //            if(D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id,'status'=>0))->find()){
 //                $this->ajaxReturn('','当前无法操作,请5分钟之后进行操作!',0);
 //            }
+
             if(!$orderlist =D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id,'sk_status'=>0))->find()){
 
                 $this->ajaxReturn('','订单不存在!',0);
 
             }
+
 
             if(D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id,'sk_status'=>2))->find()){
                 $this->ajaxReturn('','系统回调成功,您已收款成功,请刷新当前页面!',0);
@@ -69,16 +72,23 @@ class OrderjdAction extends CommonAction{
                 $this->ajaxReturn('','请勿重复点击!',0);
             }
 
-            $orderstatus = D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id,'sk_status'=>0))->field('sk_status')->save(array('sk_status'=>1));
 
+            $orderstatus = D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id,'sk_status'=>0))->field('sk_status')->save(array('sk_status'=>1));
 
            $order_info=D('Order')->where(array('user_id'=>$user_id,'id'=>$order_id))->find();
 
+            //  判断用户输入金额是否与支付金额一致
+            if (  $order_info['paymoney'] != $skmoney*100){
+                $this->ajaxReturn('','交易金额不匹配,已提交客服!',0);
+            }
+
+
+
             if($orderstatus){
                 $erweima_id =$orderlist['erweima_id'];
-                $payType =$orderlist['payType'];
+                $chanum = $orderlist['chanum'];
                 //存入缓存
-                D("Users")->Genericlist($user_id,$payType,$erweima_id);
+                D("Orderym")->chanum_push($erweima_id,$chanum);
                 // 未超时
                 if (time() - 10800 <$order_info['creatime'] ){
 
@@ -87,8 +97,6 @@ class OrderjdAction extends CommonAction{
                     //超时
                     $this->csbudan($order_info['order_sn']);
                 }
-
-
                 $this->ajaxReturn('','手动收款成功!',1);
             }else{
                 $this->ajaxReturn('','手动收款失败!',0);
