@@ -14,8 +14,8 @@ class MycenterAction extends CommonAction{
         $tolscore = D('Account')->gettolscore($user_id);
         $tolbrokerage = D('Account')->gettolbrokerage($user_id);
         $daybrokerage = D('Account')->getdaybrokerage($user_id,5);
-        $wxQRnum =D('Erweima')->where(array('user_id'=>$user_id,'status'=>0,'type'=>1))->count();
-        $zfbQRnum =D('Erweima')->where(array('user_id'=>$user_id,'status'=>0,'type'=>2))->count();
+        $wxQRnum =D('Erweima_generic')->where(array('user_id'=>$user_id,'status'=>0,'type'=>1))->count();
+        $zfbQRnum =D('Erweima_generic')->where(array('user_id'=>$user_id,'status'=>0,'type'=>2))->count();
         $data =array(
             'tolscore'=>$tolscore/100,
             'tolbrokerage'=>$tolbrokerage/100,

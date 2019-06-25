@@ -177,10 +177,9 @@ class TimernotifyAction extends Action
             $Order->where(array('status'=>0,'creatime'=>array('LT',$bj_time)))->field('status')->save(array('status'=>2));
             foreach ($orderinfo as $k=>$v){
                 $user_id =$v['user_id'];
-                $money = $v['tradeMoney']/100;
                 $erweima_id =$v['erweima_id'];
-                //更改二维码为未使用状态
-                D("Orderym")->saveuse_status($erweima_id);
+                $type=$v['payType'];
+                D("Users")->Genericlist($user_id,$type,$erweima_id);
             }
         }
     }

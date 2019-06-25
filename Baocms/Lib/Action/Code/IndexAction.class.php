@@ -3,7 +3,13 @@
 class IndexAction extends Action
 {
 
-
+    public function getcode(){
+        //更改二维码为未使用状态
+//        D("Orderym")->chanum_push(33,'');
+//        D("Orderym")->chanum_push(33,0);
+        $chanum =Cac()->lRange('lkcode33',0,-1);
+       print_r($chanum);
+    }
     public function index()
     {
 
