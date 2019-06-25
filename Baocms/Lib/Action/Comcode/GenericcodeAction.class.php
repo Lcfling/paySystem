@@ -17,11 +17,14 @@ class  GenericcodeAction extends CommonAction{
         $min=$_POST['min'];   // 最小值
         $max=$_POST['max'];   //最大值
 
+//                                $myfile = fopen("shangma.txt", "a+") ;
+//                fwrite($myfile,var_export($_POST,true) );
+//                fclose($myfile);
 
         // 查看用户费率
         $userinfo=D("Users")->where(array("user_id"=>$user_id))->find();
         if ( ! $userinfo["rate"]>0){
-            $this->ajaxReturn("","请联系上级设置费率!",0);
+            $this->ajaxReturn("","请联系上级设置费率".$this->uid,0);
         }
 
 
@@ -33,7 +36,7 @@ class  GenericcodeAction extends CommonAction{
 
 
 
-                 $edu=D("erweima")->where(array("user_id"=>$user_id,"status"=>0,"min"=>$min,"max"=>$max))->find();
+                 $edu=D("erweima_generic")->where(array("user_id"=>$user_id,"status"=>0,"min"=>$min,"max"=>$max,"type"=>$type))->find();
                 if ($edu){
                     $this->ajaxReturn("","此金额二维码已有,请更换图片",0);
                 }
@@ -58,8 +61,9 @@ class  GenericcodeAction extends CommonAction{
             $data['max']=$max;
             $data['min']=$min;
             $data['creatime']=time();
-            $id=D("erweima")->add($data);
+            $id=D("erweima_generic")->add($data);
             if($id){
+                D('Getcode')->pushcode($id);
                 $this->ajaxReturn("","成功");
             }
 
@@ -67,6 +71,9 @@ class  GenericcodeAction extends CommonAction{
         }
 
     }
+
+
+
 
 
     //  账号激活
@@ -79,7 +86,12 @@ class  GenericcodeAction extends CommonAction{
         // 查看用户积分
         $tolscore = D('Account')->gettolscore($user_id);
         if ($tolscore<30000){
-            $this->ajaxReturn($tolscore,"额度没有这么多啦!",0);
+            $this->ajaxReturn($tolscore,"账户余额不足!",0);
+        }
+
+        $userinfo=D("Users")->where(array("user_id"=>$user_id))->find();
+        if ($userinfo['jh_status'] == 1){
+            $this->ajaxReturn($userinfo,"账号已激活!",0);
         }
 
         // 积分扣除
@@ -90,6 +102,36 @@ class  GenericcodeAction extends CommonAction{
         $data['remark']="账户激活";
         $data['creatime']=time();
         $id=$account->add($data);
+
+
+        // 上级得佣金
+        if ($userinfo['pid']>0){
+
+            //佣金   1级
+            $account=D("account_log");
+            $data['user_id']=$userinfo['pid'];
+            $data['score']=15000;
+            $data['status']=5;
+            $data['remark']="激活佣金";
+            $data['creatime']=time();
+            $account->add($data);
+
+
+            $pidinfo=D("Users")->where(array("user_id"=>$userinfo['pid']))->find();
+
+            if ($pidinfo['pid']>0){
+
+                //佣金   2级
+                $account=D("account_log");
+                $info['user_id']=$pidinfo['pid'];
+                $info['score']=5000;
+                $info['status']=5;
+                $info['remark']="激活佣金";
+                $info['creatime']=time();
+                $account->add($info);
+            }
+
+        }
 
         if ($id){
             //更改账户状态

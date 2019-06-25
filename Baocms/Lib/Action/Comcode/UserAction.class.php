@@ -23,18 +23,11 @@ class  UserAction extends CommonAction{
         $user_id=$this->uid;
 
 
-            $order_info=D("Order")->where(array("user_id"=>$user_id,"status"=>0))->find();
-            if (!empty($order_info)){
-                $this->ajaxReturn($order_info,"有未支付订单,暂不允许关闭!",1);
-            }
-
-
-
         $Userinfo=D("Users")->where(array("user_id"=>$user_id))->find();
 
         if ($Userinfo['jh_status'] == 0){
 
-            $this->ajaxReturn("","账号未激活!");
+            $this->ajaxReturn("","账号未激活!",0);
         }
 
 
@@ -53,7 +46,7 @@ class  UserAction extends CommonAction{
             $this->ajaxReturn($tolscore,"额度没有这么多啦!",0);
         }
 
-        $erweima=D("erweima")->where(array("user_id"=>$user_id))->select();
+        $erweima=D("erweima_generic")->where(array("user_id"=>$user_id))->select();
         if (empty($erweima)){
             $this->ajaxReturn("","请先上传收款码!",0);
         }
@@ -163,15 +156,16 @@ class  UserAction extends CommonAction{
 
     }
 
+
     //分配额度
     public function  addscore(){
         $user_id=$this->uid;
        $score=(int)$_POST['score'];
        $erweima_id=(int)$_POST['erweima_id'];
 
-       $erweima=D("erweima");
+       $erweima=D("erweima_generic");
        // 二维码添加积分
-       $erweima->where(array("user_id"=>$user_id,"id"=>$erweima_id))->setInc("limit",$score);
+       $erweima->where(array("user_id"=>$user_id,"id"=>$erweima_id))->setInc("limits",$score);
        //增加积分记录
         $erweima_log=D("erweima_log");
         $data['user_id']=$user_id;
@@ -193,21 +187,26 @@ class  UserAction extends CommonAction{
         $user_id=$this->uid;
         $erweima_id=(int)$_POST['erweima_id'];
 
+
+
+
         // 分配记录
-       $erweima_log=D("erweima_log")->where(array("user_id"=>$user_id,"id"=>$erweima_id))->select();
+       $erweima_log=D("erweima_log")->where(array("user_id"=>$user_id,"erweima_id"=>$erweima_id))->order(array('id'=>'desc'))->select();
        foreach ($erweima_log as &$v){
            $v['score']=$v['score']/100;
+           $v['creatime']=date("Y-m-d : H:i:s",$v['creatime']);
        }
 
        //跑分记录
-        $account_log=D("account_log")->where(array("user_id"=>$user_id,"id"=>$erweima_id))->select();
+        $account_log=D("account_log")->where(array("user_id"=>$user_id,"erweima_id"=>$erweima_id,"status"=>2))->order(array('id'=>'desc'))->select();
 
         foreach ($account_log as &$v){
             $v['score']=$v['score']/100;
+            $v['creatime']=date("Y-m-d : H:i:s",$v['creatime']);
         }
 
         //当前剩余
-       $erweima=D("erweima")->where(array("user_id"=>$user_id,"id"=>$erweima_id))->find();
+       $erweima=D("erweima_generic")->where(array("user_id"=>$user_id,"id"=>$erweima_id))->find();
 
        //已跑总额
         $sumscore=D("account_log")->where(array("user_id"=>$user_id,"erweima_id"=>$erweima_id,"status"=>2))->field("sum(score) as score")->select();
@@ -222,6 +221,14 @@ class  UserAction extends CommonAction{
 
     }
 
+    //二维码金额列表
+    public function erweima_list(){
+
+        $data= D("erweima_list")->where(array("is_show"=>1))->order(array('min'=>'asc'))->select();
+        if (!empty($data)){
+            $this->ajaxReturn($data,"二维码金额列表!");
+        }
+    }
 
 
 
@@ -271,39 +278,25 @@ class  UserAction extends CommonAction{
     public function aip(){
 
 
+//        $user_ids=10081;
+//        $time=Cac()->get("jiedan_status".$user_ids);
+//
+//        echo $time;
+
+
+
 //        Cac()->flushAll();
 //        die();
 
-        Cac()->LPOP("jiedans");
-
+//        Cac()->LPOP("jiedans");
+//
         $list =Cac()->lRange('jiedans',0,-1);
         print_r($list);
 
 
-        $data =Cac()->lRange('erweimas10010044',0,-1);
-        print_r($data);
-
-//        D("Users")->enterlist(10044,100,311);
-//        D("Users")->enterlist(10044,100,312);
-
-        $user_ids=10044;
-        $time=Cac()->get("jiedan_status".$user_ids);
-
-        echo $time;
-
-       // D("Users")->enterlist($user_id,100,64);
-
-//        die();
-//       // Cac()->rPush('ceshi',4);
-//       // Cac()->lRem("ceshi",1,0);
-//
-//        $user_id=Cac()->LPOP("ceshi");
-//        if ($user_id == 4){
-//
-//
-//        }else{
-//            $this->aip();
-//        }
+//      $data=D("Users")->getGeneric_code(100,1,1);
+//            print_r($data);
+        die();
 
 
 
@@ -311,9 +304,8 @@ class  UserAction extends CommonAction{
 
 
 
-//     $data=D("Users")->getcode(100);
-//
-//    print_r($data);
+
+
 
 
 
